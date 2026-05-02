@@ -12,6 +12,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | copywriting | 1.0.0 | 2026-01-27 |
 | email-sequence | 1.0.0 | 2026-01-27 |
 | form-cro | 1.0.0 | 2026-01-27 |
+| instagram-reels-scraper | 1.0.0 | 2026-05-02 |
 | free-tool-strategy | 1.0.0 | 2026-01-27 |
 | launch-strategy | 1.0.0 | 2026-01-27 |
 | marketing-ideas | 1.0.0 | 2026-01-27 |
