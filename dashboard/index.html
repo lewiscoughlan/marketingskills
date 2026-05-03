@@ -6,232 +6,233 @@
 <title>Instagram Research Dashboard</title>
 <style>
 :root {
-  --bg: #0f0f0f;
-  --surface: #1a1a1a;
-  --surface-2: #242424;
-  --surface-3: #2e2e2e;
-  --border: #333;
-  --text: #e5e5e5;
-  --text-muted: #888;
-  --accent: #F97316;
-  --accent-dim: rgba(249,115,22,0.12);
-  --accent-hover: #fb923c;
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-2: #273548;
+  --surface-3: #2f3f55;
+  --border: #334155;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --blue: #3b82f6;
+  --blue-hover: #2563eb;
+  --blue-dim: rgba(59,130,246,0.12);
   --green: #22c55e;
-  --green-dim: rgba(34,197,94,0.12);
-  --blue: #60a5fa;
-  --blue-dim: rgba(96,165,250,0.12);
+  --green-dim: rgba(34,197,94,0.1);
   --red: #f87171;
-  --red-dim: rgba(248,113,113,0.12);
+  --red-dim: rgba(248,113,113,0.1);
   --yellow: #fbbf24;
-  --radius: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --yellow-dim: rgba(251,191,36,0.1);
+  --purple: #a78bfa;
+  --r: 8px;
+  --r-lg: 12px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
-body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.5; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.6; }
 button { cursor: pointer; border: none; background: none; font-family: inherit; font-size: inherit; color: inherit; }
-input, textarea, select { font-family: inherit; font-size: inherit; color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 12px; width: 100%; outline: none; transition: border-color .15s; }
-input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+input, textarea, select { font-family: inherit; font-size: inherit; color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r); padding: 9px 12px; width: 100%; outline: none; transition: border-color .15s; }
+input:focus, textarea:focus, select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-dim); }
 textarea { resize: vertical; min-height: 80px; }
 select option { background: var(--surface-2); }
-label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500; letter-spacing: .3px; }
-a { color: var(--accent); text-decoration: none; }
+label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; }
+a { color: var(--blue); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* Layout */
+/* ── App shell ── */
 #app { display: flex; flex-direction: column; height: 100vh; }
-.topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
-.topbar-title { font-size: 15px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
-.topbar-title span.accent { color: var(--accent); }
-.topbar-meta { font-size: 12px; color: var(--text-muted); }
 
-/* Client bar */
-.client-bar { display: flex; align-items: center; gap: 8px; padding: 10px 20px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; overflow-x: auto; }
-.client-bar::-webkit-scrollbar { height: 0; }
-.client-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1.5px solid var(--border); color: var(--text-muted); transition: all .15s; white-space: nowrap; background: none; }
-.client-pill:hover { color: var(--text); border-color: var(--text-muted); }
-.client-pill.active { color: #fff; }
-.client-pill-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.client-pill-x { opacity: 0; font-size: 11px; margin-left: 2px; transition: opacity .15s; }
-.client-pill:hover .client-pill-x { opacity: 1; }
-.client-add-btn { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border-radius: 20px; font-size: 12px; color: var(--text-muted); border: 1.5px dashed var(--border); white-space: nowrap; }
-.client-add-btn:hover { border-color: var(--text-muted); color: var(--text); }
+/* ── Header ── */
+.header { padding: 14px 24px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.header-title { font-size: 16px; font-weight: 800; letter-spacing: -.3px; }
+.header-title .blue { color: var(--blue); }
+.header-saved { font-size: 12px; color: var(--text-muted); }
 
-.tabs { display: flex; gap: 2px; padding: 10px 20px 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; overflow-x: auto; }
+/* ── Client switcher ── */
+.client-section { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; flex-shrink: 0; }
+.client-label { font-size: 11px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+.client-switcher { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.client-btn { display: flex; align-items: center; gap: 9px; padding: 9px 18px; border-radius: 30px; border: 2px solid var(--border); color: var(--text-muted); font-size: 13px; font-weight: 600; transition: all .18s; background: none; }
+.client-btn:hover { border-color: var(--text-muted); color: var(--text); }
+.client-btn.active { color: #fff; border-color: transparent; }
+.client-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.client-count { font-size: 11px; opacity: .7; background: rgba(0,0,0,.25); padding: 1px 7px; border-radius: 20px; }
+.client-btn .del { opacity: 0; font-size: 12px; margin-left: 2px; line-height: 1; }
+.client-btn:hover .del { opacity: .6; }
+.client-btn .del:hover { opacity: 1; }
+.add-client-btn { display: flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 30px; border: 2px dashed var(--border); color: var(--text-muted); font-size: 13px; font-weight: 600; transition: all .18s; }
+.add-client-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ── Tabs ── */
+.tabs { display: flex; gap: 2px; padding: 12px 24px 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; overflow-x: auto; }
 .tabs::-webkit-scrollbar { height: 0; }
-.tab-btn { padding: 8px 16px; border-radius: var(--radius) var(--radius) 0 0; font-size: 13px; font-weight: 500; color: var(--text-muted); transition: all .15s; white-space: nowrap; border: 1px solid transparent; border-bottom: none; margin-bottom: -1px; }
+.tab-btn { padding: 8px 18px; border-radius: var(--r) var(--r) 0 0; font-size: 13px; font-weight: 600; color: var(--text-muted); transition: all .15s; white-space: nowrap; border: 1px solid transparent; border-bottom: none; margin-bottom: -1px; }
 .tab-btn:hover { color: var(--text); background: var(--surface-2); }
-.tab-btn.active { color: var(--accent); background: var(--bg); border-color: var(--border); }
-.tab-content { flex: 1; overflow-y: auto; padding: 20px; }
+.tab-btn.active { color: var(--blue); background: var(--bg); border-color: var(--border); }
+
+/* ── Tab content ── */
+.tab-content { flex: 1; overflow-y: auto; padding: 24px; }
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
-/* Section header */
-.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; gap: 12px; flex-wrap: wrap; }
-.section-title { font-size: 16px; font-weight: 700; }
-.section-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+/* ── Page header ── */
+.page-header { margin-bottom: 20px; }
+.page-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.page-desc { font-size: 13px; color: var(--text-muted); }
+.page-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 14px; }
 
-/* Buttons */
-.btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius); font-size: 13px; font-weight: 500; transition: all .15s; }
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-primary:hover { background: var(--accent-hover); }
+/* ── Buttons ── */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--r); font-size: 13px; font-weight: 600; transition: all .15s; border: none; }
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { background: var(--blue-hover); }
 .btn-ghost { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
 .btn-ghost:hover { color: var(--text); border-color: var(--text-muted); }
 .btn-danger { background: var(--red-dim); color: var(--red); border: 1px solid transparent; }
 .btn-danger:hover { border-color: var(--red); }
-.btn-sm { padding: 4px 10px; font-size: 12px; }
-.btn-icon { padding: 5px; border-radius: var(--radius); background: var(--surface-2); color: var(--text-muted); }
-.btn-icon:hover { color: var(--text); }
+.btn-sm { padding: 5px 11px; font-size: 12px; }
 
-/* Table */
-.table-wrap { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--border); }
-table { width: 100%; border-collapse: collapse; }
-th { background: var(--surface); padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
-td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: var(--surface-2); }
-.td-actions { display: flex; gap: 6px; }
-
-/* Badges */
-.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
-.badge-accent { background: var(--accent-dim); color: var(--accent); }
-.badge-green { background: var(--green-dim); color: var(--green); }
-.badge-blue { background: var(--blue-dim); color: var(--blue); }
-.badge-red { background: var(--red-dim); color: var(--red); }
-.badge-muted { background: var(--surface-2); color: var(--text-muted); }
-.badge-yellow { background: rgba(251,191,36,.12); color: var(--yellow); }
-
-/* Cards grid */
-.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column; gap: 10px; transition: border-color .15s; }
+/* ── Cards ── */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px; display: flex; flex-direction: column; gap: 12px; }
 .card:hover { border-color: var(--surface-3); }
-.card-title { font-size: 14px; font-weight: 600; line-height: 1.3; }
-.card-hook { font-size: 13px; color: var(--accent); font-style: italic; line-height: 1.4; }
-.card-body { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.card-title { font-size: 14px; font-weight: 700; }
+.card-hook { font-size: 13px; color: var(--blue); font-style: italic; line-height: 1.5; border-left: 2px solid var(--blue); padding-left: 10px; }
+.card-body { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
 .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.card-footer { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; padding-top: 10px; border-top: 1px solid var(--border); }
 .card-actions { display: flex; gap: 6px; }
 
-/* Virality score colors */
-.viral-mega { color: var(--accent); font-weight: 700; }
-.viral-good { color: var(--green); font-weight: 600; }
-.viral-ok { color: var(--yellow); }
-.viral-low { color: var(--text-muted); }
+/* ── Table ── */
+.table-wrap { overflow-x: auto; border-radius: var(--r-lg); border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; }
+th { background: var(--surface); padding: 10px 16px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(59,130,246,0.03); }
+.td-actions { display: flex; gap: 6px; }
 
-/* CTA Bank */
-.cta-section { margin-bottom: 24px; }
-.cta-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-.cta-section-title { font-size: 13px; font-weight: 700; }
-.cta-count { font-size: 11px; color: var(--text-muted); }
-.cta-chips { display: flex; flex-direction: column; gap: 8px; }
-.cta-chip { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; transition: all .15s; }
-.cta-chip.used { border-color: var(--accent); background: var(--accent-dim); }
-.cta-chip-text { flex: 1; font-size: 13px; line-height: 1.4; }
-.cta-chip-actions { display: flex; gap: 6px; flex-shrink: 0; }
-.cta-inline-form { display: flex; gap: 8px; margin-top: 8px; }
-.cta-inline-form input { flex: 1; }
+/* ── Badges ── */
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.badge-blue { background: var(--blue-dim); color: var(--blue); }
+.badge-green { background: var(--green-dim); color: var(--green); }
+.badge-red { background: var(--red-dim); color: var(--red); }
+.badge-yellow { background: var(--yellow-dim); color: var(--yellow); }
+.badge-purple { background: rgba(167,139,250,0.1); color: var(--purple); }
+.badge-muted { background: var(--surface-2); color: var(--text-muted); }
 
-/* Scripts */
-.script-template-text { font-size: 13px; line-height: 1.6; color: var(--text-muted); white-space: pre-wrap; }
-.script-template-text .placeholder { color: var(--accent); background: var(--accent-dim); padding: 0 3px; border-radius: 3px; font-style: normal; }
+/* ── CTA Bank ── */
+.cta-group { margin-bottom: 28px; }
+.cta-group-title { font-size: 12px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--text-muted); padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.cta-list { display: flex; flex-direction: column; gap: 8px; }
+.cta-item { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 12px 14px; transition: border-color .15s; }
+.cta-item.used { border-color: var(--blue); background: var(--blue-dim); }
+.cta-item-text { flex: 1; font-size: 13px; line-height: 1.5; }
+.cta-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.cta-add-row { display: flex; gap: 8px; margin-top: 10px; }
+.cta-add-row input { flex: 1; }
 
-/* Kanban */
+/* ── Script template ── */
+.script-body { font-size: 13px; line-height: 1.7; color: var(--text-muted); white-space: pre-wrap; background: var(--surface-2); border-radius: var(--r); padding: 14px; }
+.script-body .ph { color: var(--blue); background: var(--blue-dim); padding: 0 4px; border-radius: 3px; }
+
+/* ── Kanban ── */
 .kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.kanban-col { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 12px; }
-.kanban-col-header { font-size: 12px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
-.kanban-col-header .k-count { background: var(--surface-2); color: var(--text-muted); padding: 1px 7px; border-radius: 20px; font-size: 11px; }
-.kanban-col[data-status="Idea"] .kanban-col-header { color: var(--blue); }
-.kanban-col[data-status="Scripted"] .kanban-col-header { color: var(--yellow); }
-.kanban-col[data-status="Filmed"] .kanban-col-header { color: var(--accent); }
-.kanban-col[data-status="Posted"] .kanban-col-header { color: var(--green); }
-.kanban-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; margin-bottom: 8px; cursor: pointer; transition: border-color .15s; }
-.kanban-card:hover { border-color: var(--accent); }
-.kanban-card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
-.kanban-card-hook { font-size: 12px; color: var(--accent); font-style: italic; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-.kanban-card-footer { margin-top: 8px; display: flex; justify-content: space-between; align-items: center; }
+.k-col { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 14px; min-height: 200px; }
+.k-col-header { font-size: 11px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.k-count { background: var(--surface-2); padding: 1px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.k-col[data-s="Idea"] .k-col-header { color: var(--blue); }
+.k-col[data-s="Scripted"] .k-col-header { color: var(--yellow); }
+.k-col[data-s="Filmed"] .k-col-header { color: var(--purple); }
+.k-col[data-s="Posted"] .k-col-header { color: var(--green); }
+.k-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r); padding: 12px; margin-bottom: 8px; cursor: pointer; transition: border-color .15s; }
+.k-card:hover { border-color: var(--blue); }
+.k-card-title { font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+.k-card-hook { font-size: 12px; color: var(--blue); font-style: italic; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.k-card-footer { margin-top: 10px; display: flex; justify-content: space-between; align-items: center; gap: 6px; }
 
-/* Gaps list */
-.gaps-list { max-width: 680px; }
-.gap-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; transition: all .15s; }
-.gap-item.covered { opacity: .45; }
-.gap-item.covered .gap-text { text-decoration: line-through; color: var(--text-muted); }
-.gap-checkbox { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; margin-top: 1px; }
+/* ── Gaps ── */
+.gap-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 8px; max-width: 720px; }
+.gap-item.done { opacity: .4; }
+.gap-item.done .gap-text { text-decoration: line-through; }
+.gap-check { width: 18px; height: 18px; accent-color: var(--blue); cursor: pointer; flex-shrink: 0; margin-top: 2px; }
 .gap-text { flex: 1; font-size: 13px; line-height: 1.5; }
-.gaps-inline-form { display: flex; gap: 8px; margin-top: 12px; max-width: 680px; }
+.gap-add { display: flex; gap: 8px; margin-top: 12px; max-width: 720px; }
+.gap-add input { flex: 1; }
 
-/* Modal */
-.modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
-.modal-backdrop.open { display: flex; }
-.modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; }
-.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--border); }
+/* ── Detail panel ── */
+.detail-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px; margin-top: 16px; max-width: 700px; display: flex; flex-direction: column; gap: 14px; }
+.detail-label { font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 5px; }
+
+/* ── Modal ── */
+.backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+.backdrop.open { display: flex; }
+.modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; }
+.modal-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--border); }
 .modal-title { font-size: 15px; font-weight: 700; }
-.modal-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-.modal-footer { padding: 16px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+.modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.modal-foot { padding: 16px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.form-field { display: flex; flex-direction: column; gap: 4px; }
-.virality-preview { font-size: 13px; padding: 8px 12px; background: var(--surface-2); border-radius: var(--radius); color: var(--text-muted); }
+.form-field { display: flex; flex-direction: column; }
 
-/* Color picker */
-.color-swatches { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-.color-swatch { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: all .15s; }
-.color-swatch.selected { border-color: #fff; transform: scale(1.15); }
+/* ── Color swatches ── */
+.swatches { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.swatch { width: 26px; height: 26px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: all .15s; }
+.swatch.on { border-color: #fff; transform: scale(1.15); }
 
-/* Filter bar */
-.filter-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-.filter-bar select, .filter-bar input { max-width: 200px; }
+/* ── Tip box ── */
+.tip { background: var(--blue-dim); border: 1px solid rgba(59,130,246,.2); border-radius: var(--r); padding: 12px 14px; font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+.tip strong { color: var(--blue); }
 
-/* Status select inline */
-.status-select { font-size: 11px; padding: 2px 6px; border-radius: 20px; appearance: none; cursor: pointer; }
+/* ── Empty ── */
+.empty { text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 13px; }
 
-/* Expand detail */
-.detail-row { background: var(--surface-2); }
-.detail-row td { padding: 14px 20px; }
-.detail-content { font-size: 13px; line-height: 1.6; white-space: pre-wrap; color: var(--text-muted); }
+/* ── Toast ── */
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface); border: 1px solid var(--blue); color: var(--text); padding: 10px 18px; border-radius: var(--r); font-size: 13px; z-index: 200; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.toast.show { opacity: 1; }
 
-/* Responsive */
+/* ── Status badge colors ── */
+.s-idea { background: var(--blue-dim); color: var(--blue); }
+.s-scripted { background: var(--yellow-dim); color: var(--yellow); }
+.s-filmed { background: rgba(167,139,250,0.1); color: var(--purple); }
+.s-posted { background: var(--green-dim); color: var(--green); }
+
 @media (max-width: 900px) {
   .kanban { grid-template-columns: 1fr 1fr; }
   .form-row { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
-  .topbar { padding: 10px 14px; }
-  .tab-content { padding: 14px; }
   .kanban { grid-template-columns: 1fr; }
   .cards-grid { grid-template-columns: 1fr; }
+  .tab-content { padding: 14px; }
   table th:nth-child(n+5), table td:nth-child(n+5) { display: none; }
 }
-
-/* Empty state */
-.empty { text-align: center; padding: 48px 20px; color: var(--text-muted); }
-.empty p { margin-top: 8px; font-size: 13px; }
-
-/* Toast */
-.toast { position: fixed; bottom: 20px; right: 20px; background: var(--surface); border: 1px solid var(--accent); color: var(--text); padding: 10px 16px; border-radius: var(--radius); font-size: 13px; z-index: 200; opacity: 0; transition: opacity .2s; pointer-events: none; }
-.toast.show { opacity: 1; }
 </style>
 </head>
 <body>
 <div id="app">
-  <div class="topbar">
-    <div class="topbar-title">📊 Instagram Research <span class="accent">Dashboard</span></div>
-    <div class="topbar-meta" id="last-saved">Not yet saved</div>
+  <div class="header">
+    <div class="header-title">📊 Instagram <span class="blue">Research Dashboard</span></div>
+    <div class="header-saved" id="last-saved">Not yet saved</div>
   </div>
-  <div class="client-bar" id="client-bar"></div>
+
+  <div class="client-section">
+    <div class="client-label">Viewing content for</div>
+    <div class="client-switcher" id="client-switcher"></div>
+  </div>
+
   <div class="tabs" id="tabs"></div>
   <div class="tab-content" id="tab-content"></div>
 </div>
 
-<div class="modal-backdrop" id="modal-backdrop">
-  <div class="modal" id="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="modal-title">Add Item</div>
-      <button class="btn-icon" onclick="Modal.close()">✕</button>
+<div class="backdrop" id="backdrop">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-title"></div>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">✕ Close</button>
     </div>
     <div class="modal-body" id="modal-body"></div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="Modal.close()">Cancel</button>
-      <button class="btn btn-primary" id="modal-submit">Save</button>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" id="modal-save">Save</button>
     </div>
   </div>
 </div>
@@ -239,1023 +240,741 @@ tr:hover td { background: var(--surface-2); }
 <div class="toast" id="toast"></div>
 
 <script>
-const SCHEMA_VERSION = 2;
+// ─────────────────────────────────────────────
+// PALETTE & CONSTANTS
+// ─────────────────────────────────────────────
+const PALETTE = ['#3b82f6','#22c55e','#f97316','#a78bfa','#f472b6','#fbbf24','#34d399','#f87171','#38bdf8','#fb7185'];
 const TABS = ['Coaches','Reels','CTA Bank','Scripts','Content Ideas','Gaps'];
-const PALETTE = ['#F97316','#60a5fa','#22c55e','#a78bfa','#f472b6','#fbbf24','#34d399','#f87171','#38bdf8','#fb7185'];
+const TAB_IDS = { 'Coaches':'coaches','Reels':'reels','CTA Bank':'cta-bank','Scripts':'scripts','Content Ideas':'content-ideas','Gaps':'gaps' };
+const KANBAN_COLS = ['Idea','Scripted','Filmed','Posted'];
+const CTA_TYPES = ['DM','Comment','Save','Link in Bio','Follow','Direct Offer'];
+const CTA_COLORS = { DM:'var(--green)', Comment:'var(--yellow)', Save:'var(--blue)', 'Link in Bio':'var(--purple)', Follow:'var(--text-muted)', 'Direct Offer':'var(--red)' };
 
-// ── DEFAULT DATA ──────────────────────────────────────────────
-const DEFAULT_DATA = {
+// ─────────────────────────────────────────────
+// DEFAULT DATA
+// ─────────────────────────────────────────────
+const DEFAULTS = {
   clients: [
-    { id:'cl1', name:'Running Coach (All Levels)', color:'#60a5fa' },
-    { id:'cl2', name:'Ultra Running Coach', color:'#F97316' },
+    { id:'cl1', name:'Running Coach — All Levels', color:'#3b82f6' },
+    { id:'cl2', name:'Ultra Running Coach', color:'#f97316' },
   ],
   coaches: [
-    { id:'c1', clientId:'cl2', handle:'@mr.ultrarunner', followers:180000, avgViews:0, viralityScore:0, offerType:'1:1 Coaching', primaryCTAType:'Link in Bio', notes:'Evgenii Makarov. 10yr coaching, 159 marathons + 88 ultras. Ultra-endurance specialist. Very large audience — study his Reels structure.', createdAt:'2026-05-03' },
-    { id:'c2', clientId:'cl2', handle:'@stephpiruns', followers:111000, avgViews:31300, viralityScore:28.2, offerType:'1:1 Coaching + Plans', primaryCTAType:'Link in Bio', notes:'Doctor of Physical Therapy. 3:03 marathon. 111K followers, avg 31.3K views. Strong lead-gen via instant-download plans as entry point.', createdAt:'2026-05-03' },
-    { id:'c3', clientId:'cl2', handle:'@mountainroche', followers:102000, avgViews:0, viralityScore:0, offerType:'1:1 Coaching (Elite)', primaryCTAType:'Content → Podcast', notes:'David Roche. Coaches Tara Dower, Damian Hall, John Kelly. SWAP Running. Leadville 100 CR holder. More authority/media play than direct CTA.', createdAt:'2026-05-03' },
-    { id:'c4', clientId:'cl2', handle:'@trackclubbabe', followers:362000, avgViews:0, viralityScore:0, offerType:'Training Plans + Coaching', primaryCTAType:'Link in Bio', notes:'Kim. 362K followers. Improved 6:08 → 3:11 marathon. Training plans as lead magnet. Study her hook strategy — very shareable relatable content.', createdAt:'2026-05-03' },
-    { id:'c5', clientId:'cl2', handle:'@joecorcione', followers:13000, avgViews:0, viralityScore:0, offerType:'Group Coaching', primaryCTAType:'DM + Community', notes:'Ultrarunning coach. 25+ ultra finishes. Hosts Everyday Ultra podcast. Founded Desert Peak Ultra. Group coaching cohorts. UESCA certified.', createdAt:'2026-05-03' },
-    { id:'c6', clientId:'cl2', handle:'@theeverydayultra', followers:11000, avgViews:0, viralityScore:0, offerType:'Group Coaching', primaryCTAType:'DM + Application', notes:'Joe Corcione\'s brand account. 2–3 monthly group coaching calls. All coaches UESCA certified. "Everyday runner" positioning = high-intent niche audience.', createdAt:'2026-05-03' },
-    { id:'c7', clientId:'cl2', handle:'@ultratrailcoaching', followers:0, avgViews:0, viralityScore:0, offerType:'Training Plans', primaryCTAType:'Link in Bio', notes:'Virtual running coach. Plans from €30/month. Check their Reels tab for low-cost offer CTA examples.', createdAt:'2026-05-03' },
-    { id:'c8', clientId:'cl2', handle:'@hannahwalshcoaching', followers:4570, avgViews:0, viralityScore:0, offerType:'1:1 Coaching (Women)', primaryCTAType:'DM', notes:'Ultra coach for women. 4.57K followers. Small but highly targeted. Also runs an independent running shop. Underserved niche — female-specific ultra training.', createdAt:'2026-05-03' },
-    { id:'c9', clientId:'cl2', handle:'@theultrarunningcoach_', followers:0, avgViews:0, viralityScore:0, offerType:'1:1 Coaching', primaryCTAType:'Link in Bio', notes:'Howard Dracup. Mountain/Sky/Ultra/Trail coach. Check for Reels with training methodology breakdowns.', createdAt:'2026-05-03' },
-    { id:'c10', clientId:'cl2', handle:'@ultrarunnerpaw', followers:0, avgViews:0, viralityScore:0, offerType:'1:1 Coaching', primaryCTAType:'Link in Bio', notes:'Pawel Dregan. Ultra runner & coach. Check Reels tab for content frequency and format patterns.', createdAt:'2026-05-03' },
+    { id:'c1', clientId:'cl2', handle:'@mr.ultrarunner', followers:180000, avgViews:0, viralityScore:0, offerType:'1:1 Coaching', ctaType:'Link in Bio', notes:'Evgenii Makarov. 10yr coaching, 159 marathons + 88 ultras. Very large audience — study his Reels structure.', createdAt:'2026-05-03' },
+    { id:'c2', clientId:'cl2', handle:'@stephpiruns', followers:111000, avgViews:31300, viralityScore:28.2, offerType:'1:1 Coaching + Plans', ctaType:'Link in Bio', notes:'Doctor of Physical Therapy. 3:03 marathon. 111K followers, avg 31.3K views. Strong lead-gen via instant-download plans.', createdAt:'2026-05-03' },
+    { id:'c3', clientId:'cl2', handle:'@mountainroche', followers:102000, avgViews:0, viralityScore:0, offerType:'1:1 Coaching (Elite)', ctaType:'Content → Podcast', notes:'David Roche. Coaches elite athletes. SWAP Running. Leadville 100 CR. More authority-building than direct CTA.', createdAt:'2026-05-03' },
+    { id:'c4', clientId:'cl2', handle:'@trackclubbabe', followers:362000, avgViews:0, viralityScore:0, offerType:'Training Plans + Coaching', ctaType:'Link in Bio', notes:'Kim. 362K followers. 6:08 → 3:11 marathon. Study her hook strategy — very shareable relatable content.', createdAt:'2026-05-03' },
+    { id:'c5', clientId:'cl2', handle:'@joecorcione', followers:13000, avgViews:0, viralityScore:0, offerType:'Group Coaching', ctaType:'DM', notes:'25+ ultra finishes. Everyday Ultra podcast. UESCA certified. Strong community angle.', createdAt:'2026-05-03' },
+    { id:'c6', clientId:'cl2', handle:'@theeverydayultra', followers:11000, avgViews:0, viralityScore:0, offerType:'Group Coaching', ctaType:'DM', notes:'Joe Corcione\'s brand. 2–3 group coaching calls/month. "Everyday runner" positioning = high-intent niche.', createdAt:'2026-05-03' },
+    { id:'c7', clientId:'cl2', handle:'@hannahwalshcoaching', followers:4570, avgViews:0, viralityScore:0, offerType:'1:1 Coaching (Women)', ctaType:'DM', notes:'Ultra coach for women. Small but highly targeted. Underserved niche — female-specific ultra training.', createdAt:'2026-05-03' },
   ],
   reels: [
-    { id:'r1', clientId:'cl2', hookText:'"Want to feel more confident on race day? Here\'s what I do with my athletes..."', scriptSummary:'Opens with a confidence pain point, pivots to a 3-step race prep protocol. Ends with coaching offer.', ctaWording:'DM me "RACE" and I\'ll send you my full race week checklist', format:'Talking Head', topic:'Race Strategy', views:0, coachHandle:'@joecorcione', followers:13000, viralityScore:0, link:'https://www.instagram.com/joecorcione/reel/C7hrd-ZyFiF/', dateAdded:'2026-05-03' },
-    { id:'r2', clientId:'cl2', hookText:'"She came to me with zero running background at 51. 8 months later she crossed the finish line of a 50-miler."', scriptSummary:'Client transformation story. Before: never run more than 5k. Journey: 3 runs/week, built to back-to-backs. Result: 50-mile finish. Mirror close.', ctaWording:'DM me the word FIRST and I\'ll send you the exact 6-month progression we used', format:'Talking Head', topic:'Transformation', views:0, coachHandle:'@joecorcione', followers:13000, viralityScore:0, link:'', dateAdded:'2026-05-03' },
-    { id:'r3', clientId:'cl2', hookText:'"The #1 mistake I see in first-time 100-mile runners — and it\'s not what you think."', scriptSummary:'Opens with counterintuitive claim. Problem: most people think DNFs are fitness failures. Truth: pacing in miles 1–30. Solution: run first quarter embarrassingly easy.', ctaWording:'Comment your race distance below and I\'ll DM you the exact pace formula I use with my clients', format:'Talking Head', topic:'Race Strategy', views:0, coachHandle:'', followers:0, viralityScore:0, link:'', dateAdded:'2026-05-03' },
-    { id:'r4', clientId:'cl2', hookText:'"You don\'t need more weekly mileage to finish your first 100. You need less."', scriptSummary:'Controversial open. Tension: every plan says pile on miles. Reframe: Zone 2 base + back-to-back long runs + race nutrition practice = finisher.', ctaWording:'Save this for your next training cycle. Comment your weekly mileage — I\'ll tell you if it\'s too much.', format:'B-roll + Voiceover', topic:'Training Tips', views:0, coachHandle:'', followers:0, viralityScore:0, link:'', dateAdded:'2026-05-03' },
-    { id:'r5', clientId:'cl2', hookText:'"The question I get asked more than anything as an ultra coach: How do I know if I\'m ready?"', scriptSummary:'Q&A format. Answers the #1 objection. 3 real readiness markers people miss (eating while running, training in dark, back-to-back long runs).', ctaWording:'DM me your next race and I\'ll tell you exactly how many weeks out you should be right now.', format:'Talking Head', topic:'Training Tips', views:0, coachHandle:'', followers:0, viralityScore:0, link:'', dateAdded:'2026-05-03' },
+    { id:'r1', clientId:'cl2', coachHandle:'@joecorcione', followers:13000, views:0, viralityScore:0, format:'Talking Head', topic:'Race Strategy', hookText:'"Want to feel more confident on race day? Here\'s what I do with my athletes..."', scriptSummary:'Opens with a confidence pain point, pivots to a 3-step race prep protocol. Ends with coaching offer.', ctaWording:'DM me "RACE" and I\'ll send you my full race week checklist', link:'https://www.instagram.com/joecorcione/reel/C7hrd-ZyFiF/', dateAdded:'2026-05-03' },
+    { id:'r2', clientId:'cl2', coachHandle:'@joecorcione', followers:13000, views:0, viralityScore:0, format:'Talking Head', topic:'Transformation', hookText:'"She came to me with zero running background at 51. 8 months later she crossed the finish line of a 50-miler."', scriptSummary:'Client transformation story. Before: never run more than 5k. Journey: 3 runs/week, built to back-to-backs. Result: 50-mile finish.', ctaWording:'DM me the word FIRST and I\'ll send you the exact 6-month progression we used', link:'', dateAdded:'2026-05-03' },
+    { id:'r3', clientId:'cl2', coachHandle:'', followers:0, views:0, viralityScore:0, format:'Talking Head', topic:'Race Strategy', hookText:'"The #1 mistake I see in first-time 100-mile runners — and it\'s not what you think."', scriptSummary:'Opens with counterintuitive claim. Problem: most think DNFs are fitness failures. Truth: pacing in miles 1–30. Solution: run first quarter embarrassingly easy.', ctaWording:'Comment your race distance below and I\'ll DM you the exact pace formula I use with my clients', link:'', dateAdded:'2026-05-03' },
+    { id:'r4', clientId:'cl2', coachHandle:'', followers:0, views:0, viralityScore:0, format:'B-roll + Voiceover', topic:'Training Tips', hookText:'"You don\'t need more weekly mileage to finish your first 100. You need less."', scriptSummary:'Controversial open. Reframe: Zone 2 base + back-to-back long runs + race nutrition practice = finisher. No need to pile on miles.', ctaWording:'Save this for your next training cycle. Comment your weekly mileage — I\'ll tell you if it\'s too much.', link:'', dateAdded:'2026-05-03' },
+    { id:'r5', clientId:'cl2', coachHandle:'', followers:0, views:0, viralityScore:0, format:'Talking Head', topic:'Training Tips', hookText:'"The question I get asked more than anything as an ultra coach: How do I know if I\'m ready?"', scriptSummary:'Q&A format. 3 readiness markers people miss (eating while running, training in dark, back-to-back long runs). Ends with personal DM invite.', ctaWording:'DM me your next race and I\'ll tell you exactly how many weeks out you should be right now.', link:'', dateAdded:'2026-05-03' },
   ],
   ctaBank: [
-    { id:'cta1', clientId:'cl2', type:'DM', text:'DM me the word ULTRA and I\'ll send you my free 12-week base building guide', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta2', clientId:'cl2', type:'DM', text:'Comment "100" below and I\'ll DM you my race day nutrition checklist', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta3', clientId:'cl2', type:'DM', text:'DM me "COACH" if you want to talk about your next race — I reply to everyone', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta4', clientId:'cl2', type:'DM', text:'Comment your race distance below 👇 and I\'ll DM you one tip specific to that distance', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta5', clientId:'cl2', type:'DM', text:'DM me "PLAN" and I\'ll send you the exact 8-week training block I use with all my clients', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta6', clientId:'cl2', type:'DM', text:'DM me "APPLY" if you want to chat about what coaching could look like for your next race', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta7', clientId:'cl2', type:'Comment', text:'Comment your next race in the replies — I want to know what you\'re training for', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta8', clientId:'cl2', type:'Comment', text:'Drop a 🔥 if you\'ve made this mistake in training', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta9', clientId:'cl2', type:'Comment', text:'Tell me below: how many weeks out are you from your next race?', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta10', clientId:'cl2', type:'Comment', text:'Comment "YES" if this is something you struggle with too', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta11', clientId:'cl2', type:'Comment', text:'What\'s your biggest fear going into your first ultra? Tell me in the comments 👇', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta12', clientId:'cl2', type:'Save', text:'Save this — you\'ll thank yourself on taper week', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta13', clientId:'cl2', type:'Save', text:'Screenshot the checklist at the end and pin it to your training folder', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta14', clientId:'cl2', type:'Save', text:'This is the one reel you want saved before race week', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta15', clientId:'cl2', type:'Link in Bio', text:'Full plan is linked in my bio', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta16', clientId:'cl2', type:'Link in Bio', text:'Grab the free guide at the link in my bio', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta17', clientId:'cl2', type:'Link in Bio', text:'My 16-week ultra program is open — link in bio', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta18', clientId:'cl2', type:'Follow', text:'Follow for a new ultra coaching tip every week', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta19', clientId:'cl2', type:'Follow', text:'I post free ultra training advice daily — hit follow if this helped', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta20', clientId:'cl2', type:'Direct Offer', text:'I\'m opening 5 new coaching spots this month — DM me "APPLY" if you want to chat', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta21', clientId:'cl2', type:'Direct Offer', text:'My next group coaching cohort starts [month] — comment "GROUP" and I\'ll send you details', usedIt:false, createdAt:'2026-05-03' },
-    { id:'cta22', clientId:'cl2', type:'Direct Offer', text:'Applications open for [Program Name] — link in bio, only taking [N] runners', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta1', clientId:'cl2', type:'DM', text:'DM me the word ULTRA and I\'ll send you my free 12-week base building guide', usedIt:false },
+    { id:'cta2', clientId:'cl2', type:'DM', text:'Comment "100" below and I\'ll DM you my race day nutrition checklist', usedIt:false },
+    { id:'cta3', clientId:'cl2', type:'DM', text:'DM me "COACH" if you want to talk about your next race — I reply to everyone', usedIt:false },
+    { id:'cta4', clientId:'cl2', type:'DM', text:'Comment your race distance below 👇 and I\'ll DM you one tip specific to that distance', usedIt:false },
+    { id:'cta5', clientId:'cl2', type:'DM', text:'DM me "PLAN" and I\'ll send you the exact 8-week training block I use with all my clients', usedIt:false },
+    { id:'cta6', clientId:'cl2', type:'Comment', text:'Comment your next race in the replies — I want to know what you\'re training for', usedIt:false },
+    { id:'cta7', clientId:'cl2', type:'Comment', text:'Drop a 🔥 if you\'ve made this mistake in training', usedIt:false },
+    { id:'cta8', clientId:'cl2', type:'Comment', text:'What\'s your biggest fear going into your first ultra? Tell me in the comments 👇', usedIt:false },
+    { id:'cta9', clientId:'cl2', type:'Save', text:'Save this — you\'ll thank yourself on taper week', usedIt:false },
+    { id:'cta10', clientId:'cl2', type:'Save', text:'This is the one reel you want saved before race week', usedIt:false },
+    { id:'cta11', clientId:'cl2', type:'Link in Bio', text:'Full plan is linked in my bio', usedIt:false },
+    { id:'cta12', clientId:'cl2', type:'Link in Bio', text:'My 16-week ultra program is open — link in bio', usedIt:false },
+    { id:'cta13', clientId:'cl2', type:'Follow', text:'Follow for a new ultra coaching tip every week', usedIt:false },
+    { id:'cta14', clientId:'cl2', type:'Direct Offer', text:'I\'m opening 5 new coaching spots this month — DM me "APPLY" if you want to chat', usedIt:false },
+    { id:'cta15', clientId:'cl2', type:'Direct Offer', text:'My next group coaching cohort starts [month] — comment "GROUP" and I\'ll send you details', usedIt:false },
   ],
   scripts: [
-    {
-      id:'s1', clientId:'cl2', title:'The Mistake Hook', type:'Mistake',
-      templateText:`[HOOK — 0–3 sec, text on screen + say aloud]
-"The #1 mistake I see in first-time [RACE TYPE] runners — and it's not what you think."
-
-[PROBLEM — 5 sec]
-"Most people think [COMMON WRONG BELIEF].
-They don't. It's actually [REAL CAUSE]."
-
-[PROOF — 5 sec]
-"I've coached [X] runners to their first [DISTANCE].
-Every [BAD OUTCOME] I've seen came from [ROOT CAUSE]."
-
-[SOLUTION — 20 sec]
-"Here's the rule I give every client:
-[RULE 1].
-[RULE 2].
-[RULE 3 — the specific one that surprises people]."
-
-[CTA]
-"Comment your race distance below and I'll DM you the exact [RESOURCE] I use with my clients."`,
-      notes:'Best for: training errors, race-day mistakes, nutrition errors. High share rate. Use a counterintuitive insight as the "not what you think" reveal.',
-      createdAt:'2026-05-03'
-    },
-    {
-      id:'s2', clientId:'cl2', title:'The Client Story', type:'Transformation',
-      templateText:`[HOOK — lead with the result]
-"[CLIENT DESCRIPTION] came to me with [STARTING POINT].
-[TIME PERIOD] later they [RESULT]."
-
-[THE BEFORE — 10 sec]
-"[CLIENT] had [LIMITATION / OBSTACLE].
-They thought [BELIEF THAT HELD THEM BACK].
-They were wrong."
-
-[WHAT WE DID — 20 sec]
-"We started with [SIMPLE FIRST STEP].
-Built to [MILESTONE] over [TIME].
-[KEY TURNING POINT]."
-
-[THE RESULT]
-"[Specific finish time / race / outcome]. [Emotional moment]."
-
-[MIRROR THE VIEWER]
-"If you've been thinking '[DOUBT THEY HAVE]' —
-that's exactly what [CLIENT] said on day one."
-
-[CTA]
-"DM me the word [KEYWORD] and I'll send you the exact [RESOURCE] we used."`,
-      notes:'Highest lead-gen conversion. The viewer must be able to see themselves as the client. Pick the most relatable client story, not the most impressive.',
-      createdAt:'2026-05-03'
-    },
-    {
-      id:'s3', clientId:'cl2', title:'The Counterintuitive Take', type:'Contrarian',
-      templateText:`[HOOK — say something that sounds wrong]
-"You don't need [THING EVERYONE THINKS YOU NEED] to [DESIRED RESULT].
-You need [UNEXPECTED THING]."
-
-[TENSION — 10 sec]
-"I know that sounds backwards.
-Every [CONVENTIONAL WISDOM SOURCE] tells you to [COMMON ADVICE].
-But [WHY IT BACKFIRES]."
-
-[THE REFRAME — 20 sec]
-"What actually [ACHIEVES THE GOAL]:
-— [INSIGHT 1]
-— [INSIGHT 2]
-— [INSIGHT 3 — most surprising]"
-
-[AUTHORITY — 1 sentence]
-"I've coached [X] runners through [CONTEXT].
-The ones who [DID THE WRONG THING] are the ones who [BAD OUTCOME]."
-
-[CTA]
-"Save this for your next training cycle.
-And comment [QUESTION] — I'll [WHAT YOU'LL DO WITH THE ANSWER]."`,
-      notes:'Highest comment volume. Best for topics where conventional wisdom is wrong. Be ready to defend the position in comments — that engagement is the point.',
-      createdAt:'2026-05-03'
-    },
-    {
-      id:'s4', clientId:'cl2', title:'The Q&A Authority Builder', type:'Q&A',
-      templateText:`[HOOK — frame the question as universal]
-"The question I get asked more than anything as a [YOUR ROLE]:"
-
-[THE QUESTION — show on screen as text]
-"[EXACT COMMON QUESTION IN YOUR DMs]"
-
-[ANSWER — 30 sec, be specific]
-"Honest answer: [Direct answer that subverts expectations].
-
-The [EASY PART] is [MINIMISE IT]. Here's what most people miss:
-1. [OVERLOOKED THING 1]
-2. [OVERLOOKED THING 2]
-3. [OVERLOOKED THING 3 — the one that surprises people]
-
-[BRIDGE TO VIEWER]
-Do [THOSE THINGS] and you're more ready than you think."
-
-[CTA]
-"DM me [THEIR SPECIFIC SITUATION] and I'll tell you
-exactly [PERSONALISED THING YOU'LL DO FOR THEM]."`,
-      notes:'Best for building authority positioning. The open DM invite at the end converts well because it\'s personal. Works great as a recurring series.',
-      createdAt:'2026-05-03'
-    },
-    {
-      id:'s5', clientId:'cl2', title:'The Stat Bomb', type:'Stats / Data',
-      templateText:`[HOOK — lead with the number]
-"[IMPRESSIVE NUMBER]. [CONTEXT]. [SHORT TIME PERIOD]."
-e.g. "47 miles. 11,000ft of climb. One training week. And she was 54."
-
-[THE STORY — 10 sec]
-"[CLIENT / YOUR OWN EXPERIENCE].
-[WHAT MADE THIS POSSIBLE — one sentence]."
-
-[THE DATA BREAKDOWN — 20 sec]
-"Here's exactly what that week looked like:
-— [DAY/METRIC 1]
-— [DAY/METRIC 2]
-— [DAY/METRIC 3]
-— [TOTAL / SUMMARY STAT]"
-
-[THE INSIGHT]
-"The number people get wrong: [COMMON MISCONCEPTION ABOUT THE STAT]."
-
-[CTA]
-"Comment [KEYWORD] and I'll DM you the [TRAINING BLOCK / TEMPLATE] we used."`,
-      notes:'Stops the scroll instantly. Training numbers are unbelievable to non-runners = massive share bait. Works best with real client data (with permission) or your own training.',
-      createdAt:'2026-05-03'
-    },
+    { id:'s1', clientId:'cl2', title:'The Mistake Hook', type:'Mistake', templateText:`[HOOK — 0–3 sec]\n"The #1 mistake I see in first-time [RACE TYPE] runners — and it's not what you think."\n\n[PROBLEM — 5 sec]\n"Most people think [COMMON WRONG BELIEF].\nIt's actually [REAL CAUSE]."\n\n[PROOF — 5 sec]\n"I've coached [X] runners to their first [DISTANCE].\nEvery [BAD OUTCOME] came from [ROOT CAUSE]."\n\n[SOLUTION — 20 sec]\n"Here's the rule I give every client:\n[RULE 1].\n[RULE 2].\n[RULE 3 — the one that surprises people]."\n\n[CTA]\n"Comment your race distance below and I'll DM you the exact [RESOURCE] I use with my clients."`, notes:'Best for training errors, race-day mistakes, nutrition errors. Use a counterintuitive insight as the reveal.' },
+    { id:'s2', clientId:'cl2', title:'The Client Story', type:'Transformation', templateText:`[HOOK — lead with the result]\n"[CLIENT DESCRIPTION] came to me with [STARTING POINT].\n[TIME PERIOD] later they [RESULT]."\n\n[THE BEFORE]\n"[CLIENT] had [LIMITATION].\nThey thought [BELIEF THAT HELD THEM BACK]."\n\n[WHAT WE DID]\n"We started with [SIMPLE FIRST STEP].\nBuilt to [MILESTONE] over [TIME]."\n\n[THE RESULT]\n"[Specific finish / outcome]. [Emotional moment]."\n\n[MIRROR THE VIEWER]\n"If you've been thinking '[DOUBT THEY HAVE]' —\nthat's exactly what [CLIENT] said on day one."\n\n[CTA]\n"DM me the word [KEYWORD] and I'll send you the exact [RESOURCE] we used."`, notes:'Highest lead-gen conversion. Pick the most relatable client story, not the most impressive.' },
+    { id:'s3', clientId:'cl2', title:'The Counterintuitive Take', type:'Contrarian', templateText:`[HOOK]\n"You don't need [THING EVERYONE THINKS YOU NEED] to [DESIRED RESULT].\nYou need [UNEXPECTED THING]."\n\n[TENSION]\n"I know that sounds backwards.\nEvery [CONVENTIONAL SOURCE] tells you to [COMMON ADVICE].\nBut [WHY IT BACKFIRES]."\n\n[THE REFRAME]\n"What actually works:\n— [INSIGHT 1]\n— [INSIGHT 2]\n— [INSIGHT 3 — most surprising]"\n\n[AUTHORITY]\n"I've coached [X] runners through [CONTEXT]."\n\n[CTA]\n"Save this. Comment [QUESTION] — I'll [WHAT YOU'LL DO]."`, notes:'Highest comment volume. Works best when conventional wisdom is genuinely wrong. Defend in comments — that engagement is the point.' },
+    { id:'s4', clientId:'cl2', title:'The Q&A Authority Builder', type:'Q&A', templateText:`[HOOK]\n"The question I get asked more than anything as a [YOUR ROLE]:"\n\n[THE QUESTION — show on screen]\n"[EXACT QUESTION FROM YOUR DMs]"\n\n[ANSWER — be specific]\n"Honest answer: [Direct answer that subverts expectations].\n\nHere's what most people miss:\n1. [OVERLOOKED THING 1]\n2. [OVERLOOKED THING 2]\n3. [OVERLOOKED THING 3]"\n\n[CTA]\n"DM me [THEIR SITUATION] and I'll tell you exactly [PERSONALISED RESPONSE]."`, notes:'Best for authority positioning. Recurring series works great — "questions I get asked" every week.' },
+    { id:'s5', clientId:'cl2', title:'The Stat Bomb', type:'Stats / Data', templateText:`[HOOK — lead with the number]\n"[IMPRESSIVE NUMBER]. [CONTEXT]. [SHORT TIME PERIOD]."\ne.g. "47 miles. 11,000ft of climb. One training week. She was 54."\n\n[THE STORY]\n"[CLIENT / YOUR EXPERIENCE].\n[WHAT MADE THIS POSSIBLE]."\n\n[DATA BREAKDOWN]\n"Here's exactly what that week looked like:\n— [METRIC 1]\n— [METRIC 2]\n— [METRIC 3]\n— [TOTAL STAT]"\n\n[INSIGHT]\n"The number people get wrong: [MISCONCEPTION]."\n\n[CTA]\n"Comment [KEYWORD] and I'll DM you the [TEMPLATE] we used."`, notes:'Stops the scroll instantly. Works best with real client data (with permission) or your own training.' },
   ],
   contentIdeas: [
-    { id:'i1', clientId:'cl2', title:'The DNF Reframe', hook:'"Most runners think a DNF is failure. My best clients say it\'s the moment their ultra career actually started."', scriptOutline:'Emotional open → reframe DNF as data, not failure → 3 things a DNF tells you about your next race → mirror: "if you\'ve been there, you know" → CTA', ctaRecommendation:'Comment "DNF" if you\'ve been there — I\'ll DM you the protocol I use with clients after they don\'t finish.', status:'Idea', createdAt:'2026-05-03' },
-    { id:'i2', clientId:'cl2', title:'The Crew Briefing', hook:'"Your crew is either going to save your race or end it. Here\'s the 3-minute brief I give every crew before race day."', scriptOutline:'Problem: most crew have no idea what to do → on-screen checklist (4 items) → the one thing most crews get catastrophically wrong → send it to your crew CTA', ctaRecommendation:'Save this and send it to your crew.', status:'Idea', createdAt:'2026-05-03' },
-    { id:'i3', clientId:'cl2', title:'Training on No Time', hook:'"I coached a dad of 3 with a full-time job to a 100-mile finish on 8 hours of training per week."', scriptOutline:'Client story → the actual weekly structure (specifics) → why quality > quantity at ultra distances → the two sessions you absolutely can\'t skip → DM CTA', ctaRecommendation:'Comment "BUSY" and I\'ll DM you the exact weekly structure we used.', status:'Idea', createdAt:'2026-05-03' },
-    { id:'i4', clientId:'cl2', title:'What I Actually Eat in a 100', hook:'"Most runners severely underfuel in a 100-miler. Here\'s exactly what I tell my clients to eat, hour by hour."', scriptOutline:'Problem: most runners eat 100 cal/hr, should eat 250–350 → hour-by-hour breakdown (on screen) → the gut training protocol → practice this in your long runs or pay for it at mile 60', ctaRecommendation:'Save this for your race plan. DM me "FUEL" and I\'ll send you the full race day nutrition template.', status:'Idea', createdAt:'2026-05-03' },
-    { id:'i5', clientId:'cl2', title:'The Spring Pass Opening', hook:'"This trail was buried under 8 feet of snow 6 weeks ago."', scriptOutline:'Scenic footage of newly open mountain trail → "This is what we train all winter for" → 30-sec training insight for spring base building → follow CTA', ctaRecommendation:'Follow for weekly trail running coaching tips — new one every Sunday.', status:'Idea', createdAt:'2026-05-03' },
-    { id:'i6', clientId:'cl2', title:'Return After DNF', hook:'"She DNF\'d at mile 67. Six months later she lined up again. Here\'s what changed."', scriptOutline:'Client DNF story (brief, not dwelling) → the mental shift → the training adjustments → what the second attempt looked like → result → mirror viewer', ctaRecommendation:'DM me "RETURN" if you\'ve had a DNF and you\'re figuring out what\'s next.', status:'Scripted', createdAt:'2026-05-03' },
-    { id:'i7', clientId:'cl2', title:'Week in the Life: Ultra Coach', hook:'"What does a week of ultra coaching actually look like? Let me show you."', scriptOutline:'B-roll of coaching calls, plan writing, athlete check-ins → 3 things that surprised people about coaching → who is a good fit for coaching (self-selection) → application CTA', ctaRecommendation:'DM me "COACH" if you want to talk about your next race — spots open this month.', status:'Idea', createdAt:'2026-05-03' },
+    { id:'i1', clientId:'cl2', title:'The DNF Reframe', hook:'"Most runners think a DNF is failure. My best clients say it\'s the moment their ultra career actually started."', scriptOutline:'Emotional open → reframe DNF as data, not failure → 3 things a DNF tells you → mirror: "if you\'ve been there, you know" → CTA', ctaRecommendation:'Comment "DNF" if you\'ve been there — I\'ll DM you the protocol I use with clients after they don\'t finish.', status:'Idea' },
+    { id:'i2', clientId:'cl2', title:'The Crew Briefing', hook:'"Your crew is either going to save your race or end it. Here\'s the 3-minute brief I give every crew before race day."', scriptOutline:'Problem: most crew have no idea what to do → on-screen checklist → the one thing crews get catastrophically wrong → send it to your crew CTA', ctaRecommendation:'Save this and send it to your crew.', status:'Idea' },
+    { id:'i3', clientId:'cl2', title:'Training on No Time', hook:'"I coached a dad of 3 with a full-time job to a 100-mile finish on 8 hours of training per week."', scriptOutline:'Client story → the actual weekly structure → why quality > quantity → the two sessions you can\'t skip → DM CTA', ctaRecommendation:'Comment "BUSY" and I\'ll DM you the exact weekly structure we used.', status:'Idea' },
+    { id:'i4', clientId:'cl2', title:'What I Actually Eat in a 100', hook:'"Most runners severely underfuel in a 100-miler. Here\'s exactly what I tell my clients to eat, hour by hour."', scriptOutline:'Problem: 100 cal/hr vs 250–350 needed → hour-by-hour breakdown → gut training protocol → practice in long runs or pay at mile 60', ctaRecommendation:'Save this for your race plan. DM me "FUEL" and I\'ll send you the full nutrition template.', status:'Idea' },
+    { id:'i5', clientId:'cl2', title:'Return After DNF', hook:'"She DNF\'d at mile 67. Six months later she lined up again. Here\'s what changed."', scriptOutline:'Client DNF story → the mental shift → training adjustments → what the second attempt looked like → result → mirror viewer', ctaRecommendation:'DM me "RETURN" if you\'ve had a DNF and you\'re figuring out what\'s next.', status:'Scripted' },
+    { id:'i6', clientId:'cl2', title:'Week in the Life: Ultra Coach', hook:'"What does a week of ultra coaching actually look like? Let me show you."', scriptOutline:'B-roll of coaching calls, plan writing, check-ins → 3 things that surprised people about coaching → who is a good fit → application CTA', ctaRecommendation:'DM me "COACH" if you want to talk about your next race — spots open this month.', status:'Idea' },
   ],
   contentGaps: [
-    { id:'g1', clientId:'cl2', topic:'Race nutrition specifics mid-race (exact calories/hour, food by distance)', covered:false, createdAt:'2026-05-03' },
-    { id:'g2', clientId:'cl2', topic:'Crew and pacer guides — what to tell your support team', covered:false, createdAt:'2026-05-03' },
-    { id:'g3', clientId:'cl2', topic:'Return after DNF — emotional and tactical protocol', covered:false, createdAt:'2026-05-03' },
-    { id:'g4', clientId:'cl2', topic:'Ultra training with a full-time job (8hrs/week structure)', covered:false, createdAt:'2026-05-03' },
-    { id:'g5', clientId:'cl2', topic:'Female-specific ultra training (hormones, fueling differences, training load)', covered:false, createdAt:'2026-05-03' },
-    { id:'g6', clientId:'cl2', topic:'Training in the dark (most 50-milers start before sunrise — almost no coach content on this)', covered:false, createdAt:'2026-05-03' },
-    { id:'g7', clientId:'cl2', topic:'Back-to-back long run specifics (exact structure, recovery between)', covered:false, createdAt:'2026-05-03' },
+    { id:'g1', clientId:'cl2', topic:'Race nutrition specifics mid-race (exact calories/hour, food by distance)', covered:false },
+    { id:'g2', clientId:'cl2', topic:'Crew and pacer guides — what to tell your support team', covered:false },
+    { id:'g3', clientId:'cl2', topic:'Return after DNF — emotional and tactical protocol', covered:false },
+    { id:'g4', clientId:'cl2', topic:'Ultra training with a full-time job (8hrs/week structure)', covered:false },
+    { id:'g5', clientId:'cl2', topic:'Female-specific ultra training (hormones, fueling, training load)', covered:false },
+    { id:'g6', clientId:'cl2', topic:'Training in the dark (most 50-milers start before sunrise)', covered:false },
+    { id:'g7', clientId:'cl2', topic:'Back-to-back long run specifics (exact structure, recovery between)', covered:false },
   ],
-  meta: { version: 2, lastSaved: null }
+  meta: { version: 3, lastSaved: null }
 };
 
-// ── STATE ──────────────────────────────────────────────────────
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
 const State = (() => {
-  let _data = null;
+  let d = null;
   function load() {
-    const raw = localStorage.getItem('ur_dashboard');
+    const raw = localStorage.getItem('ur_dashboard_v3');
     if (raw) {
-      _data = JSON.parse(raw);
-      // migrate v1 data: add clientId to items that don't have it
-      if (!_data.clients) _data.clients = JSON.parse(JSON.stringify(DEFAULT_DATA.clients));
-      ['coaches','reels','ctaBank','scripts','contentIdeas','contentGaps'].forEach(section => {
-        if (_data[section]) _data[section].forEach(item => { if (!item.clientId) item.clientId = 'cl2'; });
+      d = JSON.parse(raw);
+      if (!d.clients) d.clients = JSON.parse(JSON.stringify(DEFAULTS.clients));
+      ['coaches','reels','ctaBank','scripts','contentIdeas','contentGaps'].forEach(s => {
+        (d[s] || []).forEach(x => { if (!x.clientId) x.clientId = 'cl2'; });
       });
     } else {
-      _data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      // try migrating from old key
+      const old = localStorage.getItem('ur_dashboard');
+      if (old) {
+        d = JSON.parse(old);
+        if (!d.clients) d.clients = JSON.parse(JSON.stringify(DEFAULTS.clients));
+        ['coaches','reels','ctaBank','scripts','contentIdeas','contentGaps'].forEach(s => {
+          (d[s] || []).forEach(x => { if (!x.clientId) x.clientId = 'cl2'; });
+        });
+      } else {
+        d = JSON.parse(JSON.stringify(DEFAULTS));
+      }
     }
   }
   function save() {
-    _data.meta.lastSaved = new Date().toISOString();
-    localStorage.setItem('ur_dashboard', JSON.stringify(_data));
+    d.meta.lastSaved = new Date().toISOString();
+    localStorage.setItem('ur_dashboard_v3', JSON.stringify(d));
     const el = document.getElementById('last-saved');
-    if (el) el.textContent = 'Saved ' + new Date().toLocaleTimeString();
+    if (el) el.textContent = 'Saved at ' + new Date().toLocaleTimeString();
   }
-  function get(k) { return _data[k]; }
+  function get(k) { return d[k]; }
   function upsert(section, item) {
-    const idx = _data[section].findIndex(x => x.id === item.id);
-    if (idx >= 0) _data[section][idx] = item;
-    else _data[section].unshift(item);
+    const i = d[section].findIndex(x => x.id === item.id);
+    if (i >= 0) d[section][i] = item; else d[section].unshift(item);
     save();
   }
-  function remove(section, id) {
-    _data[section] = _data[section].filter(x => x.id !== id);
-    save();
-  }
-  function toggle(section, id, field) {
-    const item = _data[section].find(x => x.id === id);
-    if (item) { item[field] = !item[field]; save(); }
-  }
-  function setField(section, id, field, value) {
-    const item = _data[section].find(x => x.id === id);
-    if (item) { item[field] = value; save(); }
-  }
-  return { load, save, get, upsert, remove, toggle, setField };
+  function del(section, id) { d[section] = d[section].filter(x => x.id !== id); save(); }
+  function toggle(section, id, field) { const x = d[section].find(x => x.id === id); if (x) { x[field] = !x[field]; save(); } }
+  function setF(section, id, field, val) { const x = d[section].find(x => x.id === id); if (x) { x[field] = val; save(); } }
+  return { load, save, get, upsert, del, toggle, setF };
 })();
 
-// ── ACTIVE CLIENT ─────────────────────────────────────────────
+// ─────────────────────────────────────────────
+// ACTIVE CLIENT
+// ─────────────────────────────────────────────
 let activeClient = 'all';
 
-function switchClient(id) {
+function setClient(id) {
   activeClient = id;
-  renderClientBar();
-  RENDERERS[activeTab]?.();
+  renderClientSwitcher();
+  renderTab(activeTab);
 }
 
-function filterByClient(items) {
+function forClient(items) {
   if (activeClient === 'all') return items;
   return items.filter(x => x.clientId === activeClient);
 }
 
-function getClientColor(id) {
+function clientColor(id) {
   const c = State.get('clients').find(x => x.id === id);
-  return c ? c.color : '#888';
+  return c ? c.color : '#94a3b8';
 }
-function getClientName(id) {
+function clientName(id) {
   const c = State.get('clients').find(x => x.id === id);
   return c ? c.name : '';
 }
+function clientBadge(id) {
+  if (activeClient !== 'all') return '';
+  const col = clientColor(id), name = clientName(id);
+  if (!name) return '';
+  return `<span class="badge" style="background:${col}22;color:${col}">● ${esc(name)}</span>`;
+}
 
-// ── CLIENT BAR ────────────────────────────────────────────────
-function renderClientBar() {
+// ─────────────────────────────────────────────
+// CLIENT SWITCHER
+// ─────────────────────────────────────────────
+function renderClientSwitcher() {
   const clients = State.get('clients');
-  const bar = document.getElementById('client-bar');
-  if (!bar) return;
+  const sw = document.getElementById('client-switcher');
+  if (!sw) return;
 
   const allActive = activeClient === 'all';
-  let html = `<button class="client-pill ${allActive ? 'active' : ''}" onclick="switchClient('all')" style="${allActive ? 'background:var(--surface-3);border-color:var(--text-muted);color:var(--text)' : ''}">All Clients</button>`;
+  let html = `<button class="client-btn ${allActive ? 'active' : ''}" onclick="setClient('all')"
+    style="${allActive ? 'background:var(--surface-3);border-color:var(--surface-3)' : ''}">
+    All Clients
+    <span class="client-count">${clients.length}</span>
+  </button>`;
 
   clients.forEach(c => {
     const isActive = activeClient === c.id;
-    html += `
-      <button class="client-pill ${isActive ? 'active' : ''}" onclick="switchClient('${c.id}')"
-        style="${isActive ? `background:${c.color};border-color:${c.color};` : `border-color:${c.color}33;color:${c.color}`}">
-        <span class="client-pill-dot" style="background:${c.color}"></span>
-        ${escHtml(c.name)}
-        <span class="client-pill-x" onclick="event.stopPropagation();deleteClient('${c.id}')">✕</span>
-      </button>`;
+    const count = ['coaches','reels','ctaBank','scripts','contentIdeas','contentGaps']
+      .reduce((n, s) => n + State.get(s).filter(x => x.clientId === c.id).length, 0);
+    html += `<button class="client-btn ${isActive ? 'active' : ''}" onclick="setClient('${c.id}')"
+      style="${isActive ? `background:${c.color};border-color:${c.color}` : `border-color:${c.color}44;color:${c.color}`}">
+      <span class="client-dot" style="background:${c.color}"></span>
+      ${esc(c.name)}
+      <span class="client-count">${count}</span>
+      <span class="del" onclick="event.stopPropagation();delClient('${c.id}')">✕</span>
+    </button>`;
   });
 
-  html += `<button class="client-add-btn" onclick="addClient()">+ Add Client</button>`;
-  bar.innerHTML = html;
+  html += `<button class="add-client-btn" onclick="addClientModal()">+ Add Client</button>`;
+  sw.innerHTML = html;
 }
 
-let _pendingClientColor = PALETTE[0];
+let _pickedColor = PALETTE[0];
 
-function addClient() {
-  _pendingClientColor = PALETTE[State.get('clients').length % PALETTE.length];
-  const swatches = PALETTE.map(p =>
-    `<div class="color-swatch ${p === _pendingClientColor ? 'selected' : ''}" style="background:${p}" onclick="selectClientColor('${p}', this)"></div>`
-  ).join('');
-  Modal.open('Add Client', [], () => {
-    const name = document.getElementById('new-client-name')?.value?.trim();
-    if (!name) return;
-    const c = { id: uid(), name, color: _pendingClientColor };
-    State.get('clients').push(c);
+function addClientModal() {
+  _pickedColor = PALETTE[State.get('clients').length % PALETTE.length];
+  openModal('Add a New Client', [], data => {
+    const name = document.getElementById('nc-name')?.value?.trim();
+    if (!name) return toast('Please enter a name');
+    State.get('clients').push({ id: uid(), name, color: _pickedColor });
     State.save();
-    renderClientBar();
-    toast('Client added');
-  }, {}, `
+    renderClientSwitcher();
+    toast('Client added!');
+  }, null, `
     <div class="form-field">
-      <label>Client / Niche Name</label>
-      <input type="text" id="new-client-name" placeholder="e.g. Marathon Coach, Crossfit Coach..." autofocus>
+      <label>Client or Niche Name</label>
+      <input id="nc-name" type="text" placeholder="e.g. Strength Coach, Marathon Coach..." autofocus>
     </div>
     <div class="form-field">
-      <label>Colour</label>
-      <div class="color-swatches" id="color-swatches">${swatches}</div>
+      <label>Pick a Colour</label>
+      <div class="swatches">${PALETTE.map(p => `<div class="swatch ${p===_pickedColor?'on':''}" style="background:${p}" onclick="_pickedColor='${p}';document.querySelectorAll('.swatch').forEach(s=>s.classList.remove('on'));this.classList.add('on')"></div>`).join('')}</div>
     </div>
   `);
 }
 
-function selectClientColor(color, el) {
-  _pendingClientColor = color;
-  document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
-  el.classList.add('selected');
-}
-
-function deleteClient(id) {
-  const c = getClientName(id);
-  if (!confirm(`Delete client "${c}"? Their data will stay but won't be linked to a client.`)) return;
-  const clients = State.get('clients').filter(x => x.id !== id);
-  State.get('clients').length = 0;
-  clients.forEach(x => State.get('clients').push(x));
+function delClient(id) {
+  if (!confirm(`Remove "${clientName(id)}"? Their data stays but won't be linked to a client.`)) return;
+  const arr = State.get('clients').filter(x => x.id !== id);
+  State.get('clients').length = 0; arr.forEach(x => State.get('clients').push(x));
   State.save();
   if (activeClient === id) activeClient = 'all';
-  renderClientBar();
-  RENDERERS[activeTab]?.();
+  renderClientSwitcher(); renderTab(activeTab);
 }
 
-// ── CLIENT BADGE ──────────────────────────────────────────────
-function clientBadge(clientId) {
-  if (activeClient !== 'all') return '';
-  const color = getClientColor(clientId);
-  const name = getClientName(clientId);
-  if (!name) return '';
-  return `<span class="badge" style="background:${color}22;color:${color};border:1px solid ${color}44">${escHtml(name)}</span>`;
+// ─────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────
+function uid() { return crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2); }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmt(n) { if (!n) return '—'; if (n>=1e6) return (n/1e6).toFixed(1)+'M'; if (n>=1e3) return (n/1e3).toFixed(1)+'K'; return String(n); }
+function virality(views, followers) { if (!followers) return 0; return +((views/followers)*100).toFixed(1); }
+function viralBadge(s) {
+  if (!s) return '<span class="badge badge-muted">—</span>';
+  if (s>=200) return `<span class="badge badge-red">🔥 ${s}% MEGA</span>`;
+  if (s>=50)  return `<span class="badge badge-green">⚡ ${s}% Viral</span>`;
+  if (s>=10)  return `<span class="badge badge-blue">${s}% Good</span>`;
+  return `<span class="badge badge-muted">${s}%</span>`;
 }
-
-// ── UTILS ──────────────────────────────────────────────────────
-function uid() {
-  return typeof crypto !== 'undefined' && crypto.randomUUID
-    ? crypto.randomUUID()
-    : Date.now().toString(36) + Math.random().toString(36).slice(2);
+function statusBadge(s) {
+  const m = {Idea:'s-idea',Scripted:'s-scripted',Filmed:'s-filmed',Posted:'s-posted'};
+  return `<span class="badge ${m[s]||'badge-muted'}">${s}</span>`;
 }
-function calcVirality(views, followers) {
-  if (!followers || followers === 0) return 0;
-  return +((views / followers) * 100).toFixed(1);
+function ctaBadge(t) {
+  const m = {DM:'badge-green','Link in Bio':'badge-purple',Comment:'badge-yellow',Save:'badge-blue',Follow:'badge-muted','Direct Offer':'badge-red'};
+  return `<span class="badge ${m[t]||'badge-muted'}">${t}</span>`;
 }
-function viralityBadge(score) {
-  if (!score || score === 0) return '<span class="badge badge-muted">—</span>';
-  if (score >= 200) return `<span class="badge badge-accent">🔥 ${score}% MEGA</span>`;
-  if (score >= 50)  return `<span class="badge badge-green">⚡ ${score}% Viral</span>`;
-  if (score >= 10)  return `<span class="badge badge-blue">${score}% Good</span>`;
-  return `<span class="badge badge-muted">${score}% Low</span>`;
-}
-function statusBadge(status) {
-  const map = { Idea:'badge-blue', Scripted:'badge-yellow', Filmed:'badge-accent', Posted:'badge-green' };
-  return `<span class="badge ${map[status]||'badge-muted'}">${status}</span>`;
-}
-function ctaTypeBadge(type) {
-  const map = { DM:'badge-green', 'Link in Bio':'badge-blue', Comment:'badge-yellow', Save:'badge-accent', Follow:'badge-muted', 'Direct Offer':'badge-red' };
-  return `<span class="badge ${map[type]||'badge-muted'}">${type}</span>`;
-}
-async function copyText(text, btn) {
+async function cp(text, btn) {
   try {
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(text);
-    } else {
-      const ta = document.createElement('textarea');
-      ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
-      document.body.appendChild(ta); ta.focus(); ta.select();
-      document.execCommand('copy'); document.body.removeChild(ta);
-    }
-    if (btn) {
-      const orig = btn.textContent; btn.textContent = '✓ Copied!';
-      setTimeout(() => { btn.textContent = orig; }, 1500);
-    }
-    toast('Copied to clipboard');
-  } catch(e) { toast('Copy failed — try manual select'); }
+    if (navigator.clipboard) await navigator.clipboard.writeText(text);
+    else { const ta=document.createElement('textarea'); ta.value=text; ta.style.cssText='position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
+    if (btn) { const o=btn.textContent; btn.textContent='✓ Copied!'; setTimeout(()=>btn.textContent=o,1500); }
+    toast('Copied!');
+  } catch { toast('Copy failed — select manually'); }
 }
 function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg; el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2000);
+  const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),2200);
 }
-function escHtml(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function highlightPlaceholders(text) {
-  return escHtml(text).replace(/\[([^\]]+)\]/g, '<span class="placeholder">[$1]</span>');
-}
-function fmtNum(n) {
-  if (!n) return '—';
-  if (n >= 1000000) return (n/1000000).toFixed(1)+'M';
-  if (n >= 1000) return (n/1000).toFixed(1)+'K';
-  return String(n);
+function hlPh(text) {
+  return esc(text).replace(/\[([^\]]+)\]/g, '<span class="ph">[$1]</span>');
 }
 
-// ── CLIENT FIELD HELPER ───────────────────────────────────────
-function clientField() {
-  const clients = State.get('clients');
-  return {
-    key: 'clientId', label: 'Client / Niche', type: 'select',
-    options: clients.map(c => c.id),
-    optionLabels: clients.map(c => c.name),
-    default: activeClient !== 'all' ? activeClient : (clients[0]?.id || '')
-  };
-}
+// ─────────────────────────────────────────────
+// MODAL
+// ─────────────────────────────────────────────
+let _onSave = null;
 
-// ── MODAL ──────────────────────────────────────────────────────
-const Modal = (() => {
-  let _onSubmit = null;
-  function open(title, fields, onSubmit, initial, extraHtml) {
-    _onSubmit = onSubmit;
-    document.getElementById('modal-title').textContent = title;
-    const body = document.getElementById('modal-body');
-    body.innerHTML = (extraHtml || '') + renderFields(fields, initial||{});
-    attachViralityCalc();
-    document.getElementById('modal-backdrop').classList.add('open');
-    const first = body.querySelector('input,textarea,select');
-    if (first) first.focus();
-  }
-  function close() {
-    document.getElementById('modal-backdrop').classList.remove('open');
-    _onSubmit = null;
-  }
-  function submit() {
-    if (!_onSubmit) return;
-    const form = document.getElementById('modal-body');
-    const data = {};
-    form.querySelectorAll('[data-field]').forEach(el => {
-      const f = el.dataset.field;
-      data[f] = el.type === 'number' ? (parseFloat(el.value)||0) : el.value;
-    });
-    _onSubmit(data);
-    close();
-  }
-  function renderFields(fields, initial) {
-    let rows = [];
-    let rowBuffer = [];
-    fields.forEach((f, i) => {
-      const el = renderField(f, initial[f.key]);
-      if (f.half) {
-        rowBuffer.push(el);
-        if (rowBuffer.length === 2 || i === fields.length-1) {
-          rows.push(`<div class="form-row">${rowBuffer.join('')}</div>`);
-          rowBuffer = [];
-        }
-      } else {
-        if (rowBuffer.length) { rows.push(`<div class="form-row">${rowBuffer.join('')}</div>`); rowBuffer = []; }
-        rows.push(`<div class="form-field">${el}</div>`);
-      }
-    });
-    return rows.join('');
-  }
-  function renderField(f, val) {
-    const v = val !== undefined && val !== null ? val : (f.default||'');
-    const ro = f.readonly ? 'readonly style="opacity:.6;pointer-events:none"' : '';
-    let input = '';
-    if (f.type === 'textarea') {
-      input = `<textarea data-field="${f.key}" rows="4" ${ro}>${escHtml(v)}</textarea>`;
-    } else if (f.type === 'select') {
-      let opts = '';
-      if (f.optionLabels) {
-        opts = f.options.map((o,i) => `<option value="${escHtml(o)}" ${o===v?'selected':''}>${escHtml(f.optionLabels[i])}</option>`).join('');
-      } else {
-        opts = f.options.map(o => `<option value="${escHtml(o)}" ${o===v?'selected':''}>${escHtml(o)}</option>`).join('');
-      }
-      input = `<select data-field="${f.key}" ${ro}>${opts}</select>`;
-    } else if (f.type === 'number') {
-      input = `<input type="number" data-field="${f.key}" value="${escHtml(String(v))}" min="0" ${ro}>`;
-    } else {
-      input = `<input type="text" data-field="${f.key}" value="${escHtml(v)}" placeholder="${escHtml(f.placeholder||'')}" ${ro}>`;
-    }
-    return `<div class="form-field"><label>${escHtml(f.label)}</label>${input}</div>`;
-  }
-  function attachViralityCalc() {
-    const body = document.getElementById('modal-body');
-    function update() {
-      const vEl = body.querySelector('[data-field="avgViews"],[data-field="views"]');
-      const fEl = body.querySelector('[data-field="followers"]');
-      const sEl = body.querySelector('[data-field="viralityScore"]');
-      if (vEl && fEl && sEl) {
-        const score = calcVirality(parseFloat(vEl.value)||0, parseFloat(fEl.value)||0);
-        sEl.value = score;
-      }
-    }
-    ['avgViews','views','followers'].forEach(k => {
-      const el = body.querySelector(`[data-field="${k}"]`);
-      if (el) el.addEventListener('input', update);
-    });
-  }
-  document.getElementById('modal-submit').addEventListener('click', submit);
-  document.getElementById('modal-backdrop').addEventListener('click', e => {
-    if (e.target === document.getElementById('modal-backdrop')) close();
+function openModal(title, fields, onSave, initial, extraHtml) {
+  _onSave = onSave;
+  document.getElementById('modal-title').textContent = title;
+  const body = document.getElementById('modal-body');
+  body.innerHTML = (extraHtml||'') + buildFields(fields, initial||{});
+  attachCalc();
+  document.getElementById('backdrop').classList.add('open');
+  body.querySelector('input,textarea,select')?.focus();
+}
+function closeModal() { document.getElementById('backdrop').classList.remove('open'); _onSave=null; }
+document.getElementById('modal-save').addEventListener('click', () => {
+  if (!_onSave) return;
+  const data = {};
+  document.querySelectorAll('#modal-body [data-f]').forEach(el => {
+    data[el.dataset.f] = el.type==='number' ? (parseFloat(el.value)||0) : el.value;
   });
-  document.addEventListener('keydown', e => { if (e.key==='Escape') close(); });
-  return { open, close };
-})();
+  _onSave(data); closeModal();
+});
+document.getElementById('backdrop').addEventListener('click', e => { if(e.target.id==='backdrop') closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
 
-// ── COACHES TAB ────────────────────────────────────────────────
-function coachFields() {
-  return [
-    clientField(),
-    { key:'handle', label:'Instagram Handle', placeholder:'@username' },
-    { key:'followers', label:'Followers', type:'number', half:true },
-    { key:'avgViews', label:'Avg Views / Reel', type:'number', half:true },
-    { key:'viralityScore', label:'Virality Score (auto)', type:'number', readonly:true, half:true },
-    { key:'offerType', label:'Offer Type', type:'select', options:['1:1 Coaching','Group Coaching','Training Plans','Course','Community','Hybrid','Other'], half:true },
-    { key:'primaryCTAType', label:'Primary CTA Type', type:'select', options:['DM','Link in Bio','Comment','Save','Follow','Direct Offer','Content → Podcast','DM + Community','DM + Application'] },
-    { key:'notes', label:'Notes', type:'textarea' },
-  ];
+function buildFields(fields, init) {
+  const rows = []; let buf = [];
+  fields.forEach((f, i) => {
+    const el = buildField(f, init[f.k]);
+    if (f.half) { buf.push(el); if (buf.length===2||i===fields.length-1) { rows.push(`<div class="form-row">${buf.join('')}</div>`); buf=[]; } }
+    else { if (buf.length) { rows.push(`<div class="form-row">${buf.join('')}</div>`); buf=[]; } rows.push(`<div class="form-field">${el}</div>`); }
+  });
+  return rows.join('');
+}
+function buildField(f, val) {
+  const v = val!=null ? val : (f.def||'');
+  let input='';
+  if (f.type==='textarea') input=`<textarea data-f="${f.k}" rows="3">${esc(v)}</textarea>`;
+  else if (f.type==='select') {
+    const opts = f.opts.map((o,i) => `<option value="${esc(f.vals?f.vals[i]:o)}" ${(f.vals?f.vals[i]:o)===v?'selected':''}>${esc(o)}</option>`).join('');
+    input=`<select data-f="${f.k}">${opts}</select>`;
+  } else if (f.type==='number') input=`<input type="number" data-f="${f.k}" value="${esc(String(v))}" min="0">`;
+  else if (f.readonly) input=`<input type="text" data-f="${f.k}" value="${esc(v)}" readonly style="opacity:.5;pointer-events:none">`;
+  else input=`<input type="text" data-f="${f.k}" value="${esc(v)}" placeholder="${esc(f.ph||'')}">`;
+  return `<div class="form-field"><label>${esc(f.label)}</label>${input}</div>`;
+}
+function attachCalc() {
+  const b=document.getElementById('modal-body');
+  const upd=()=>{ const v=b.querySelector('[data-f="avgViews"],[data-f="views"]'),f=b.querySelector('[data-f="followers"]'),s=b.querySelector('[data-f="viralityScore"]'); if(v&&f&&s) s.value=virality(parseFloat(v.value)||0,parseFloat(f.value)||0); };
+  ['avgViews','views','followers'].forEach(k=>b.querySelector(`[data-f="${k}"]`)?.addEventListener('input',upd));
 }
 
+// client field helper
+function cf() {
+  const clients = State.get('clients');
+  return { k:'clientId', label:'Client / Niche', type:'select',
+    opts: clients.map(c=>c.name), vals: clients.map(c=>c.id),
+    def: activeClient!=='all' ? activeClient : (clients[0]?.id||'') };
+}
+
+// ─────────────────────────────────────────────
+// TAB: COACHES
+// ─────────────────────────────────────────────
 function renderCoaches() {
-  const coaches = filterByClient(State.get('coaches'));
-  const panel = document.getElementById('panel-coaches');
-  if (!panel) return;
-  panel.innerHTML = `
-    <div class="section-header">
-      <div class="section-title">Competitor Coaches <span class="badge badge-muted" style="margin-left:6px">${coaches.length}</span></div>
-      <div class="section-actions">
-        <button class="btn btn-primary btn-sm" onclick="addCoach()">+ Add Coach</button>
+  const coaches = forClient(State.get('coaches'));
+  return `
+    <div class="page-header">
+      <div class="page-title">Competitor Coaches</div>
+      <div class="page-desc">Track what other coaches are doing — their audience size, what they offer, and how they get leads.</div>
+      <div class="page-actions">
+        <button class="btn btn-primary" onclick="addCoach()">+ Add Coach</button>
+        <span style="font-size:12px;color:var(--text-muted)">${coaches.length} coaches tracked</span>
       </div>
     </div>
     <div class="table-wrap">
       <table>
         <thead><tr>
-          <th>Handle</th><th>Followers</th><th>Avg Views</th><th>Virality</th>
-          <th>Offer</th><th>CTA Type</th>${activeClient==='all'?'<th>Client</th>':''}<th>Notes</th><th></th>
+          <th>Instagram Handle</th><th>Followers</th><th>Avg Views</th><th>Virality</th>
+          <th>What They Sell</th><th>How They Get Leads</th>
+          ${activeClient==='all'?'<th>Client</th>':''}
+          <th>Notes</th><th></th>
         </tr></thead>
         <tbody>
-          ${coaches.length ? coaches.map(c => `
+          ${coaches.length ? coaches.map(c=>`
             <tr>
-              <td><a href="https://instagram.com/${c.handle.replace('@','')}" target="_blank">${escHtml(c.handle)}</a></td>
-              <td>${fmtNum(c.followers)}</td>
-              <td>${fmtNum(c.avgViews)}</td>
-              <td>${viralityBadge(c.viralityScore)}</td>
-              <td><span class="badge badge-muted">${escHtml(c.offerType)}</span></td>
-              <td>${ctaTypeBadge(c.primaryCTAType)}</td>
+              <td><a href="https://instagram.com/${c.handle.replace('@','')}" target="_blank" style="font-weight:600">${esc(c.handle)}</a></td>
+              <td>${fmt(c.followers)}</td>
+              <td>${fmt(c.avgViews)}</td>
+              <td>${viralBadge(c.viralityScore)}</td>
+              <td><span class="badge badge-muted">${esc(c.offerType)}</span></td>
+              <td>${ctaBadge(c.ctaType)}</td>
               ${activeClient==='all'?`<td>${clientBadge(c.clientId)}</td>`:''}
-              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-muted)">${escHtml(c.notes)}</td>
+              <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-muted);font-size:12px">${esc(c.notes)}</td>
               <td><div class="td-actions">
                 <button class="btn btn-ghost btn-sm" onclick="editCoach('${c.id}')">Edit</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteCoach('${c.id}')">✕</button>
+                <button class="btn btn-danger btn-sm" onclick="if(confirm('Delete?'))State.del('coaches','${c.id}'),renderTab('Coaches')">✕</button>
               </div></td>
-            </tr>
-          `).join('') : `<tr><td colspan="9"><div class="empty">No coaches yet — add one above.</div></td></tr>`}
+            </tr>`).join('')
+          : `<tr><td colspan="9"><div class="empty">No coaches yet. Click "Add Coach" to start tracking competitors.</div></td></tr>`}
         </tbody>
       </table>
     </div>`;
 }
 
+function coachFields() {
+  return [cf(),
+    {k:'handle', label:'Instagram Handle', ph:'@username'},
+    {k:'followers', label:'Followers', type:'number', half:true},
+    {k:'avgViews', label:'Avg Views per Reel', type:'number', half:true},
+    {k:'viralityScore', label:'Virality Score (auto-calculated)', readonly:true, half:true},
+    {k:'offerType', label:'What They Sell', type:'select', half:true, opts:['1:1 Coaching','Group Coaching','Training Plans','Course','Community','Hybrid','Other']},
+    {k:'ctaType', label:'How They Get Leads', type:'select', opts:['DM','Link in Bio','Comment','Save','Follow','Direct Offer','Content → Podcast','DM + Community']},
+    {k:'notes', label:'Notes', type:'textarea'},
+  ];
+}
 function addCoach() {
-  Modal.open('Add Coach', coachFields(), data => {
-    data.id = uid(); data.createdAt = new Date().toISOString().slice(0,10);
-    data.viralityScore = calcVirality(data.avgViews, data.followers);
-    State.upsert('coaches', data); renderCoaches();
+  openModal('Add Competitor Coach', coachFields(), data => {
+    data.id=uid(); data.createdAt=new Date().toISOString().slice(0,10);
+    data.viralityScore=virality(data.avgViews,data.followers);
+    State.upsert('coaches',data); renderTab('Coaches');
   });
 }
 function editCoach(id) {
-  const c = State.get('coaches').find(x => x.id === id);
-  if (!c) return;
-  Modal.open('Edit Coach', coachFields(), data => {
-    data.id = id; data.createdAt = c.createdAt;
-    data.viralityScore = calcVirality(data.avgViews, data.followers);
-    State.upsert('coaches', data); renderCoaches();
+  const c=State.get('coaches').find(x=>x.id===id);
+  openModal('Edit Coach', coachFields(), data => {
+    data.id=id; data.createdAt=c.createdAt;
+    data.viralityScore=virality(data.avgViews,data.followers);
+    State.upsert('coaches',data); renderTab('Coaches');
   }, c);
 }
-function deleteCoach(id) {
-  if (!confirm('Delete this coach?')) return;
-  State.remove('coaches', id); renderCoaches();
-}
 
-// ── REELS TAB ─────────────────────────────────────────────────
-function reelFields() {
-  return [
-    clientField(),
-    { key:'coachHandle', label:'Coach Handle', placeholder:'@username' },
-    { key:'followers', label:'Coach Followers', type:'number', half:true },
-    { key:'views', label:'Views', type:'number', half:true },
-    { key:'viralityScore', label:'Virality Score (auto)', type:'number', readonly:true, half:true },
-    { key:'format', label:'Format', type:'select', options:['Talking Head','B-roll + Voiceover','Text on Screen','Tutorial / Demo','Transformation','Mixed'], half:true },
-    { key:'topic', label:'Topic', type:'select', options:['Training Tips','Race Strategy','Transformation','Nutrition','Mindset','Gear','Q&A','Behind the Scenes','Controversial Take','Other'] },
-    { key:'hookText', label:'Hook (exact first line)', type:'textarea' },
-    { key:'scriptSummary', label:'Script Summary', type:'textarea' },
-    { key:'ctaWording', label:'CTA — exact wording', type:'textarea' },
-    { key:'link', label:'Reel URL', placeholder:'https://instagram.com/reel/...' },
-  ];
-}
-
+// ─────────────────────────────────────────────
+// TAB: REELS
+// ─────────────────────────────────────────────
 function renderReels() {
-  const reels = filterByClient(State.get('reels'));
-  const panel = document.getElementById('panel-reels');
-  if (!panel) return;
-
-  const topics = [...new Set(reels.map(r => r.topic))].filter(Boolean);
-  const formats = [...new Set(reels.map(r => r.format))].filter(Boolean);
-
-  panel.innerHTML = `
-    <div class="section-header">
-      <div class="section-title">Reels Tracker <span class="badge badge-muted" style="margin-left:6px">${reels.length}</span></div>
-      <div class="section-actions">
-        <button class="btn btn-primary btn-sm" onclick="addReel()">+ Add Reel</button>
-      </div>
-    </div>
-    <div class="filter-bar">
-      <select id="reel-filter-topic" onchange="renderReels()">
-        <option value="">All Topics</option>
-        ${topics.map(t => `<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('')}
-      </select>
-      <select id="reel-filter-format" onchange="renderReels()">
-        <option value="">All Formats</option>
-        ${formats.map(f => `<option value="${escHtml(f)}">${escHtml(f)}</option>`).join('')}
-      </select>
-    </div>
-    <div class="cards-grid" id="reels-grid"></div>`;
-
-  const topicFilter = document.getElementById('reel-filter-topic')?.value || '';
-  const formatFilter = document.getElementById('reel-filter-format')?.value || '';
-  const filtered = reels.filter(r =>
-    (!topicFilter || r.topic === topicFilter) &&
-    (!formatFilter || r.format === formatFilter)
-  );
-
-  const grid = document.getElementById('reels-grid');
-  if (!grid) return;
-  if (!filtered.length) { grid.innerHTML = '<div class="empty"><p>No reels found. Add one above.</p></div>'; return; }
-
-  grid.innerHTML = filtered.map(r => `
-    <div class="card">
-      <div class="card-tags">
-        ${clientBadge(r.clientId)}
-        ${viralityBadge(r.viralityScore)}
-        <span class="badge badge-muted">${escHtml(r.format||'—')}</span>
-        <span class="badge badge-blue">${escHtml(r.topic||'—')}</span>
-      </div>
-      <div class="card-hook">"${escHtml(r.hookText)}"</div>
-      <div class="card-body">${escHtml(r.scriptSummary)}</div>
-      <div style="font-size:12px;color:var(--accent);font-weight:600">CTA:</div>
-      <div class="card-body" style="color:var(--text)">${escHtml(r.ctaWording)}</div>
-      <div class="card-footer">
-        <div style="font-size:12px;color:var(--text-muted)">${escHtml(r.coachHandle||'')}</div>
-        <div class="card-actions">
-          ${r.link ? `<a href="${escHtml(r.link)}" target="_blank" class="btn btn-ghost btn-sm">View ↗</a>` : ''}
-          <button class="btn btn-ghost btn-sm" onclick="editReel('${r.id}')">Edit</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteReel('${r.id}')">✕</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function addReel() {
-  Modal.open('Add Reel', reelFields(), data => {
-    data.id = uid(); data.dateAdded = new Date().toISOString().slice(0,10);
-    data.viralityScore = calcVirality(data.views, data.followers);
-    State.upsert('reels', data); renderReels();
-  });
-}
-function editReel(id) {
-  const r = State.get('reels').find(x => x.id === id);
-  if (!r) return;
-  Modal.open('Edit Reel', reelFields(), data => {
-    data.id = id; data.dateAdded = r.dateAdded;
-    data.viralityScore = calcVirality(data.views, data.followers);
-    State.upsert('reels', data); renderReels();
-  }, r);
-}
-function deleteReel(id) {
-  if (!confirm('Delete this reel?')) return;
-  State.remove('reels', id); renderReels();
-}
-
-// ── CTA BANK TAB ──────────────────────────────────────────────
-const CTA_TYPES = ['DM','Comment','Save','Link in Bio','Follow','Direct Offer'];
-const CTA_TYPE_COLORS = { DM:'var(--green)', Comment:'var(--yellow)', Save:'var(--accent)', 'Link in Bio':'var(--blue)', Follow:'var(--text-muted)', 'Direct Offer':'var(--red)' };
-
-function renderCTABank() {
-  const allCtas = filterByClient(State.get('ctaBank'));
-  const panel = document.getElementById('panel-cta-bank');
-  if (!panel) return;
-
-  const total = allCtas.length;
-  const usedCount = allCtas.filter(c => c.usedIt).length;
-
-  panel.innerHTML = `
-    <div class="section-header">
-      <div class="section-title">CTA Bank</div>
-      <div class="section-actions">
-        <span style="font-size:12px;color:var(--text-muted)">${usedCount}/${total} used</span>
-      </div>
-    </div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Click <strong>Copy</strong> to copy the CTA. Toggle <strong>Used It</strong> to track what you've already deployed. DM CTAs convert 12–25% vs 1.5–3% for link-in-bio.</p>
-    ${CTA_TYPES.map(type => {
-      const items = allCtas.filter(c => c.type === type);
-      const usedInType = items.filter(c => c.usedIt).length;
-      const safeType = type.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'');
-      return `
-        <div class="cta-section">
-          <div class="cta-section-header">
-            <div class="cta-section-title" style="color:${CTA_TYPE_COLORS[type]||'var(--text)'}">${type}</div>
-            <div class="cta-count">${items.length} CTAs · ${usedInType} used</div>
-            <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="addCTA('${safeType}','${escHtml(type)}')">+ Add</button>
-          </div>
-          <div class="cta-chips">
-            ${items.map(c => `
-              <div class="cta-chip ${c.usedIt?'used':''}" id="cta-chip-${c.id}">
-                <div class="cta-chip-text">${clientBadge(c.clientId)} ${escHtml(c.text)}</div>
-                <div class="cta-chip-actions">
-                  <button class="btn btn-ghost btn-sm" onclick="copyCTA('${escHtml(c.id)}','${escHtml(c.text.replace(/'/g,"\\'"))}',this)">Copy</button>
-                  <button class="btn btn-ghost btn-sm" onclick="toggleCTA('${c.id}')">${c.usedIt ? '✓ Used' : 'Used It'}</button>
-                  <button class="btn btn-danger btn-sm" onclick="deleteCTA('${c.id}')">✕</button>
-                </div>
-              </div>
-            `).join('') || '<div style="font-size:13px;color:var(--text-muted);padding:8px 0">None yet — add one above.</div>'}
-          </div>
-          <div class="cta-inline-form" id="cta-form-${safeType}" style="display:none">
-            <input type="text" id="cta-input-${safeType}" placeholder="Enter new ${escHtml(type)} CTA..." onkeydown="if(event.key==='Enter')saveCTA('${safeType}','${escHtml(type)}')">
-            <button class="btn btn-primary btn-sm" onclick="saveCTA('${safeType}','${escHtml(type)}')">Add</button>
-            <button class="btn btn-ghost btn-sm" onclick="cancelCTA('${safeType}')">✕</button>
-          </div>
-        </div>`;
-    }).join('')}`;
-}
-
-function addCTA(safeType, type) {
-  const form = document.getElementById(`cta-form-${safeType}`);
-  if (form) { form.style.display = 'flex'; document.getElementById(`cta-input-${safeType}`)?.focus(); }
-}
-function cancelCTA(safeType) {
-  const form = document.getElementById(`cta-form-${safeType}`);
-  if (form) { form.style.display = 'none'; const inp = document.getElementById(`cta-input-${safeType}`); if(inp) inp.value = ''; }
-}
-function saveCTA(safeType, type) {
-  const inp = document.getElementById(`cta-input-${safeType}`);
-  if (!inp || !inp.value.trim()) return;
-  const clients = State.get('clients');
-  const clientId = activeClient !== 'all' ? activeClient : (clients[0]?.id || '');
-  State.upsert('ctaBank', { id:uid(), clientId, type, text:inp.value.trim(), usedIt:false, createdAt:new Date().toISOString().slice(0,10) });
-  renderCTABank();
-}
-function copyCTA(id, text, btn) { copyText(text, btn); }
-function toggleCTA(id) { State.toggle('ctaBank', id, 'usedIt'); renderCTABank(); }
-function deleteCTA(id) { if (!confirm('Delete this CTA?')) return; State.remove('ctaBank', id); renderCTABank(); }
-
-// ── SCRIPTS TAB ───────────────────────────────────────────────
-function scriptFields() {
-  return [
-    clientField(),
-    { key:'title', label:'Script Title', placeholder:'e.g. The Mistake Hook', half:true },
-    { key:'type', label:'Type', type:'select', options:['Mistake','Transformation','Contrarian','Q&A','Stats / Data','Day in the Life','Tutorial','Other'], half:true },
-    { key:'templateText', label:'Script Template (use [BRACKET] for placeholders)', type:'textarea' },
-    { key:'notes', label:'Notes / When to use', type:'textarea' },
-  ];
-}
-
-function renderScripts() {
-  const scripts = filterByClient(State.get('scripts'));
-  const panel = document.getElementById('panel-scripts');
-  if (!panel) return;
-  panel.innerHTML = `
-    <div class="section-header">
-      <div class="section-title">Script Templates <span class="badge badge-muted" style="margin-left:6px">${scripts.length}</span></div>
-      <div class="section-actions">
-        <button class="btn btn-primary btn-sm" onclick="addScript()">+ Add Script</button>
+  const all = forClient(State.get('reels'));
+  const topics = [...new Set(all.map(r=>r.topic))].filter(Boolean);
+  const tFilter = document.getElementById('rf-topic')?.value||'';
+  const reels = all.filter(r=>!tFilter||r.topic===tFilter);
+  return `
+    <div class="page-header">
+      <div class="page-title">Reels Research</div>
+      <div class="page-desc">Top-performing Reels you've found — hooks, scripts, and CTAs that work.</div>
+      <div class="page-actions">
+        <button class="btn btn-primary" onclick="addReel()">+ Add Reel</button>
+        <select id="rf-topic" onchange="renderTab('Reels')" style="max-width:180px">
+          <option value="">All Topics</option>
+          ${topics.map(t=>`<option value="${esc(t)}" ${t===tFilter?'selected':''}>${esc(t)}</option>`).join('')}
+        </select>
+        <span style="font-size:12px;color:var(--text-muted)">${reels.length} reels</span>
       </div>
     </div>
     <div class="cards-grid">
-      ${scripts.map(s => `
+      ${reels.length ? reels.map(r=>`
         <div class="card">
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-            <div class="card-title">${escHtml(s.title)}</div>
-            <span class="badge badge-accent">${escHtml(s.type)}</span>
-            ${clientBadge(s.clientId)}
+          <div class="card-tags">
+            ${viralBadge(r.viralityScore)}
+            <span class="badge badge-muted">${esc(r.format||'—')}</span>
+            <span class="badge badge-blue">${esc(r.topic||'—')}</span>
+            ${clientBadge(r.clientId)}
           </div>
-          <pre class="script-template-text">${highlightPlaceholders(s.templateText)}</pre>
-          ${s.notes ? `<div class="card-body" style="border-top:1px solid var(--border);padding-top:10px"><strong style="font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-muted)">Notes</strong><br>${escHtml(s.notes)}</div>` : ''}
+          <div class="card-hook">"${esc(r.hookText)}"</div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px">Script Summary</div>
+            <div class="card-body">${esc(r.scriptSummary)}</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px">Call to Action</div>
+            <div style="font-size:13px;color:var(--blue);line-height:1.5">${esc(r.ctaWording)}</div>
+          </div>
           <div class="card-footer">
+            <div style="font-size:12px;color:var(--text-muted)">${esc(r.coachHandle||'Unknown coach')}</div>
             <div class="card-actions">
-              <button class="btn btn-ghost btn-sm" onclick="copyScriptFill('${s.id}', this)">Copy (blanks)</button>
-              <button class="btn btn-ghost btn-sm" onclick="copyScriptRaw('${s.id}', this)">Copy (template)</button>
-              <button class="btn btn-ghost btn-sm" onclick="editScript('${s.id}')">Edit</button>
-              <button class="btn btn-danger btn-sm" onclick="deleteScript('${s.id}')">✕</button>
+              ${r.link?`<a href="${esc(r.link)}" target="_blank" class="btn btn-ghost btn-sm">View Reel ↗</a>`:''}
+              <button class="btn btn-ghost btn-sm" onclick="editReel('${r.id}')">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="if(confirm('Delete?'))State.del('reels','${r.id}'),renderTab('Reels')">✕</button>
             </div>
           </div>
-        </div>
-      `).join('') || '<div class="empty"><p>No scripts yet.</p></div>'}
+        </div>`).join('')
+      : '<div class="empty">No reels yet. Add one above to start building your research library.</div>'}
     </div>`;
 }
 
-function copyScriptFill(id, btn) {
-  const s = State.get('scripts').find(x => x.id === id);
-  if (!s) return;
-  copyText(s.templateText.replace(/\[([^\]]+)\]/g, '______'), btn);
+function reelFields() {
+  return [cf(),
+    {k:'coachHandle', label:'Coach Handle', ph:'@username', half:true},
+    {k:'followers', label:'Coach Followers', type:'number', half:true},
+    {k:'views', label:'Views', type:'number', half:true},
+    {k:'viralityScore', label:'Virality Score (auto)', readonly:true, half:true},
+    {k:'format', label:'Video Format', type:'select', half:true, opts:['Talking Head','B-roll + Voiceover','Text on Screen','Tutorial / Demo','Transformation','Mixed']},
+    {k:'topic', label:'Topic', type:'select', half:true, opts:['Training Tips','Race Strategy','Transformation','Nutrition','Mindset','Gear','Q&A','Behind the Scenes','Controversial Take','Other']},
+    {k:'hookText', label:'Hook — exact opening line', type:'textarea'},
+    {k:'scriptSummary', label:'Script Summary', type:'textarea'},
+    {k:'ctaWording', label:'Call to Action — exact wording', type:'textarea'},
+    {k:'link', label:'Reel URL (optional)', ph:'https://instagram.com/reel/...'},
+  ];
 }
-function copyScriptRaw(id, btn) {
-  const s = State.get('scripts').find(x => x.id === id);
-  if (s) copyText(s.templateText, btn);
+function addReel() {
+  openModal('Add Reel', reelFields(), data => {
+    data.id=uid(); data.dateAdded=new Date().toISOString().slice(0,10);
+    data.viralityScore=virality(data.views,data.followers);
+    State.upsert('reels',data); renderTab('Reels');
+  });
+}
+function editReel(id) {
+  const r=State.get('reels').find(x=>x.id===id);
+  openModal('Edit Reel', reelFields(), data => {
+    data.id=id; data.dateAdded=r.dateAdded;
+    data.viralityScore=virality(data.views,data.followers);
+    State.upsert('reels',data); renderTab('Reels');
+  }, r);
+}
+
+// ─────────────────────────────────────────────
+// TAB: CTA BANK
+// ─────────────────────────────────────────────
+function renderCTABank() {
+  const ctas = forClient(State.get('ctaBank'));
+  const used = ctas.filter(c=>c.usedIt).length;
+  let html = `
+    <div class="page-header">
+      <div class="page-title">CTA Bank</div>
+      <div class="page-desc">Ready-to-use calls to action. Copy any CTA and use it in your next Reel. Mark it as "Used" to track what's been deployed.</div>
+    </div>
+    <div class="tip"><strong>Tip:</strong> DM CTAs convert at 12–25%. Link in Bio converts at 1.5–3%. Use DM CTAs whenever possible. &nbsp;·&nbsp; ${used}/${ctas.length} CTAs used so far.</div>`;
+
+  CTA_TYPES.forEach(type => {
+    const items = ctas.filter(c=>c.type===type);
+    const safe = type.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'');
+    html += `
+      <div class="cta-group">
+        <div class="cta-group-title">
+          <span style="color:${CTA_COLORS[type]||'var(--text)'}">▸ ${type}</span>
+          <span style="font-weight:400">${items.filter(c=>c.usedIt).length}/${items.length} used &nbsp;
+            <button class="btn btn-ghost btn-sm" onclick="showCTAForm('${safe}')">+ Add</button>
+          </span>
+        </div>
+        <div class="cta-list">
+          ${items.map(c=>`
+            <div class="cta-item ${c.usedIt?'used':''}">
+              <div class="cta-item-text">${clientBadge(c.clientId)} ${esc(c.text)}</div>
+              <div class="cta-item-actions">
+                <button class="btn btn-ghost btn-sm" onclick="cp('${esc(c.text.replace(/'/g,"\\'"))}',this)">Copy</button>
+                <button class="btn btn-ghost btn-sm" onclick="State.toggle('ctaBank','${c.id}','usedIt');renderTab('CTA Bank')" title="${c.usedIt?'Mark unused':'Mark as used'}">${c.usedIt?'✓ Used':'Used It'}</button>
+                <button class="btn btn-danger btn-sm" onclick="if(confirm('Delete?'))State.del('ctaBank','${c.id}'),renderTab('CTA Bank')">✕</button>
+              </div>
+            </div>`).join('') || `<div style="font-size:13px;color:var(--text-muted);padding:8px 0">None yet — click "+ Add" above.</div>`}
+        </div>
+        <div class="cta-add-row" id="cta-add-${safe}" style="display:none">
+          <input id="cta-inp-${safe}" type="text" placeholder="Type your ${type} CTA here..." onkeydown="if(event.key==='Enter')saveCTA('${safe}','${esc(type)}')">
+          <button class="btn btn-primary btn-sm" onclick="saveCTA('${safe}','${esc(type)}')">Add</button>
+          <button class="btn btn-ghost btn-sm" onclick="document.getElementById('cta-add-${safe}').style.display='none'">✕</button>
+        </div>
+      </div>`;
+  });
+  return html;
+}
+function showCTAForm(safe) { const el=document.getElementById(`cta-add-${safe}`); if(el){el.style.display='flex'; el.querySelector('input')?.focus();} }
+function saveCTA(safe, type) {
+  const inp=document.getElementById(`cta-inp-${safe}`);
+  if(!inp||!inp.value.trim()) return;
+  const clients=State.get('clients');
+  const clientId=activeClient!=='all'?activeClient:(clients[0]?.id||'');
+  State.upsert('ctaBank',{id:uid(),clientId,type,text:inp.value.trim(),usedIt:false});
+  renderTab('CTA Bank');
+}
+
+// ─────────────────────────────────────────────
+// TAB: SCRIPTS
+// ─────────────────────────────────────────────
+function renderScripts() {
+  const scripts = forClient(State.get('scripts'));
+  return `
+    <div class="page-header">
+      <div class="page-title">Script Templates</div>
+      <div class="page-desc">Fill-in-the-blank scripts based on the highest-converting Reels patterns. Click "Copy" to grab one and fill in the brackets.</div>
+      <div class="page-actions">
+        <button class="btn btn-primary" onclick="addScript()">+ Add Script</button>
+      </div>
+    </div>
+    <div class="cards-grid">
+      ${scripts.map(s=>`
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div class="card-title">${esc(s.title)}</div>
+            <span class="badge badge-blue">${esc(s.type)}</span>
+            ${clientBadge(s.clientId)}
+          </div>
+          <pre class="script-body">${hlPh(s.templateText)}</pre>
+          ${s.notes?`<div class="card-body" style="border-top:1px solid var(--border);padding-top:10px;font-size:12px"><strong style="color:var(--text-muted)">WHEN TO USE:</strong> ${esc(s.notes)}</div>`:''}
+          <div class="card-footer">
+            <div class="card-actions">
+              <button class="btn btn-primary btn-sm" onclick="cp(State.get('scripts').find(x=>x.id==='${s.id}').templateText.replace(/\\[([^\\]]+)\\]/g,'______'),this)">Copy with Blanks</button>
+              <button class="btn btn-ghost btn-sm" onclick="cp(State.get('scripts').find(x=>x.id==='${s.id}').templateText,this)">Copy Template</button>
+              <button class="btn btn-ghost btn-sm" onclick="editScript('${s.id}')">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="if(confirm('Delete?'))State.del('scripts','${s.id}'),renderTab('Scripts')">✕</button>
+            </div>
+          </div>
+        </div>`).join('')||'<div class="empty">No scripts yet.</div>'}
+    </div>`;
+}
+function scriptFields() {
+  return [cf(),
+    {k:'title', label:'Script Name', ph:'e.g. The Mistake Hook', half:true},
+    {k:'type', label:'Type', type:'select', half:true, opts:['Mistake','Transformation','Contrarian','Q&A','Stats / Data','Day in the Life','Tutorial','Other']},
+    {k:'templateText', label:'Script — use [BRACKETS] for fill-in parts', type:'textarea'},
+    {k:'notes', label:'When to use this script', type:'textarea'},
+  ];
 }
 function addScript() {
-  Modal.open('Add Script Template', scriptFields(), data => {
-    data.id = uid(); data.createdAt = new Date().toISOString().slice(0,10);
-    State.upsert('scripts', data); renderScripts();
+  openModal('Add Script Template', scriptFields(), data => {
+    data.id=uid(); State.upsert('scripts',data); renderTab('Scripts');
   });
 }
 function editScript(id) {
-  const s = State.get('scripts').find(x => x.id === id);
-  if (!s) return;
-  Modal.open('Edit Script', scriptFields(), data => {
-    data.id = id; data.createdAt = s.createdAt;
-    State.upsert('scripts', data); renderScripts();
+  const s=State.get('scripts').find(x=>x.id===id);
+  openModal('Edit Script', scriptFields(), data => {
+    data.id=id; State.upsert('scripts',data); renderTab('Scripts');
   }, s);
 }
-function deleteScript(id) {
-  if (!confirm('Delete this script?')) return;
-  State.remove('scripts', id); renderScripts();
-}
 
-// ── CONTENT IDEAS TAB ─────────────────────────────────────────
-function ideaFields() {
-  return [
-    clientField(),
-    { key:'title', label:'Title' },
-    { key:'hook', label:'Hook (exact opening line)', type:'textarea' },
-    { key:'scriptOutline', label:'Script Outline', type:'textarea' },
-    { key:'ctaRecommendation', label:'CTA Recommendation', type:'textarea' },
-    { key:'status', label:'Status', type:'select', options:['Idea','Scripted','Filmed','Posted'] },
-  ];
-}
-const KANBAN_STATUSES = ['Idea','Scripted','Filmed','Posted'];
-
+// ─────────────────────────────────────────────
+// TAB: CONTENT IDEAS
+// ─────────────────────────────────────────────
 function renderContentIdeas() {
-  const ideas = filterByClient(State.get('contentIdeas'));
-  const panel = document.getElementById('panel-content-ideas');
-  if (!panel) return;
-
-  const cols = KANBAN_STATUSES.map(status => {
-    const items = ideas.filter(i => i.status === status);
+  const ideas = forClient(State.get('contentIdeas'));
+  const cols = KANBAN_COLS.map(status => {
+    const items = ideas.filter(i=>i.status===status);
     return `
-      <div class="kanban-col" data-status="${status}">
-        <div class="kanban-col-header">
-          ${status}
-          <span class="k-count">${items.length}</span>
-        </div>
-        ${items.map(i => `
-          <div class="kanban-card" onclick="openIdeaDetail('${i.id}')">
-            <div class="kanban-card-title">${escHtml(i.title)}</div>
-            <div class="kanban-card-hook">"${escHtml(i.hook)}"</div>
-            <div class="kanban-card-footer">
+      <div class="k-col" data-s="${status}">
+        <div class="k-col-header">${status} <span class="k-count">${items.length}</span></div>
+        ${items.map(i=>`
+          <div class="k-card" onclick="openIdeaDetail('${i.id}')">
+            <div class="k-card-title">${esc(i.title)}</div>
+            <div class="k-card-hook">"${esc(i.hook)}"</div>
+            <div class="k-card-footer">
               ${clientBadge(i.clientId)}
-              <select class="status-select" onclick="event.stopPropagation()" onchange="moveIdea('${i.id}', this.value)" style="background:var(--surface-3);border:none;color:var(--text-muted)">
-                ${KANBAN_STATUSES.map(s => `<option value="${s}" ${s===i.status?'selected':''}>${s}</option>`).join('')}
+              <select class="btn btn-ghost btn-sm" onclick="event.stopPropagation()" onchange="State.setF('contentIdeas','${i.id}','status',this.value);renderTab('Content Ideas')" style="width:auto;padding:3px 8px">
+                ${KANBAN_COLS.map(s=>`<option ${s===i.status?'selected':''}>${s}</option>`).join('')}
               </select>
-              <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteIdea('${i.id}')">✕</button>
+              <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();if(confirm('Delete?'))State.del('contentIdeas','${i.id}'),renderTab('Content Ideas')">✕</button>
             </div>
-          </div>
-        `).join('') || '<div style="font-size:12px;color:var(--text-muted);padding:8px 0">Empty</div>'}
+          </div>`).join('')||`<div style="font-size:12px;color:var(--text-muted);padding:6px 0">Empty</div>`}
       </div>`;
   }).join('');
 
-  panel.innerHTML = `
-    <div class="section-header">
-      <div class="section-title">Content Ideas <span class="badge badge-muted" style="margin-left:6px">${ideas.length}</span></div>
-      <div class="section-actions">
-        <button class="btn btn-primary btn-sm" onclick="addIdea()">+ Add Idea</button>
+  return `
+    <div class="page-header">
+      <div class="page-title">Content Ideas</div>
+      <div class="page-desc">Move ideas through the pipeline — from idea to posted. Click any card to see the full hook, script, and CTA.</div>
+      <div class="page-actions">
+        <button class="btn btn-primary" onclick="addIdea()">+ Add Idea</button>
+        <span style="font-size:12px;color:var(--text-muted)">${ideas.filter(i=>i.status==='Posted').length} posted · ${ideas.length} total</span>
       </div>
     </div>
     <div class="kanban">${cols}</div>
-    <div id="idea-detail" style="margin-top:16px"></div>`;
+    <div id="idea-detail"></div>`;
 }
 
 function openIdeaDetail(id) {
-  const i = State.get('contentIdeas').find(x => x.id === id);
-  if (!i) return;
-  const el = document.getElementById('idea-detail');
-  if (!el) return;
-  el.innerHTML = `
-    <div class="card" style="max-width:680px">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
-        <div class="card-title" style="font-size:16px">${escHtml(i.title)}</div>
-        <div style="display:flex;gap:6px">${statusBadge(i.status)} ${clientBadge(i.clientId)}</div>
+  const i=State.get('contentIdeas').find(x=>x.id===id);
+  if(!i) return;
+  const el=document.getElementById('idea-detail');
+  if(!el) return;
+  el.innerHTML=`
+    <div class="detail-panel">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div style="font-size:16px;font-weight:700">${esc(i.title)}</div>
+        ${statusBadge(i.status)} ${clientBadge(i.clientId)}
       </div>
-      <div><strong style="font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-muted)">Hook</strong><div class="card-hook" style="margin-top:4px">"${escHtml(i.hook)}"</div></div>
-      <div><strong style="font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-muted)">Script Outline</strong><div class="card-body" style="margin-top:4px;white-space:pre-wrap">${escHtml(i.scriptOutline)}</div></div>
-      <div><strong style="font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-muted)">CTA</strong><div style="margin-top:4px;font-size:13px;color:var(--accent)">${escHtml(i.ctaRecommendation)}</div></div>
+      <div><div class="detail-label">Opening Hook</div><div class="card-hook">"${esc(i.hook)}"</div></div>
+      <div><div class="detail-label">Script Outline</div><div class="card-body" style="white-space:pre-wrap">${esc(i.scriptOutline)}</div></div>
+      <div><div class="detail-label">Call to Action</div><div style="font-size:13px;color:var(--blue);line-height:1.5">${esc(i.ctaRecommendation)}</div></div>
       <div class="card-footer">
-        <button class="btn btn-ghost btn-sm" onclick="copyText(${JSON.stringify(i.hook + '\n\n' + i.scriptOutline + '\n\nCTA: ' + i.ctaRecommendation)}, this)">Copy Brief</button>
+        <button class="btn btn-primary btn-sm" onclick="cp(${JSON.stringify(i.hook+'\n\n'+i.scriptOutline+'\n\nCTA: '+i.ctaRecommendation)},this)">Copy Full Brief</button>
         <button class="btn btn-ghost btn-sm" onclick="editIdea('${i.id}')">Edit</button>
         <button class="btn btn-ghost btn-sm" onclick="document.getElementById('idea-detail').innerHTML=''">Close</button>
       </div>
     </div>`;
 }
-
-function moveIdea(id, status) {
-  State.setField('contentIdeas', id, 'status', status);
-  renderContentIdeas();
+function ideaFields() {
+  return [cf(),
+    {k:'title', label:'Idea Title', ph:'e.g. The DNF Reframe'},
+    {k:'hook', label:'Opening Hook — first line (make it stop the scroll)', type:'textarea'},
+    {k:'scriptOutline', label:'Script Outline', type:'textarea'},
+    {k:'ctaRecommendation', label:'Call to Action', type:'textarea'},
+    {k:'status', label:'Stage', type:'select', opts:['Idea','Scripted','Filmed','Posted']},
+  ];
 }
 function addIdea() {
-  Modal.open('Add Content Idea', ideaFields(), data => {
-    data.id = uid(); data.createdAt = new Date().toISOString().slice(0,10);
-    State.upsert('contentIdeas', data); renderContentIdeas();
+  openModal('Add Content Idea', ideaFields(), data => {
+    data.id=uid(); data.createdAt=new Date().toISOString().slice(0,10);
+    State.upsert('contentIdeas',data); renderTab('Content Ideas');
   });
 }
 function editIdea(id) {
-  const i = State.get('contentIdeas').find(x => x.id === id);
-  if (!i) return;
-  Modal.open('Edit Idea', ideaFields(), data => {
-    data.id = id; data.createdAt = i.createdAt;
-    State.upsert('contentIdeas', data); renderContentIdeas();
+  const i=State.get('contentIdeas').find(x=>x.id===id);
+  openModal('Edit Idea', ideaFields(), data => {
+    data.id=id; data.createdAt=i.createdAt;
+    State.upsert('contentIdeas',data); renderTab('Content Ideas');
   }, i);
 }
-function deleteIdea(id) {
-  if (!confirm('Delete this idea?')) return;
-  State.remove('contentIdeas', id); renderContentIdeas();
-}
 
-// ── CONTENT GAPS TAB ──────────────────────────────────────────
+// ─────────────────────────────────────────────
+// TAB: GAPS
+// ─────────────────────────────────────────────
 function renderGaps() {
-  const gaps = filterByClient(State.get('contentGaps'));
-  const panel = document.getElementById('panel-gaps');
-  if (!panel) return;
-  const covered = gaps.filter(g => g.covered).length;
-  panel.innerHTML = `
-    <div class="section-header">
-      <div class="section-title">Content Gaps <span class="badge badge-muted" style="margin-left:6px">${gaps.length - covered} open · ${covered} covered</span></div>
-      <div class="section-actions">
-        ${covered > 0 ? `<button class="btn btn-ghost btn-sm" onclick="clearCoveredGaps()">Clear Covered</button>` : ''}
+  const gaps = forClient(State.get('contentGaps'));
+  const open = gaps.filter(g=>!g.covered).length;
+  const done = gaps.filter(g=>g.covered).length;
+  return `
+    <div class="page-header">
+      <div class="page-title">Content Gaps</div>
+      <div class="page-desc">Topics your audience wants that competitors aren't covering well. Tick them off as you create content for each one.</div>
+      <div class="page-actions">
+        ${done?`<button class="btn btn-ghost" onclick="clearDoneGaps()">Clear Completed (${done})</button>`:''}
+        <span style="font-size:12px;color:var(--text-muted)">${open} open · ${done} covered</span>
       </div>
     </div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Topics your audience wants that competitors aren't covering well. Check these off as you create content for them.</p>
-    <div class="gaps-list">
-      ${gaps.map(g => `
-        <div class="gap-item ${g.covered?'covered':''}" id="gap-${g.id}">
-          <input type="checkbox" class="gap-checkbox" ${g.covered?'checked':''} onchange="toggleGap('${g.id}')">
-          <div class="gap-text">${clientBadge(g.clientId)} ${escHtml(g.topic)}</div>
-          <button class="btn btn-danger btn-sm" onclick="deleteGap('${g.id}')">✕</button>
-        </div>
-      `).join('') || '<div class="empty"><p>No gaps recorded yet.</p></div>'}
-    </div>
-    <div class="gaps-inline-form" style="max-width:680px;margin-top:12px">
-      <input type="text" id="gap-input" placeholder="Describe a content gap you've spotted..." onkeydown="if(event.key==='Enter')saveGap()">
-      <button class="btn btn-primary btn-sm" onclick="saveGap()">Add</button>
+    <div class="tip"><strong>Opportunity:</strong> Each unchecked gap below is a Reel idea that your competitors aren't making. Start with the one your audience mentions most.</div>
+    ${gaps.map(g=>`
+      <div class="gap-item ${g.covered?'done':''}">
+        <input type="checkbox" class="gap-check" ${g.covered?'checked':''} onchange="State.toggle('contentGaps','${g.id}','covered');renderTab('Gaps')">
+        <div class="gap-text">${clientBadge(g.clientId)} ${esc(g.topic)}</div>
+        <button class="btn btn-danger btn-sm" onclick="if(confirm('Delete?'))State.del('contentGaps','${g.id}'),renderTab('Gaps')">✕</button>
+      </div>`).join('')||'<div class="empty">No gaps recorded yet — add one below.</div>'}
+    <div class="gap-add">
+      <input id="gap-inp" type="text" placeholder="Describe a topic your audience wants but isn't being covered..." onkeydown="if(event.key==='Enter')saveGap()">
+      <button class="btn btn-primary" onclick="saveGap()">Add Gap</button>
     </div>`;
 }
-
-function toggleGap(id) { State.toggle('contentGaps', id, 'covered'); renderGaps(); }
-function deleteGap(id) { if (!confirm('Delete this gap?')) return; State.remove('contentGaps', id); renderGaps(); }
 function saveGap() {
-  const inp = document.getElementById('gap-input');
-  if (!inp || !inp.value.trim()) return;
-  const clients = State.get('clients');
-  const clientId = activeClient !== 'all' ? activeClient : (clients[0]?.id || '');
-  State.upsert('contentGaps', { id:uid(), clientId, topic:inp.value.trim(), covered:false, createdAt:new Date().toISOString().slice(0,10) });
-  renderGaps();
+  const inp=document.getElementById('gap-inp');
+  if(!inp||!inp.value.trim()) return;
+  const clients=State.get('clients');
+  const clientId=activeClient!=='all'?activeClient:(clients[0]?.id||'');
+  State.upsert('contentGaps',{id:uid(),clientId,topic:inp.value.trim(),covered:false});
+  renderTab('Gaps');
 }
-function clearCoveredGaps() {
-  const all = State.get('contentGaps');
-  const keep = all.filter(g => !g.covered || g.clientId !== activeClient && activeClient !== 'all');
-  all.length = 0;
-  keep.forEach(g => all.push(g));
-  State.save();
-  renderGaps();
+function clearDoneGaps() {
+  const all=State.get('contentGaps');
+  const keep=all.filter(g=>!g.covered||(activeClient!=='all'&&g.clientId!==activeClient));
+  all.length=0; keep.forEach(x=>all.push(x)); State.save(); renderTab('Gaps');
 }
 
-// ── ROUTER ────────────────────────────────────────────────────
-const RENDERERS = {
-  'Coaches': renderCoaches,
-  'Reels': renderReels,
-  'CTA Bank': renderCTABank,
-  'Scripts': renderScripts,
-  'Content Ideas': renderContentIdeas,
-  'Gaps': renderGaps,
-};
-const TAB_IDS = {
-  'Coaches':'coaches','Reels':'reels','CTA Bank':'cta-bank',
-  'Scripts':'scripts','Content Ideas':'content-ideas','Gaps':'gaps'
-};
-
+// ─────────────────────────────────────────────
+// ROUTER
+// ─────────────────────────────────────────────
+const RENDERERS = { 'Coaches':renderCoaches,'Reels':renderReels,'CTA Bank':renderCTABank,'Scripts':renderScripts,'Content Ideas':renderContentIdeas,'Gaps':renderGaps };
 let activeTab = TABS[0];
-function switchTab(name) {
+
+function renderTab(name) {
   activeTab = name;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `panel-${TAB_IDS[name]}`));
-  RENDERERS[name]?.();
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id===`panel-${TAB_IDS[name]}`));
+  const panel = document.getElementById(`panel-${TAB_IDS[name]}`);
+  if (panel) panel.innerHTML = RENDERERS[name]?.() || '';
 }
 
-// ── INIT ──────────────────────────────────────────────────────
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
 function init() {
   State.load();
+  renderClientSwitcher();
 
-  renderClientBar();
+  document.getElementById('tabs').innerHTML = TABS.map(t=>
+    `<button class="tab-btn ${t===activeTab?'active':''}" data-tab="${t}" onclick="renderTab('${t}')">${t}</button>`
+  ).join('');
 
-  const tabsEl = document.getElementById('tabs');
-  tabsEl.innerHTML = TABS.map(t => `<button class="tab-btn ${t===activeTab?'active':''}" data-tab="${t}" onclick="switchTab('${t}')">${t}</button>`).join('');
+  document.getElementById('tab-content').innerHTML = TABS.map(t=>
+    `<div class="tab-panel ${t===activeTab?'active':''}" id="panel-${TAB_IDS[t]}"></div>`
+  ).join('');
 
-  const content = document.getElementById('tab-content');
-  content.innerHTML = TABS.map(t => `<div class="tab-panel ${t===activeTab?'active':''}" id="panel-${TAB_IDS[t]}"></div>`).join('');
+  renderTab(activeTab);
 
-  RENDERERS[activeTab]?.();
-
-  const meta = State.get('meta');
-  if (meta.lastSaved) {
-    document.getElementById('last-saved').textContent = 'Last saved ' + new Date(meta.lastSaved).toLocaleString();
-  }
+  const saved = State.get('meta').lastSaved;
+  if (saved) document.getElementById('last-saved').textContent = 'Last saved ' + new Date(saved).toLocaleString();
 }
 
 init();
