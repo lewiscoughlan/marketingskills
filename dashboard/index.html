@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultra Running Coach — Instagram Research Dashboard</title>
+<style>
+:root {
+  --bg: #0f0f0f;
+  --surface: #1a1a1a;
+  --surface-2: #242424;
+  --surface-3: #2e2e2e;
+  --border: #333;
+  --text: #e5e5e5;
+  --text-muted: #888;
+  --accent: #F97316;
+  --accent-dim: rgba(249,115,22,0.12);
+  --accent-hover: #fb923c;
+  --green: #22c55e;
+  --green-dim: rgba(34,197,94,0.12);
+  --blue: #60a5fa;
+  --blue-dim: rgba(96,165,250,0.12);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.12);
+  --yellow: #fbbf24;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.5; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; font-size: inherit; color: inherit; }
+input, textarea, select { font-family: inherit; font-size: inherit; color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 12px; width: 100%; outline: none; transition: border-color .15s; }
+input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+textarea { resize: vertical; min-height: 80px; }
+select option { background: var(--surface-2); }
+label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500; letter-spacing: .3px; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Layout */
+#app { display: flex; flex-direction: column; height: 100vh; }
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.topbar-title { font-size: 15px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.topbar-title span.accent { color: var(--accent); }
+.topbar-meta { font-size: 12px; color: var(--text-muted); }
+.tabs { display: flex; gap: 2px; padding: 10px 20px 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; overflow-x: auto; }
+.tabs::-webkit-scrollbar { height: 0; }
+.tab-btn { padding: 8px 16px; border-radius: var(--radius) var(--radius) 0 0; font-size: 13px; font-weight: 500; color: var(--text-muted); transition: all .15s; white-space: nowrap; border: 1px solid transparent; border-bottom: none; margin-bottom: -1px; }
+.tab-btn:hover { color: var(--text); background: var(--surface-2); }
+.tab-btn.active { color: var(--accent); background: var(--bg); border-color: var(--border); }
+.tab-content { flex: 1; overflow-y: auto; padding: 20px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Section header */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; gap: 12px; flex-wrap: wrap; }
+.section-title { font-size: 16px; font-weight: 700; }
+.section-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius); font-size: 13px; font-weight: 500; transition: all .15s; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-ghost { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--text); border-color: var(--text-muted); }
+.btn-danger { background: var(--red-dim); color: var(--red); border: 1px solid transparent; }
+.btn-danger:hover { border-color: var(--red); }
+.btn-sm { padding: 4px 10px; font-size: 12px; }
+.btn-icon { padding: 5px; border-radius: var(--radius); background: var(--surface-2); color: var(--text-muted); }
+.btn-icon:hover { color: var(--text); }
+
+/* Table */
+.table-wrap { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; }
+th { background: var(--surface); padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface-2); }
+.td-actions { display: flex; gap: 6px; }
+
+/* Badges */
+.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-accent { background: var(--accent-dim); color: var(--accent); }
+.badge-green { background: var(--green-dim); color: var(--green); }
+.badge-blue { background: var(--blue-dim); color: var(--blue); }
+.badge-red { background: var(--red-dim); color: var(--red); }
+.badge-muted { background: var(--surface-2); color: var(--text-muted); }
+.badge-yellow { background: rgba(251,191,36,.12); color: var(--yellow); }
+
+/* Cards grid */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column; gap: 10px; transition: border-color .15s; }
+.card:hover { border-color: var(--surface-3); }
+.card-title { font-size: 14px; font-weight: 600; line-height: 1.3; }
+.card-hook { font-size: 13px; color: var(--accent); font-style: italic; line-height: 1.4; }
+.card-body { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.card-actions { display: flex; gap: 6px; }
+
+/* Virality score colors */
+.viral-mega { color: var(--accent); font-weight: 700; }
+.viral-good { color: var(--green); font-weight: 600; }
+.viral-ok { color: var(--yellow); }
+.viral-low { color: var(--text-muted); }
+
+/* CTA Bank */
+.cta-section { margin-bottom: 24px; }
+.cta-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.cta-section-title { font-size: 13px; font-weight: 700; }
+.cta-count { font-size: 11px; color: var(--text-muted); }
+.cta-chips { display: flex; flex-direction: column; gap: 8px; }
+.cta-chip { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; transition: all .15s; }
+.cta-chip.used { border-color: var(--accent); background: var(--accent-dim); }
+.cta-chip-text { flex: 1; font-size: 13px; line-height: 1.4; }
+.cta-chip-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.cta-inline-form { display: flex; gap: 8px; margin-top: 8px; }
+.cta-inline-form input { flex: 1; }
+
+/* Scripts */
+.script-template-text { font-size: 13px; line-height: 1.6; color: var(--text-muted); white-space: pre-wrap; }
+.script-template-text .placeholder { color: var(--accent); background: var(--accent-dim); padding: 0 3px; border-radius: 3px; font-style: normal; }
+
+/* Kanban */
+.kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.kanban-col { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 12px; }
+.kanban-col-header { font-size: 12px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+.kanban-col-header .k-count { background: var(--surface-2); color: var(--text-muted); padding: 1px 7px; border-radius: 20px; font-size: 11px; }
+.kanban-col[data-status="Idea"] .kanban-col-header { color: var(--blue); }
+.kanban-col[data-status="Scripted"] .kanban-col-header { color: var(--yellow); }
+.kanban-col[data-status="Filmed"] .kanban-col-header { color: var(--accent); }
+.kanban-col[data-status="Posted"] .kanban-col-header { color: var(--green); }
+.kanban-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; margin-bottom: 8px; cursor: pointer; transition: border-color .15s; }
+.kanban-card:hover { border-color: var(--accent); }
+.kanban-card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
+.kanban-card-hook { font-size: 12px; color: var(--accent); font-style: italic; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.kanban-card-footer { margin-top: 8px; display: flex; justify-content: space-between; align-items: center; }
+
+/* Gaps list */
+.gaps-list { max-width: 680px; }
+.gap-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; transition: all .15s; }
+.gap-item.covered { opacity: .45; }
+.gap-item.covered .gap-text { text-decoration: line-through; color: var(--text-muted); }
+.gap-checkbox { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; margin-top: 1px; }
+.gap-text { flex: 1; font-size: 13px; line-height: 1.5; }
+.gaps-inline-form { display: flex; gap: 8px; margin-top: 12px; max-width: 680px; }
+
+/* Modal */
+.modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+.modal-backdrop.open { display: flex; }
+.modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; }
+.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--border); }
+.modal-title { font-size: 15px; font-weight: 700; }
+.modal-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.modal-footer { padding: 16px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-field { display: flex; flex-direction: column; gap: 4px; }
+.virality-preview { font-size: 13px; padding: 8px 12px; background: var(--surface-2); border-radius: var(--radius); color: var(--text-muted); }
+
+/* Filter bar */
+.filter-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.filter-bar select, .filter-bar input { max-width: 200px; }
+
+/* Status select inline */
+.status-select { font-size: 11px; padding: 2px 6px; border-radius: 20px; appearance: none; cursor: pointer; }
+
+/* Expand detail */
+.detail-row { background: var(--surface-2); }
+.detail-row td { padding: 14px 20px; }
+.detail-content { font-size: 13px; line-height: 1.6; white-space: pre-wrap; color: var(--text-muted); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .kanban { grid-template-columns: 1fr 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .topbar { padding: 10px 14px; }
+  .tab-content { padding: 14px; }
+  .kanban { grid-template-columns: 1fr; }
+  .cards-grid { grid-template-columns: 1fr; }
+  table th:nth-child(n+5), table td:nth-child(n+5) { display: none; }
+}
+
+/* Empty state */
+.empty { text-align: center; padding: 48px 20px; color: var(--text-muted); }
+.empty p { margin-top: 8px; font-size: 13px; }
+
+/* Toast */
+.toast { position: fixed; bottom: 20px; right: 20px; background: var(--surface); border: 1px solid var(--accent); color: var(--text); padding: 10px 16px; border-radius: var(--radius); font-size: 13px; z-index: 200; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-title">🏔 Ultra Running Coach <span class="accent">Instagram Dashboard</span></div>
+    <div class="topbar-meta" id="last-saved">Not yet saved</div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div class="tab-content" id="tab-content"></div>
+</div>
+
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Add Item</div>
+      <button class="btn-icon" onclick="Modal.close()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="Modal.close()">Cancel</button>
+      <button class="btn btn-primary" id="modal-submit">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SCHEMA_VERSION = 1;
+const TABS = ['Coaches','Reels','CTA Bank','Scripts','Content Ideas','Gaps'];
+
+// ── DEFAULT DATA ──────────────────────────────────────────────
+const DEFAULT_DATA = {
+  coaches: [
+    { id:'c1', handle:'@mr.ultrarunner', followers:180000, avgViews:0, viralityScore:0, offerType:'1:1 Coaching', primaryCTAType:'Link in Bio', notes:'Evgenii Makarov. 10yr coaching, 159 marathons + 88 ultras. Ultra-endurance specialist. Very large audience — study his Reels structure.', createdAt:'2026-05-03' },
+    { id:'c2', handle:'@stephpiruns', followers:111000, avgViews:31300, viralityScore:28.2, offerType:'1:1 Coaching + Plans', primaryCTAType:'Link in Bio', notes:'Doctor of Physical Therapy. 3:03 marathon. 111K followers, avg 31.3K views. Strong lead-gen via instant-download plans as entry point.', createdAt:'2026-05-03' },
+    { id:'c3', handle:'@mountainroche', followers:102000, avgViews:0, viralityScore:0, offerType:'1:1 Coaching (Elite)', primaryCTAType:'Content → Podcast', notes:'David Roche. Coaches Tara Dower, Damian Hall, John Kelly. SWAP Running. Leadville 100 CR holder. More authority/media play than direct CTA.', createdAt:'2026-05-03' },
+    { id:'c4', handle:'@trackclubbabe', followers:362000, avgViews:0, viralityScore:0, offerType:'Training Plans + Coaching', primaryCTAType:'Link in Bio', notes:'Kim. 362K followers. Improved 6:08 → 3:11 marathon. Training plans as lead magnet. Study her hook strategy — very shareable relatable content.', createdAt:'2026-05-03' },
+    { id:'c5', handle:'@joecorcione', followers:13000, avgViews:0, viralityScore:0, offerType:'Group Coaching', primaryCTAType:'DM + Community', notes:'Ultrarunning coach. 25+ ultra finishes. Hosts Everyday Ultra podcast. Founded Desert Peak Ultra. Group coaching cohorts. UESCA certified. Strong community angle.', createdAt:'2026-05-03' },
+    { id:'c6', handle:'@theeverydayultra', followers:11000, avgViews:0, viralityScore:0, offerType:'Group Coaching', primaryCTAType:'DM + Application', notes:'Joe Corcione\'s brand account. 2–3 monthly group coaching calls. All coaches UESCA certified. "Everyday runner" positioning = high-intent niche audience.', createdAt:'2026-05-03' },
+    { id:'c7', handle:'@ultratrailcoaching', followers:0, avgViews:0, viralityScore:0, offerType:'Training Plans', primaryCTAType:'Link in Bio', notes:'Virtual running coach. Plans from €30/month. Check their Reels tab for low-cost offer CTA examples.', createdAt:'2026-05-03' },
+    { id:'c8', handle:'@hannahwalshcoaching', followers:4570, avgViews:0, viralityScore:0, offerType:'1:1 Coaching (Women)', primaryCTAType:'DM', notes:'Ultra coach for women. 4.57K followers. Small but highly targeted. Also runs an independent running shop. Underserved niche — female-specific ultra training.', createdAt:'2026-05-03' },
+    { id:'c9', handle:'@theultrarunningcoach_', followers:0, avgViews:0, viralityScore:0, offerType:'1:1 Coaching', primaryCTAType:'Link in Bio', notes:'Howard Dracup. Mountain/Sky/Ultra/Trail coach. Check for Reels with training methodology breakdowns.', createdAt:'2026-05-03' },
+    { id:'c10', handle:'@ultrarunnerpaw', followers:0, avgViews:0, viralityScore:0, offerType:'1:1 Coaching', primaryCTAType:'Link in Bio', notes:'Pawel Dregan. Ultra runner & coach. Check Reels tab for content frequency and format patterns.', createdAt:'2026-05-03' },
+  ],
+  reels: [
+    { id:'r1', hookText:'"Want to feel more confident on race day? Here\'s what I do with my athletes..."', scriptSummary:'Opens with a confidence pain point, pivots to a 3-step race prep protocol. Ends with coaching offer.', ctaWording:'DM me "RACE" and I\'ll send you my full race week checklist', format:'Talking Head', topic:'Race Strategy', views:0, coachHandle:'@joecorcione', followers:13000, viralityScore:0, link:'https://www.instagram.com/joecorcione/reel/C7hrd-ZyFiF/', dateAdded:'2026-05-03' },
+    { id:'r2', hookText:'"She came to me with zero running background at 51. 8 months later she crossed the finish line of a 50-miler."', scriptSummary:'Client transformation story. Before: never run more than 5k. Journey: 3 runs/week, built to back-to-backs. Result: 50-mile finish. Mirror close.', ctaWording:'DM me the word FIRST and I\'ll send you the exact 6-month progression we used', format:'Talking Head', topic:'Transformation', views:0, coachHandle:'@joecorcione', followers:13000, viralityScore:0, link:'', dateAdded:'2026-05-03' },
+    { id:'r3', hookText:'"The #1 mistake I see in first-time 100-mile runners — and it\'s not what you think."', scriptSummary:'Opens with counterintuitive claim. Problem: most people think DNFs are fitness failures. Truth: pacing in miles 1–30. Solution: run first quarter embarrassingly easy. Stats to back it.', ctaWording:'Comment your race distance below and I\'ll DM you the exact pace formula I use with my clients', format:'Talking Head', topic:'Race Strategy', views:0, coachHandle:'', followers:0, viralityScore:0, link:'', dateAdded:'2026-05-03' },
+    { id:'r4', hookText:'"You don\'t need more weekly mileage to finish your first 100. You need less."', scriptSummary:'Controversial open. Tension: every plan says pile on miles. Reframe: Zone 2 base + back-to-back long runs + race nutrition practice = finisher. Authority line. Ends with comment CTA.', ctaWording:'Save this for your next training cycle. Comment your weekly mileage — I\'ll tell you if it\'s too much.', format:'B-roll + Voiceover', topic:'Training Tips', views:0, coachHandle:'', followers:0, viralityScore:0, link:'', dateAdded:'2026-05-03' },
+    { id:'r5', hookText:'"The question I get asked more than anything as an ultra coach: How do I know if I\'m ready?"', scriptSummary:'Q&A format. Answers the #1 objection. 3 real readiness markers people miss (eating while running, training in dark, back-to-back long runs). Ends with open DM invite.', ctaWording:'DM me your next race and I\'ll tell you exactly how many weeks out you should be right now.', format:'Talking Head', topic:'Training Tips', views:0, coachHandle:'', followers:0, viralityScore:0, link:'', dateAdded:'2026-05-03' },
+  ],
+  ctaBank: [
+    { id:'cta1', type:'DM', text:'DM me the word ULTRA and I\'ll send you my free 12-week base building guide', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta2', type:'DM', text:'Comment "100" below and I\'ll DM you my race day nutrition checklist', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta3', type:'DM', text:'DM me "COACH" if you want to talk about your next race — I reply to everyone', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta4', type:'DM', text:'Comment your race distance below 👇 and I\'ll DM you one tip specific to that distance', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta5', type:'DM', text:'DM me "PLAN" and I\'ll send you the exact 8-week training block I use with all my clients', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta6', type:'DM', text:'DM me "APPLY" if you want to chat about what coaching could look like for your next race', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta7', type:'Comment', text:'Comment your next race in the replies — I want to know what you\'re training for', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta8', type:'Comment', text:'Drop a 🔥 if you\'ve made this mistake in training', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta9', type:'Comment', text:'Tell me below: how many weeks out are you from your next race?', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta10', type:'Comment', text:'Comment "YES" if this is something you struggle with too', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta11', type:'Comment', text:'What\'s your biggest fear going into your first ultra? Tell me in the comments 👇', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta12', type:'Save', text:'Save this — you\'ll thank yourself on taper week', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta13', type:'Save', text:'Screenshot the checklist at the end and pin it to your training folder', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta14', type:'Save', text:'This is the one reel you want saved before race week', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta15', type:'Link in Bio', text:'Full plan is linked in my bio', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta16', type:'Link in Bio', text:'Grab the free guide at the link in my bio', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta17', type:'Link in Bio', text:'My 16-week ultra program is open — link in bio', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta18', type:'Follow', text:'Follow for a new ultra coaching tip every week', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta19', type:'Follow', text:'I post free ultra training advice daily — hit follow if this helped', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta20', type:'Direct Offer', text:'I\'m opening 5 new coaching spots this month — DM me "APPLY" if you want to chat', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta21', type:'Direct Offer', text:'My next group coaching cohort starts [month] — comment "GROUP" and I\'ll send you details', usedIt:false, createdAt:'2026-05-03' },
+    { id:'cta22', type:'Direct Offer', text:'Applications open for [Program Name] — link in bio, only taking [N] runners', usedIt:false, createdAt:'2026-05-03' },
+  ],
+  scripts: [
+    {
+      id:'s1', title:'The Mistake Hook', type:'Mistake',
+      templateText:`[HOOK — 0–3 sec, text on screen + say aloud]
+"The #1 mistake I see in first-time [RACE TYPE] runners — and it's not what you think."
+
+[PROBLEM — 5 sec]
+"Most people think [COMMON WRONG BELIEF].
+They don't. It's actually [REAL CAUSE]."
+
+[PROOF — 5 sec]
+"I've coached [X] runners to their first [DISTANCE].
+Every [BAD OUTCOME] I've seen came from [ROOT CAUSE]."
+
+[SOLUTION — 20 sec]
+"Here's the rule I give every client:
+[RULE 1].
+[RULE 2].
+[RULE 3 — the specific one that surprises people]."
+
+[CTA]
+"Comment your race distance below and I'll DM you the exact [RESOURCE] I use with my clients."`,
+      notes:'Best for: training errors, race-day mistakes, nutrition errors. High share rate. Use a counterintuitive insight as the "not what you think" reveal.',
+      createdAt:'2026-05-03'
+    },
+    {
+      id:'s2', title:'The Client Story', type:'Transformation',
+      templateText:`[HOOK — lead with the result]
+"[CLIENT DESCRIPTION] came to me with [STARTING POINT].
+[TIME PERIOD] later they [RESULT]."
+
+[THE BEFORE — 10 sec]
+"[CLIENT NAME/description] had [LIMITATION / OBSTACLE].
+They thought [BELIEF THAT HELD THEM BACK].
+They were wrong."
+
+[WHAT WE DID — 20 sec]
+"We started with [SIMPLE FIRST STEP].
+Built to [MILESTONE] over [TIME].
+[KEY TURNING POINT]."
+
+[THE RESULT]
+"[Specific finish time / race / outcome]. [Emotional moment]."
+
+[MIRROR THE VIEWER]
+"If you've been thinking '[DOUBT THEY HAVE]' —
+that's exactly what [CLIENT] said on day one."
+
+[CTA]
+"DM me the word [KEYWORD] and I'll send you the exact [RESOURCE] we used."`,
+      notes:'Highest lead-gen conversion. The viewer must be able to see themselves as the client. Pick the most relatable client story, not the most impressive.',
+      createdAt:'2026-05-03'
+    },
+    {
+      id:'s3', title:'The Counterintuitive Take', type:'Contrarian',
+      templateText:`[HOOK — say something that sounds wrong]
+"You don't need [THING EVERYONE THINKS YOU NEED] to [DESIRED RESULT].
+You need [UNEXPECTED THING]."
+
+[TENSION — 10 sec]
+"I know that sounds backwards.
+Every [CONVENTIONAL WISDOM SOURCE] tells you to [COMMON ADVICE].
+But [WHY IT BACKFIRES]."
+
+[THE REFRAME — 20 sec]
+"What actually [ACHIEVES THE GOAL]:
+— [INSIGHT 1]
+— [INSIGHT 2]
+— [INSIGHT 3 — most surprising]"
+
+[AUTHORITY — 1 sentence]
+"I've coached [X] runners through [CONTEXT].
+The ones who [DID THE WRONG THING] are the ones who [BAD OUTCOME]."
+
+[CTA]
+"Save this for your next training cycle.
+And comment [QUESTION] — I'll [WHAT YOU'LL DO WITH THE ANSWER]."`,
+      notes:'Highest comment volume. Best for topics where conventional wisdom is wrong. Be ready to defend the position in comments — that engagement is the point.',
+      createdAt:'2026-05-03'
+    },
+    {
+      id:'s4', title:'The Q&A Authority Builder', type:'Q&A',
+      templateText:`[HOOK — frame the question as universal]
+"The question I get asked more than anything as a [YOUR ROLE]:"
+
+[THE QUESTION — show on screen as text]
+"[EXACT COMMON QUESTION IN YOUR DMs]"
+
+[ANSWER — 30 sec, be specific]
+"Honest answer: [Direct answer that subverts expectations].
+
+The [EASY PART] is [MINIMISE IT]. Here's what most people miss:
+1. [OVERLOOKED THING 1]
+2. [OVERLOOKED THING 2]
+3. [OVERLOOKED THING 3 — the one that surprises people]
+
+[BRIDGE TO VIEWER]
+Do [THOSE THINGS] and you're more ready than you think."
+
+[CTA]
+"DM me [THEIR SPECIFIC SITUATION] and I'll tell you
+exactly [PERSONALISED THING YOU'LL DO FOR THEM]."`,
+      notes:'Best for building authority positioning. The open DM invite at the end converts well because it\'s personal. Works great as a recurring series: "questions I get asked" every week.',
+      createdAt:'2026-05-03'
+    },
+    {
+      id:'s5', title:'The Stat Bomb', type:'Stats / Data',
+      templateText:`[HOOK — lead with the number]
+"[IMPRESSIVE NUMBER]. [CONTEXT]. [SHORT TIME PERIOD]."
+e.g. "47 miles. 11,000ft of climb. One training week. And she was 54."
+
+[THE STORY — 10 sec]
+"[CLIENT / YOUR OWN EXPERIENCE].
+[WHAT MADE THIS POSSIBLE — one sentence]."
+
+[THE DATA BREAKDOWN — 20 sec]
+"Here's exactly what that week looked like:
+— [DAY/METRIC 1]
+— [DAY/METRIC 2]
+— [DAY/METRIC 3]
+— [TOTAL / SUMMARY STAT]"
+
+[THE INSIGHT]
+"The number people get wrong: [COMMON MISCONCEPTION ABOUT THE STAT]."
+
+[CTA]
+"Comment [KEYWORD] and I'll DM you the [TRAINING BLOCK / TEMPLATE] we used."`,
+      notes:'Stops the scroll instantly. Ultra training numbers are unbelievable to non-runners = massive share bait. Works best with real client data (with permission) or your own training.',
+      createdAt:'2026-05-03'
+    },
+  ],
+  contentIdeas: [
+    { id:'i1', title:'The DNF Reframe', hook:'"Most runners think a DNF is failure. My best clients say it\'s the moment their ultra career actually started."', scriptOutline:'Emotional open → reframe DNF as data, not failure → 3 things a DNF tells you about your next race → mirror: "if you\'ve been there, you know" → CTA', ctaRecommendation:'Comment "DNF" if you\'ve been there — I\'ll DM you the protocol I use with clients after they don\'t finish.', status:'Idea', createdAt:'2026-05-03' },
+    { id:'i2', title:'The Crew Briefing', hook:'"Your crew is either going to save your race or end it. Here\'s the 3-minute brief I give every crew before race day."', scriptOutline:'Problem: most crew have no idea what to do → on-screen checklist (4 items) → the one thing most crews get catastrophically wrong → send it to your crew CTA', ctaRecommendation:'Save this and send it to your crew.', status:'Idea', createdAt:'2026-05-03' },
+    { id:'i3', title:'Training on No Time', hook:'"I coached a dad of 3 with a full-time job to a 100-mile finish on 8 hours of training per week."', scriptOutline:'Client story → the actual weekly structure (specifics) → why quality > quantity at ultra distances → the two sessions you absolutely can\'t skip → DM CTA', ctaRecommendation:'Comment "BUSY" and I\'ll DM you the exact weekly structure we used.', status:'Idea', createdAt:'2026-05-03' },
+    { id:'i4', title:'What I Actually Eat in a 100', hook:'"Most runners severely underfuel in a 100-miler. Here\'s exactly what I tell my clients to eat, hour by hour."', scriptOutline:'Problem: most runners eat 100 cal/hr, should eat 250–350 → hour-by-hour breakdown (on screen) → the gut training protocol → practice this in your long runs or pay for it at mile 60', ctaRecommendation:'Save this for your race plan. DM me "FUEL" and I\'ll send you the full race day nutrition template.', status:'Idea', createdAt:'2026-05-03' },
+    { id:'i5', title:'The Spring Pass Opening', hook:'"This trail was buried under 8 feet of snow 6 weeks ago."', scriptOutline:'Scenic footage of newly open mountain trail → "This is what we train all winter for" → 30-sec training insight for spring base building → follow CTA', ctaRecommendation:'Follow for weekly trail running coaching tips — new one every Sunday.', status:'Idea', createdAt:'2026-05-03' },
+    { id:'i6', title:'Return After DNF', hook:'"She DNF\'d at mile 67. Six months later she lined up again. Here\'s what changed."', scriptOutline:'Client DNF story (brief, not dwelling) → the mental shift → the training adjustments → what the second attempt looked like → result → mirror viewer', ctaRecommendation:'DM me "RETURN" if you\'ve had a DNF and you\'re figuring out what\'s next.', status:'Scripted', createdAt:'2026-05-03' },
+    { id:'i7', title:'Week in the Life: Ultra Coach', hook:'"What does a week of ultra coaching actually look like? Let me show you."', scriptOutline:'B-roll of coaching calls, plan writing, athlete check-ins → 3 things that surprised people about coaching → who is a good fit for coaching (self-selection) → application CTA', ctaRecommendation:'DM me "COACH" if you want to talk about your next race — spots open this month.', status:'Idea', createdAt:'2026-05-03' },
+  ],
+  contentGaps: [
+    { id:'g1', topic:'Race nutrition specifics mid-race (exact calories/hour, food by distance)', covered:false, createdAt:'2026-05-03' },
+    { id:'g2', topic:'Crew and pacer guides — what to tell your support team', covered:false, createdAt:'2026-05-03' },
+    { id:'g3', topic:'Return after DNF — emotional and tactical protocol', covered:false, createdAt:'2026-05-03' },
+    { id:'g4', topic:'Ultra training with a full-time job (8hrs/week structure)', covered:false, createdAt:'2026-05-03' },
+    { id:'g5', topic:'Female-specific ultra training (hormones, fueling differences, training load)', covered:false, createdAt:'2026-05-03' },
+    { id:'g6', topic:'Training in the dark (most 50-milers start before sunrise — almost no coach content on this)', covered:false, createdAt:'2026-05-03' },
+    { id:'g7', topic:'Back-to-back long run specifics (exact structure, recovery between)', covered:false, createdAt:'2026-05-03' },
+  ],
+  meta: { version: 1, lastSaved: null }
+};
+
+// ── STATE ──────────────────────────────────────────────────────
+const State = (() => {
+  let _data = null;
+  function load() {
+    const raw = localStorage.getItem('ur_dashboard');
+    _data = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+  }
+  function save() {
+    _data.meta.lastSaved = new Date().toISOString();
+    localStorage.setItem('ur_dashboard', JSON.stringify(_data));
+    const el = document.getElementById('last-saved');
+    if (el) el.textContent = 'Saved ' + new Date().toLocaleTimeString();
+  }
+  function get(k) { return _data[k]; }
+  function upsert(section, item) {
+    const idx = _data[section].findIndex(x => x.id === item.id);
+    if (idx >= 0) _data[section][idx] = item;
+    else _data[section].unshift(item);
+    save();
+  }
+  function remove(section, id) {
+    _data[section] = _data[section].filter(x => x.id !== id);
+    save();
+  }
+  function toggle(section, id, field) {
+    const item = _data[section].find(x => x.id === id);
+    if (item) { item[field] = !item[field]; save(); }
+  }
+  function setField(section, id, field, value) {
+    const item = _data[section].find(x => x.id === id);
+    if (item) { item[field] = value; save(); }
+  }
+  return { load, save, get, upsert, remove, toggle, setField };
+})();
+
+// ── UTILS ──────────────────────────────────────────────────────
+function uid() {
+  return typeof crypto !== 'undefined' && crypto.randomUUID
+    ? crypto.randomUUID()
+    : Date.now().toString(36) + Math.random().toString(36).slice(2);
+}
+function calcVirality(views, followers) {
+  if (!followers || followers === 0) return 0;
+  return +((views / followers) * 100).toFixed(1);
+}
+function viralityBadge(score) {
+  if (!score || score === 0) return '<span class="badge badge-muted">—</span>';
+  if (score >= 200) return `<span class="badge badge-accent">🔥 ${score}% MEGA</span>`;
+  if (score >= 50)  return `<span class="badge badge-green">⚡ ${score}% Viral</span>`;
+  if (score >= 10)  return `<span class="badge badge-blue">${score}% Good</span>`;
+  return `<span class="badge badge-muted">${score}% Low</span>`;
+}
+function statusBadge(status) {
+  const map = { Idea:'badge-blue', Scripted:'badge-yellow', Filmed:'badge-accent', Posted:'badge-green' };
+  return `<span class="badge ${map[status]||'badge-muted'}">${status}</span>`;
+}
+function ctaTypeBadge(type) {
+  const map = { DM:'badge-green', 'Link in Bio':'badge-blue', Comment:'badge-yellow', Save:'badge-accent', Follow:'badge-muted', 'Direct Offer':'badge-red' };
+  return `<span class="badge ${map[type]||'badge-muted'}">${type}</span>`;
+}
+async function copyText(text, btn) {
+  try {
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+    }
+    if (btn) {
+      const orig = btn.textContent; btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = orig; }, 1500);
+    }
+    toast('Copied to clipboard');
+  } catch(e) { toast('Copy failed — try manual select'); }
+}
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2000);
+}
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function highlightPlaceholders(text) {
+  return escHtml(text).replace(/\[([^\]]+)\]/g, '<span class="placeholder">[$1]</span>');
+}
+function fmtNum(n) {
+  if (!n) return '—';
+  if (n >= 1000000) return (n/1000000).toFixed(1)+'M';
+  if (n >= 1000) return (n/1000).toFixed(1)+'K';
+  return String(n);
+}
+
+// ── MODAL ──────────────────────────────────────────────────────
+const Modal = (() => {
+  let _onSubmit = null;
+  function open(title, fields, onSubmit, initial) {
+    _onSubmit = onSubmit;
+    document.getElementById('modal-title').textContent = title;
+    const body = document.getElementById('modal-body');
+    body.innerHTML = renderFields(fields, initial||{});
+    attachViralityCalc();
+    document.getElementById('modal-backdrop').classList.add('open');
+    const first = body.querySelector('input,textarea,select');
+    if (first) first.focus();
+  }
+  function close() {
+    document.getElementById('modal-backdrop').classList.remove('open');
+    _onSubmit = null;
+  }
+  function submit() {
+    if (!_onSubmit) return;
+    const form = document.getElementById('modal-body');
+    const data = {};
+    form.querySelectorAll('[data-field]').forEach(el => {
+      const f = el.dataset.field;
+      data[f] = el.type === 'number' ? (parseFloat(el.value)||0) : el.value;
+    });
+    _onSubmit(data);
+    close();
+  }
+  function renderFields(fields, initial) {
+    let rows = [];
+    let rowBuffer = [];
+    fields.forEach((f, i) => {
+      const el = renderField(f, initial[f.key]);
+      if (f.half) {
+        rowBuffer.push(el);
+        if (rowBuffer.length === 2 || i === fields.length-1) {
+          rows.push(`<div class="form-row">${rowBuffer.join('')}</div>`);
+          rowBuffer = [];
+        }
+      } else {
+        if (rowBuffer.length) { rows.push(`<div class="form-row">${rowBuffer.join('')}</div>`); rowBuffer = []; }
+        rows.push(`<div class="form-field">${el}</div>`);
+      }
+    });
+    return rows.join('');
+  }
+  function renderField(f, val) {
+    const v = val !== undefined && val !== null ? val : (f.default||'');
+    const ro = f.readonly ? 'readonly style="opacity:.6;pointer-events:none"' : '';
+    let input = '';
+    if (f.type === 'textarea') {
+      input = `<textarea data-field="${f.key}" rows="4" ${ro}>${escHtml(v)}</textarea>`;
+    } else if (f.type === 'select') {
+      const opts = f.options.map(o => `<option value="${escHtml(o)}" ${o===v?'selected':''}>${escHtml(o)}</option>`).join('');
+      input = `<select data-field="${f.key}" ${ro}>${opts}</select>`;
+    } else if (f.type === 'number') {
+      input = `<input type="number" data-field="${f.key}" value="${escHtml(String(v))}" min="0" ${ro}>`;
+    } else {
+      input = `<input type="text" data-field="${f.key}" value="${escHtml(v)}" placeholder="${escHtml(f.placeholder||'')}" ${ro}>`;
+    }
+    return `<div class="form-field"><label>${escHtml(f.label)}</label>${input}</div>`;
+  }
+  function attachViralityCalc() {
+    const body = document.getElementById('modal-body');
+    function update() {
+      const vEl = body.querySelector('[data-field="avgViews"],[data-field="views"]');
+      const fEl = body.querySelector('[data-field="followers"]');
+      const sEl = body.querySelector('[data-field="viralityScore"]');
+      if (vEl && fEl && sEl) {
+        const score = calcVirality(parseFloat(vEl.value)||0, parseFloat(fEl.value)||0);
+        sEl.value = score;
+      }
+    }
+    ['avgViews','views','followers'].forEach(k => {
+      const el = body.querySelector(`[data-field="${k}"]`);
+      if (el) el.addEventListener('input', update);
+    });
+  }
+  document.getElementById('modal-submit').addEventListener('click', submit);
+  document.getElementById('modal-backdrop').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal-backdrop')) close();
+  });
+  document.addEventListener('keydown', e => { if (e.key==='Escape') close(); });
+  return { open, close };
+})();
+
+// ── COACHES TAB ────────────────────────────────────────────────
+const COACH_FIELDS = [
+  { key:'handle', label:'Instagram Handle', placeholder:'@username' },
+  { key:'followers', label:'Followers', type:'number', half:true },
+  { key:'avgViews', label:'Avg Views / Reel', type:'number', half:true },
+  { key:'viralityScore', label:'Virality Score (auto)', type:'number', readonly:true, half:true },
+  { key:'offerType', label:'Offer Type', type:'select', options:['1:1 Coaching','Group Coaching','Training Plans','Course','Community','Hybrid','Other'], half:true },
+  { key:'primaryCTAType', label:'Primary CTA Type', type:'select', options:['DM','Link in Bio','Comment','Save','Follow','Direct Offer','Content → Podcast','DM + Community','DM + Application'] },
+  { key:'notes', label:'Notes', type:'textarea' },
+];
+
+function renderCoaches() {
+  const coaches = State.get('coaches');
+  const panel = document.getElementById('panel-coaches');
+  if (!panel) return;
+  panel.innerHTML = `
+    <div class="section-header">
+      <div class="section-title">Competitor Coaches <span class="badge badge-muted" style="margin-left:6px">${coaches.length}</span></div>
+      <div class="section-actions">
+        <button class="btn btn-primary btn-sm" onclick="addCoach()">+ Add Coach</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Handle</th><th>Followers</th><th>Avg Views</th><th>Virality</th>
+          <th>Offer</th><th>CTA Type</th><th>Notes</th><th></th>
+        </tr></thead>
+        <tbody>
+          ${coaches.length ? coaches.map(c => `
+            <tr>
+              <td><a href="https://instagram.com/${c.handle.replace('@','')}" target="_blank">${escHtml(c.handle)}</a></td>
+              <td>${fmtNum(c.followers)}</td>
+              <td>${fmtNum(c.avgViews)}</td>
+              <td>${viralityBadge(c.viralityScore)}</td>
+              <td><span class="badge badge-muted">${escHtml(c.offerType)}</span></td>
+              <td>${ctaTypeBadge(c.primaryCTAType)}</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-muted)">${escHtml(c.notes)}</td>
+              <td><div class="td-actions">
+                <button class="btn btn-ghost btn-sm" onclick="editCoach('${c.id}')">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteCoach('${c.id}')">✕</button>
+              </div></td>
+            </tr>
+          `).join('') : `<tr><td colspan="8"><div class="empty">No coaches yet — add one above.</div></td></tr>`}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function addCoach() {
+  Modal.open('Add Coach', COACH_FIELDS, data => {
+    data.id = uid(); data.createdAt = new Date().toISOString().slice(0,10);
+    data.viralityScore = calcVirality(data.avgViews, data.followers);
+    State.upsert('coaches', data); renderCoaches();
+  });
+}
+function editCoach(id) {
+  const c = State.get('coaches').find(x => x.id === id);
+  if (!c) return;
+  Modal.open('Edit Coach', COACH_FIELDS, data => {
+    data.id = id; data.createdAt = c.createdAt;
+    data.viralityScore = calcVirality(data.avgViews, data.followers);
+    State.upsert('coaches', data); renderCoaches();
+  }, c);
+}
+function deleteCoach(id) {
+  if (!confirm('Delete this coach?')) return;
+  State.remove('coaches', id); renderCoaches();
+}
+
+// ── REELS TAB ─────────────────────────────────────────────────
+const REEL_FIELDS = [
+  { key:'coachHandle', label:'Coach Handle', placeholder:'@username' },
+  { key:'followers', label:'Coach Followers (snapshot)', type:'number', half:true },
+  { key:'views', label:'Views', type:'number', half:true },
+  { key:'viralityScore', label:'Virality Score (auto)', type:'number', readonly:true, half:true },
+  { key:'format', label:'Format', type:'select', options:['Talking Head','B-roll + Voiceover','Text on Screen','Tutorial / Demo','Transformation','Mixed'], half:true },
+  { key:'topic', label:'Topic', type:'select', options:['Training Tips','Race Strategy','Transformation','Nutrition','Mindset','Gear','Q&A','Behind the Scenes','Controversial Take','Other'] },
+  { key:'hookText', label:'Hook (exact first line)', type:'textarea' },
+  { key:'scriptSummary', label:'Script Summary', type:'textarea' },
+  { key:'ctaWording', label:'CTA — exact wording', type:'textarea' },
+  { key:'link', label:'Reel URL', placeholder:'https://instagram.com/reel/...' },
+];
+
+function renderReels() {
+  const reels = State.get('reels');
+  const panel = document.getElementById('panel-reels');
+  if (!panel) return;
+
+  // filters
+  const topics = [...new Set(reels.map(r => r.topic))].filter(Boolean);
+  const formats = [...new Set(reels.map(r => r.format))].filter(Boolean);
+
+  panel.innerHTML = `
+    <div class="section-header">
+      <div class="section-title">Reels Tracker <span class="badge badge-muted" style="margin-left:6px">${reels.length}</span></div>
+      <div class="section-actions">
+        <button class="btn btn-primary btn-sm" onclick="addReel()">+ Add Reel</button>
+      </div>
+    </div>
+    <div class="filter-bar">
+      <select id="reel-filter-topic" onchange="renderReels()">
+        <option value="">All Topics</option>
+        ${topics.map(t => `<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('')}
+      </select>
+      <select id="reel-filter-format" onchange="renderReels()">
+        <option value="">All Formats</option>
+        ${formats.map(f => `<option value="${escHtml(f)}">${escHtml(f)}</option>`).join('')}
+      </select>
+    </div>
+    <div class="cards-grid" id="reels-grid"></div>`;
+
+  const topicFilter = document.getElementById('reel-filter-topic')?.value || '';
+  const formatFilter = document.getElementById('reel-filter-format')?.value || '';
+  const filtered = reels.filter(r =>
+    (!topicFilter || r.topic === topicFilter) &&
+    (!formatFilter || r.format === formatFilter)
+  );
+
+  const grid = document.getElementById('reels-grid');
+  if (!grid) return;
+  if (!filtered.length) { grid.innerHTML = '<div class="empty"><p>No reels found. Add one above.</p></div>'; return; }
+
+  grid.innerHTML = filtered.map(r => `
+    <div class="card">
+      <div class="card-hook">"${escHtml(r.hookText)}"</div>
+      <div class="card-tags">
+        ${viralityBadge(r.viralityScore)}
+        <span class="badge badge-muted">${escHtml(r.format||'—')}</span>
+        <span class="badge badge-blue">${escHtml(r.topic||'—')}</span>
+      </div>
+      <div class="card-body">${escHtml(r.scriptSummary)}</div>
+      <div style="font-size:12px;color:var(--accent);font-weight:600">CTA:</div>
+      <div class="card-body" style="color:var(--text)">${escHtml(r.ctaWording)}</div>
+      <div class="card-footer">
+        <div style="font-size:12px;color:var(--text-muted)">${escHtml(r.coachHandle||'')}</div>
+        <div class="card-actions">
+          ${r.link ? `<a href="${escHtml(r.link)}" target="_blank" class="btn btn-ghost btn-sm">View ↗</a>` : ''}
+          <button class="btn btn-ghost btn-sm" onclick="editReel('${r.id}')">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteReel('${r.id}')">✕</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addReel() {
+  Modal.open('Add Reel', REEL_FIELDS, data => {
+    data.id = uid(); data.dateAdded = new Date().toISOString().slice(0,10);
+    data.viralityScore = calcVirality(data.views, data.followers);
+    State.upsert('reels', data); renderReels();
+  });
+}
+function editReel(id) {
+  const r = State.get('reels').find(x => x.id === id);
+  if (!r) return;
+  Modal.open('Edit Reel', REEL_FIELDS, data => {
+    data.id = id; data.dateAdded = r.dateAdded;
+    data.viralityScore = calcVirality(data.views, data.followers);
+    State.upsert('reels', data); renderReels();
+  }, r);
+}
+function deleteReel(id) {
+  if (!confirm('Delete this reel?')) return;
+  State.remove('reels', id); renderReels();
+}
+
+// ── CTA BANK TAB ──────────────────────────────────────────────
+const CTA_TYPES = ['DM','Comment','Save','Link in Bio','Follow','Direct Offer'];
+const CTA_TYPE_COLORS = { DM:'var(--green)', Comment:'var(--yellow)', Save:'var(--accent)', 'Link in Bio':'var(--blue)', Follow:'var(--text-muted)', 'Direct Offer':'var(--red)' };
+
+function renderCTABank() {
+  const ctas = State.get('ctaBank');
+  const panel = document.getElementById('panel-cta-bank');
+  if (!panel) return;
+
+  const total = ctas.length;
+  const usedCount = ctas.filter(c => c.usedIt).length;
+
+  panel.innerHTML = `
+    <div class="section-header">
+      <div class="section-title">CTA Bank</div>
+      <div class="section-actions">
+        <span style="font-size:12px;color:var(--text-muted)">${usedCount}/${total} used</span>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Click <strong>Copy</strong> to copy the CTA. Toggle <strong>Used It</strong> to track what you've already deployed. DM CTAs convert 12–25% vs 1.5–3% for link-in-bio.</p>
+    ${CTA_TYPES.map(type => {
+      const items = ctas.filter(c => c.type === type);
+      const usedInType = items.filter(c => c.usedIt).length;
+      return `
+        <div class="cta-section">
+          <div class="cta-section-header">
+            <div class="cta-section-title" style="color:${CTA_TYPE_COLORS[type]||'var(--text)'}">${type}</div>
+            <div class="cta-count">${items.length} CTAs · ${usedInType} used</div>
+            <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="addCTA('${type}')">+ Add</button>
+          </div>
+          <div class="cta-chips">
+            ${items.map(c => `
+              <div class="cta-chip ${c.usedIt?'used':''}" id="cta-chip-${c.id}">
+                <div class="cta-chip-text">${escHtml(c.text)}</div>
+                <div class="cta-chip-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="copyCTA('${escHtml(c.id)}', '${escHtml(c.text.replace(/'/g,"\\'"))}', this)">Copy</button>
+                  <button class="btn btn-ghost btn-sm" onclick="toggleCTA('${c.id}')" title="Mark as used">${c.usedIt ? '✓ Used' : 'Used It'}</button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteCTA('${c.id}')">✕</button>
+                </div>
+              </div>
+            `).join('') || '<div style="font-size:13px;color:var(--text-muted);padding:8px 0">None yet — add one above.</div>'}
+          </div>
+          <div class="cta-inline-form" id="cta-form-${type}" style="display:none">
+            <input type="text" id="cta-input-${type}" placeholder="Enter new ${type} CTA..." onkeydown="if(event.key==='Enter')saveCTA('${type}')">
+            <button class="btn btn-primary btn-sm" onclick="saveCTA('${type}')">Add</button>
+            <button class="btn btn-ghost btn-sm" onclick="cancelCTA('${type}')">✕</button>
+          </div>
+        </div>`;
+    }).join('')}`;
+}
+
+function addCTA(type) {
+  const form = document.getElementById(`cta-form-${type}`);
+  if (form) { form.style.display = 'flex'; document.getElementById(`cta-input-${type}`)?.focus(); }
+}
+function cancelCTA(type) {
+  const form = document.getElementById(`cta-form-${type}`);
+  if (form) { form.style.display = 'none'; const inp = document.getElementById(`cta-input-${type}`); if(inp) inp.value = ''; }
+}
+function saveCTA(type) {
+  const inp = document.getElementById(`cta-input-${type}`);
+  if (!inp || !inp.value.trim()) return;
+  State.upsert('ctaBank', { id:uid(), type, text:inp.value.trim(), usedIt:false, createdAt:new Date().toISOString().slice(0,10) });
+  renderCTABank();
+}
+function copyCTA(id, text, btn) { copyText(text, btn); }
+function toggleCTA(id) { State.toggle('ctaBank', id, 'usedIt'); renderCTABank(); }
+function deleteCTA(id) { if (!confirm('Delete this CTA?')) return; State.remove('ctaBank', id); renderCTABank(); }
+
+// ── SCRIPTS TAB ───────────────────────────────────────────────
+const SCRIPT_FIELDS = [
+  { key:'title', label:'Script Title', placeholder:'e.g. The Mistake Hook', half:true },
+  { key:'type', label:'Type', type:'select', options:['Mistake','Transformation','Contrarian','Q&A','Stats / Data','Day in the Life','Tutorial','Other'], half:true },
+  { key:'templateText', label:'Script Template (use [BRACKET] for placeholders)', type:'textarea' },
+  { key:'notes', label:'Notes / When to use', type:'textarea' },
+];
+
+function renderScripts() {
+  const scripts = State.get('scripts');
+  const panel = document.getElementById('panel-scripts');
+  if (!panel) return;
+  panel.innerHTML = `
+    <div class="section-header">
+      <div class="section-title">Script Templates <span class="badge badge-muted" style="margin-left:6px">${scripts.length}</span></div>
+      <div class="section-actions">
+        <button class="btn btn-primary btn-sm" onclick="addScript()">+ Add Script</button>
+      </div>
+    </div>
+    <div class="cards-grid">
+      ${scripts.map(s => `
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div class="card-title">${escHtml(s.title)}</div>
+            <span class="badge badge-accent">${escHtml(s.type)}</span>
+          </div>
+          <pre class="script-template-text">${highlightPlaceholders(s.templateText)}</pre>
+          ${s.notes ? `<div class="card-body" style="border-top:1px solid var(--border);padding-top:10px"><strong style="font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-muted)">Notes</strong><br>${escHtml(s.notes)}</div>` : ''}
+          <div class="card-footer">
+            <div class="card-actions">
+              <button class="btn btn-ghost btn-sm" onclick="copyScriptFill('${s.id}', this)">Copy (blanks)</button>
+              <button class="btn btn-ghost btn-sm" onclick="copyScriptRaw('${s.id}', this)">Copy (template)</button>
+              <button class="btn btn-ghost btn-sm" onclick="editScript('${s.id}')">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteScript('${s.id}')">✕</button>
+            </div>
+          </div>
+        </div>
+      `).join('') || '<div class="empty"><p>No scripts yet.</p></div>'}
+    </div>`;
+}
+
+function copyScriptFill(id, btn) {
+  const s = State.get('scripts').find(x => x.id === id);
+  if (!s) return;
+  const text = s.templateText.replace(/\[([^\]]+)\]/g, '______');
+  copyText(text, btn);
+}
+function copyScriptRaw(id, btn) {
+  const s = State.get('scripts').find(x => x.id === id);
+  if (s) copyText(s.templateText, btn);
+}
+function addScript() {
+  Modal.open('Add Script Template', SCRIPT_FIELDS, data => {
+    data.id = uid(); data.createdAt = new Date().toISOString().slice(0,10);
+    State.upsert('scripts', data); renderScripts();
+  });
+}
+function editScript(id) {
+  const s = State.get('scripts').find(x => x.id === id);
+  if (!s) return;
+  Modal.open('Edit Script', SCRIPT_FIELDS, data => {
+    data.id = id; data.createdAt = s.createdAt;
+    State.upsert('scripts', data); renderScripts();
+  }, s);
+}
+function deleteScript(id) {
+  if (!confirm('Delete this script?')) return;
+  State.remove('scripts', id); renderScripts();
+}
+
+// ── CONTENT IDEAS TAB ─────────────────────────────────────────
+const IDEA_FIELDS = [
+  { key:'title', label:'Title' },
+  { key:'hook', label:'Hook (exact opening line)', type:'textarea' },
+  { key:'scriptOutline', label:'Script Outline', type:'textarea' },
+  { key:'ctaRecommendation', label:'CTA Recommendation', type:'textarea' },
+  { key:'status', label:'Status', type:'select', options:['Idea','Scripted','Filmed','Posted'] },
+];
+const KANBAN_STATUSES = ['Idea','Scripted','Filmed','Posted'];
+
+function renderContentIdeas() {
+  const ideas = State.get('contentIdeas');
+  const panel = document.getElementById('panel-content-ideas');
+  if (!panel) return;
+
+  const cols = KANBAN_STATUSES.map(status => {
+    const items = ideas.filter(i => i.status === status);
+    return `
+      <div class="kanban-col" data-status="${status}">
+        <div class="kanban-col-header">
+          ${status}
+          <span class="k-count">${items.length}</span>
+        </div>
+        ${items.map(i => `
+          <div class="kanban-card" onclick="openIdeaDetail('${i.id}')">
+            <div class="kanban-card-title">${escHtml(i.title)}</div>
+            <div class="kanban-card-hook">"${escHtml(i.hook)}"</div>
+            <div class="kanban-card-footer">
+              <select class="status-select" data-id="${i.id}" onclick="event.stopPropagation()" onchange="moveIdea('${i.id}', this.value)" style="background:var(--surface-3);border:none;color:var(--text-muted)">
+                ${KANBAN_STATUSES.map(s => `<option value="${s}" ${s===i.status?'selected':''}>${s}</option>`).join('')}
+              </select>
+              <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteIdea('${i.id}')">✕</button>
+            </div>
+          </div>
+        `).join('') || '<div style="font-size:12px;color:var(--text-muted);padding:8px 0">Empty</div>'}
+      </div>`;
+  }).join('');
+
+  panel.innerHTML = `
+    <div class="section-header">
+      <div class="section-title">Content Ideas <span class="badge badge-muted" style="margin-left:6px">${ideas.length}</span></div>
+      <div class="section-actions">
+        <button class="btn btn-primary btn-sm" onclick="addIdea()">+ Add Idea</button>
+      </div>
+    </div>
+    <div class="kanban">${cols}</div>
+    <div id="idea-detail" style="margin-top:16px"></div>`;
+}
+
+function openIdeaDetail(id) {
+  const i = State.get('contentIdeas').find(x => x.id === id);
+  if (!i) return;
+  const el = document.getElementById('idea-detail');
+  if (!el) return;
+  el.innerHTML = `
+    <div class="card" style="max-width:680px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <div class="card-title" style="font-size:16px">${escHtml(i.title)}</div>
+        ${statusBadge(i.status)}
+      </div>
+      <div><strong style="font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-muted)">Hook</strong><div class="card-hook" style="margin-top:4px">"${escHtml(i.hook)}"</div></div>
+      <div><strong style="font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-muted)">Script Outline</strong><div class="card-body" style="margin-top:4px;white-space:pre-wrap">${escHtml(i.scriptOutline)}</div></div>
+      <div><strong style="font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-muted)">CTA</strong><div style="margin-top:4px;font-size:13px;color:var(--accent)">${escHtml(i.ctaRecommendation)}</div></div>
+      <div class="card-footer">
+        <button class="btn btn-ghost btn-sm" onclick="copyText(${JSON.stringify(i.hook + '\n\n' + i.scriptOutline + '\n\nCTA: ' + i.ctaRecommendation)}, this)">Copy Brief</button>
+        <button class="btn btn-ghost btn-sm" onclick="editIdea('${i.id}')">Edit</button>
+        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('idea-detail').innerHTML=''">Close</button>
+      </div>
+    </div>`;
+}
+
+function moveIdea(id, status) {
+  State.setField('contentIdeas', id, 'status', status);
+  renderContentIdeas();
+}
+function addIdea() {
+  Modal.open('Add Content Idea', IDEA_FIELDS, data => {
+    data.id = uid(); data.createdAt = new Date().toISOString().slice(0,10);
+    State.upsert('contentIdeas', data); renderContentIdeas();
+  });
+}
+function editIdea(id) {
+  const i = State.get('contentIdeas').find(x => x.id === id);
+  if (!i) return;
+  Modal.open('Edit Idea', IDEA_FIELDS, data => {
+    data.id = id; data.createdAt = i.createdAt;
+    State.upsert('contentIdeas', data); renderContentIdeas();
+  }, i);
+}
+function deleteIdea(id) {
+  if (!confirm('Delete this idea?')) return;
+  State.remove('contentIdeas', id); renderContentIdeas();
+}
+
+// ── CONTENT GAPS TAB ──────────────────────────────────────────
+function renderGaps() {
+  const gaps = State.get('contentGaps');
+  const panel = document.getElementById('panel-gaps');
+  if (!panel) return;
+  const covered = gaps.filter(g => g.covered).length;
+  panel.innerHTML = `
+    <div class="section-header">
+      <div class="section-title">Content Gaps <span class="badge badge-muted" style="margin-left:6px">${gaps.length - covered} open · ${covered} covered</span></div>
+      <div class="section-actions">
+        ${covered > 0 ? `<button class="btn btn-ghost btn-sm" onclick="clearCoveredGaps()">Clear Covered</button>` : ''}
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Topics your audience wants that competitors aren't covering well. Check these off as you create content for them.</p>
+    <div class="gaps-list">
+      ${gaps.map(g => `
+        <div class="gap-item ${g.covered?'covered':''}" id="gap-${g.id}">
+          <input type="checkbox" class="gap-checkbox" ${g.covered?'checked':''} onchange="toggleGap('${g.id}')">
+          <div class="gap-text">${escHtml(g.topic)}</div>
+          <button class="btn btn-danger btn-sm" onclick="deleteGap('${g.id}')">✕</button>
+        </div>
+      `).join('') || '<div class="empty"><p>No gaps recorded yet.</p></div>'}
+    </div>
+    <div class="gaps-inline-form">
+      <input type="text" id="gap-input" placeholder="Describe a content gap you've spotted..." onkeydown="if(event.key==='Enter')saveGap()">
+      <button class="btn btn-primary btn-sm" onclick="saveGap()">Add</button>
+    </div>`;
+}
+
+function toggleGap(id) { State.toggle('contentGaps', id, 'covered'); renderGaps(); }
+function deleteGap(id) { if (!confirm('Delete this gap?')) return; State.remove('contentGaps', id); renderGaps(); }
+function saveGap() {
+  const inp = document.getElementById('gap-input');
+  if (!inp || !inp.value.trim()) return;
+  State.upsert('contentGaps', { id:uid(), topic:inp.value.trim(), covered:false, createdAt:new Date().toISOString().slice(0,10) });
+  renderGaps();
+}
+function clearCoveredGaps() {
+  const gaps = State.get('contentGaps').filter(g => !g.covered);
+  State.get('contentGaps').length = 0;
+  gaps.forEach(g => State.upsert('contentGaps', g));
+  renderGaps();
+}
+
+// ── ROUTER ────────────────────────────────────────────────────
+const RENDERERS = {
+  'Coaches': renderCoaches,
+  'Reels': renderReels,
+  'CTA Bank': renderCTABank,
+  'Scripts': renderScripts,
+  'Content Ideas': renderContentIdeas,
+  'Gaps': renderGaps,
+};
+const TAB_IDS = {
+  'Coaches':'coaches','Reels':'reels','CTA Bank':'cta-bank',
+  'Scripts':'scripts','Content Ideas':'content-ideas','Gaps':'gaps'
+};
+
+let activeTab = TABS[0];
+function switchTab(name) {
+  activeTab = name;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `panel-${TAB_IDS[name]}`));
+  RENDERERS[name]?.();
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+function init() {
+  State.load();
+
+  // Build tabs
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = TABS.map(t => `<button class="tab-btn ${t===activeTab?'active':''}" data-tab="${t}" onclick="switchTab('${t}')">${t}</button>`).join('');
+
+  // Build tab panels
+  const content = document.getElementById('tab-content');
+  content.innerHTML = TABS.map(t => `<div class="tab-panel ${t===activeTab?'active':''}" id="panel-${TAB_IDS[t]}"></div>`).join('');
+
+  // Render active tab
+  RENDERERS[activeTab]?.();
+
+  // Update saved time
+  const meta = State.get('meta');
+  if (meta.lastSaved) {
+    document.getElementById('last-saved').textContent = 'Last saved ' + new Date(meta.lastSaved).toLocaleString();
+  }
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,322 +1,249 @@
 ---
 name: instagram-reels-scraper
-description: When the user wants to find, analyze, or surface viral Instagram Reels content in a niche — especially ultra running, trail running, endurance sports, or outdoor adventure. Use when the user says "scrape Instagram Reels," "find viral running content," "what's trending on Instagram for ultra running," "Instagram content research," or "analyze top Reels." For broader social content creation, see social-content.
+description: When the user wants to find, analyze, or surface viral Instagram Reels content from ultra running coaches — what they're posting, what CTAs they use, what content collects leads or builds an audience. Use when the user says "scrape Instagram Reels," "what are ultra running coaches posting," "find viral coaching content," "Instagram content research," or "analyze top coaching Reels." For broader social content creation, see social-content.
 ---
 
-# Instagram Reels Scraper — Ultra Running
+# Instagram Reels Scraper — Ultra Running Coaches
 
-You are an expert social media research analyst specializing in Instagram Reels discovery and viral content analysis for the ultra running niche.
+You are an expert social media research analyst specializing in Instagram Reels discovery and lead-generation content analysis for the ultra running coaching niche.
 
-Your job is to systematically find, rank, and extract insights from the highest-performing Instagram Reels in the ultra running space so the user can understand what content is going viral and why.
+Your job is to find what the top ultra running coaches are posting on Instagram Reels, identify scripts and CTAs driving leads and audience growth, and surface the content patterns worth replicating.
 
 ---
 
 ## Step 1: Clarify Scope
 
-Before searching, ask if not already provided:
+Ask if not already provided:
 
-1. **Niche focus** — Ultra running only, or broader? (trail running, mountain running, obstacle racing, endurance sports)
-2. **Content type** — Race footage, training tips, gear reviews, motivational, documentary-style, behind-the-scenes?
-3. **Timeframe** — Recent trending (last 30 days), evergreen viral, or specific event season?
-4. **Output goal** — Inspiration for new content, competitor analysis, influencer identification, or trend spotting?
-5. **Account type** — Individual athletes, race brands, gear brands, or media outlets?
+1. **Coaching type** — 1:1 coaching, group programs, online courses, in-person camps, or all?
+2. **Audience level** — Beginner ultra runners, experienced, elite, or all levels?
+3. **Output goal** — Script templates, CTA analysis, lead-gen content examples, or competitor audit?
+4. **Timeframe** — Last 30 days, last 90 days, or evergreen top performers?
 
 ---
 
-## Step 2: Target Account Discovery
+## Step 2: Target Coach Account Discovery
 
-Search for the highest-signal accounts in the ultra running Instagram ecosystem.
+Focus exclusively on accounts where the primary offer is ultra running coaching.
 
-### Seed Account Categories
+### Tier 1 — Established Ultra Running Coaches with Large Audiences
+Search for coaches known for Instagram presence:
+- Coaches with 10K–500K followers who offer training plans or 1:1 coaching
+- Athletes-turned-coaches with personal brand + coaching offer
+- Running coaches who specifically name "ultramarathon," "100 miles," or "trail" in their bio
 
-**Elite Athletes & Personalities**
-- Top UTMB / Western States / Hardrock finishers with active Instagram presence
-- Sponsored athletes (Salomon, Hoka, Nike Trail, The North Face)
-- Running coaches with large followings
+### Tier 2 — Mid-Tier Coaches with High Engagement
+- 2K–10K followers but engagement rate >5%
+- Often producing better lead-gen content than big accounts (more targeted)
 
-**Race Organizations**
-- UTMB World Series accounts
-- Western States Endurance Run
-- Hardrock 100, Leadville 100, Moab 240
-- Regional race series (Golden Trail, Skyrunner World Series)
-
-**Media & Content Brands**
-- Trail running magazines and media (iRunFar, UltraSignup, Trail Runner Magazine)
-- YouTube/Instagram hybrid channels covering ultra running
-- Running apparel brands with content-first strategies
-
-**Gear & Nutrition Brands**
-- Salomon Running, Hoka, Brooks, Altra, Topo Athletic
-- Precision Fuel & Hydration, Maurten, Spring Energy
-- Suunto, Garmin, Coros (watch brands that post running content)
-
-### Discovery Searches
-
-Run web searches using these queries to surface active, high-engagement accounts:
+### Discovery Search Queries
 
 ```
-site:instagram.com ultra running reels
-"ultra running" OR "ultrarunning" instagram reels viral 2025
-top ultra running instagram accounts reels engagement
-UTMB instagram reels most viewed
-trail running viral reels
+ultra running coach instagram reels 2026
+ultramarathon coach instagram "DM me" OR "link in bio" reels
+trail running coaching instagram lead generation reels
+"ultra running coach" instagram viral
+"100 mile training" instagram coach reels
 ```
 
 Also search:
+```
+ultramarathon coach instagram "free training plan" OR "free guide" reels
+trail running coach "enroll" OR "join" OR "coaching program" instagram
+```
 
-```
-ultrarunning instagram hashtags trending
-#ultrarunning #trailrunning #utmb #100miles instagram top posts
-```
+### Seed Accounts to Check First
+- Search "ultra running coach" and "ultramarathon coach" on Instagram directly
+- Check who is tagging #ultrarunningcoach #trailrunningcoach #ultrarunnersofinstagram
+- Look at who elite athletes tag as their coach in race recap posts
 
 ---
 
 ## Step 3: Content Collection Framework
 
-For each account identified, collect the following data points on their Reels:
+For each coaching Reel found, capture:
 
 ### Per-Reel Data Points
 
 | Field | What to Capture |
 |-------|----------------|
-| Account | Handle and follower count |
+| Account | Handle, follower count, bio CTA |
 | Reel URL | Direct link |
 | Views | Total view count |
-| Likes | Like count |
-| Comments | Comment count |
-| Shares/Saves | If visible |
-| Caption | First 150 chars |
-| Hook | First 3 seconds description |
-| Format | Race footage / Training / Gear / Motivational / Educational |
-| Music | Track name and style |
-| Duration | Length in seconds |
-| Posted | Date |
-| Hashtags | Primary hashtags used |
+| Likes / Comments | Engagement |
+| Hook | Exact first line (text or spoken) |
+| Script structure | Intro → Body → CTA breakdown |
+| CTA type | See CTA taxonomy below |
+| CTA exact wording | Word-for-word |
+| Offer | What they're driving to (free guide, DM, program, webinar) |
+| Format | Talking head / voiceover / text-on-screen / demo |
+| Topic | Training tips / mindset / nutrition / gear / race strategy / transformation |
+| Music | Track name (or silent — coaching Reels often perform better without music) |
+| Duration | Seconds |
+| Comments tone | What are people saying? Asking questions? Sharing stories? |
 
-### Virality Score Formula
-
-Calculate a simple virality score to rank Reels:
-
+### Virality Score
 ```
 Virality Score = Views / Follower Count × 100
+> 50% = Viral    > 200% = Mega viral
 
-Interpretation:
-< 10%   = Below average reach
-10–50%  = Good reach
-50–200% = Viral
-> 200%  = Mega viral
-```
-
-Also compute engagement rate:
-
-```
 Engagement Rate = (Likes + Comments) / Views × 100
-```
-
-High engagement (>5%) + high views = strong content signal.
-
----
-
-## Step 4: Search Methodology
-
-Use these approaches to find viral Reels without direct API access:
-
-### Method A — Web Search Discovery
-
-Search for publicly discussed viral Reels:
-
-```
-"ultra running" reels "million views" OR "viral" site:instagram.com
-ultra running instagram reel trending [current year]
-most viewed ultra running instagram reels
-```
-
-### Method B — Hashtag Analysis
-
-Research top hashtags in the ultra running space:
-
-**Primary hashtags (highest volume)**
-- `#ultrarunning` — 3M+ posts
-- `#trailrunning` — 20M+ posts
-- `#ultramarathon` — 2M+ posts
-- `#100miles` — 500K+ posts
-- `#utmb` — 1M+ posts
-
-**Secondary/niche hashtags (higher engagement rate)**
-- `#ultrarunner` `#trailrunner` `#mountainrunning`
-- `#skyrunning` `#fastpacking` `#runninglife`
-- `#utmb2024` `#westernstates` `#hardrock100`
-- `#runningmotivation` `#runnersofinstagram`
-
-Search each hashtag's top Reels and note the metrics.
-
-### Method C — Competitor Content Mining
-
-For each competitor/target account:
-1. Navigate to their Reels tab
-2. Sort by most viewed (Instagram shows view counts on Reel thumbnails)
-3. Collect top 10 Reels per account
-4. Note patterns across their best performers
-
-### Method D — Google/Web Indexing
-
-Instagram Reels are indexed by Google. Use:
-
-```
-"@accountname" reels site:instagram.com
-"reel" ultra running 2024 views
-```
-
-### Method E — Third-Party Tools
-
-If the user has access to analytics tools, reference these integrations:
-
-- **Iconosquare** — Instagram analytics, competitor tracking, hashtag research
-- **Sprout Social** — Social listening, competitor benchmarking
-- **Phlanx** — Engagement rate calculator, Instagram audit
-- **Social Blade** — Account growth tracking
-- **Later** — Instagram analytics for owned accounts
-- **Metricool** — Cross-platform analytics including Instagram
-
----
-
-## Step 5: Viral Pattern Analysis
-
-After collecting 50+ Reels, identify the patterns driving virality.
-
-### Content Format Patterns
-
-Analyze which formats dominate the top performers:
-
-| Format | Signal | Why It Works |
-|--------|--------|-------------|
-| Race day POV footage | High shares | Vicarious experience, FOMO |
-| Finish line moments | High comments | Emotional payoff |
-| Scenic mountain runs | High saves | Aspirational/destination |
-| Training tips (voice-over) | High saves | Utility value |
-| Transformation/journey | High shares | Relatability |
-| Gear reviews/demos | High saves | Purchase intent |
-| Funny/relatable running humor | High shares | Community identity |
-| Behind-the-scenes race prep | High comments | Parasocial connection |
-
-### Hook Analysis
-
-The first 1–3 seconds determine whether viewers keep watching. Categorize hooks:
-
-**Visual hooks**
-- Dramatic scenery reveal
-- Epic race moment (crash, finish, mountain summit)
-- Unexpected or surprising action
-
-**Text hooks (on-screen)**
-- Controversial claim: "This is why most ultras DNF"
-- Bold stat: "I ran 100 miles on 0 sleep"
-- Direct challenge: "Can you run this?"
-
-**Audio hooks**
-- Trending audio track start
-- Dramatic music build
-- Athlete voiceover with strong opening line
-
-### Audio Patterns
-
-Note which music tracks appear across multiple viral Reels — these signal what Instagram's algorithm is currently boosting.
-
-### Caption Patterns
-
-Analyze captions of top-performing Reels:
-- Length: Short (<50 words) vs. long story-style
-- CTA placement: First line vs. end
-- Hashtag strategy: 3–5 vs. 20–30
-- Emoji usage: Heavy vs. minimal
-- Question format: Drives comments
-
----
-
-## Step 6: Output Report
-
-Deliver findings in this structure:
-
-### Section 1: Top 20 Viral Reels
-
-Table of the 20 highest-performing Reels found, sorted by virality score:
-
-| Rank | Account | Views | Virality Score | Format | Hook Type | Link |
-|------|---------|-------|---------------|--------|-----------|------|
-| 1 | @handle | 2.4M | 340% | Race POV | Visual drama | URL |
-| ... | | | | | | |
-
-### Section 2: Top Accounts by Reel Performance
-
-Rank the accounts producing the most consistent viral Reels.
-
-### Section 3: Winning Content Patterns
-
-Summarize the top 5 patterns observed:
-
-1. **Pattern name** — Description, frequency in top 20, why it works
-2. ...
-
-### Section 4: Trending Audio
-
-List the top 5 audio tracks appearing in viral ultra running Reels.
-
-### Section 5: Hashtag Recommendations
-
-Best-performing hashtags observed in top Reels, segmented by volume tier.
-
-### Section 6: Content Opportunities
-
-3–5 specific Reel concepts the user could create, based on the gap between what's going viral and what's underserved:
-
-```
-Opportunity: [Title]
-Format: [Type]
-Hook: [Suggested opening line or visual]
-Why it will perform: [Based on pattern analysis]
-Estimated effort: [Low/Medium/High]
+> 5% = Strong lead-gen signal
 ```
 
 ---
 
-## Step 7: Ongoing Monitoring Setup
+## Step 4: CTA Taxonomy
 
-Recommend a repeatable system for the user to track viral content weekly:
+Categorize every CTA found into one of these types:
 
-### Manual Monitoring Routine (30 min/week)
+### Type 1 — DM CTAs (highest conversion for coaching)
+- "DM me the word [KEYWORD] and I'll send you..."
+- "DM me 'ULTRA' to get my free training checklist"
+- "Send me a DM — tell me your next race and I'll reply with one tip"
+- "Comment [WORD] below and I'll DM you the link"
 
-1. Check top 10 target accounts' new Reels (10 min)
-2. Browse top hashtag Reels for `#ultrarunning` and `#trailrunning` (10 min)
-3. Log anything with >50% virality score in tracking sheet (10 min)
+### Type 2 — Link in Bio CTAs
+- "Full plan is linked in my bio"
+- "Grab the free guide at the link in my bio"
+- "My 16-week ultra program is open — link in bio"
 
-### Tracking Spreadsheet Template
+### Type 3 — Comment CTAs (boosts algorithm reach)
+- "Comment your next race below 👇"
+- "Drop a '🔥' if you've done this in training"
+- "Tell me in the comments — what's your biggest fear going into your first 50k?"
 
-Suggest creating a Google Sheet with columns:
-- Date found, Account, Reel URL, Views, Likes, Comments, Virality Score, Format, Hook, Music, Notes
+### Type 4 — Save CTAs (strong signal for evergreen content)
+- "Save this — you'll need it on race week"
+- "Screenshot this and put it in your training folder"
 
-### Alert Setup Options
+### Type 5 — Follow CTAs
+- "Follow for a new ultra tip every week"
+- "I post free ultra training advice daily — hit follow if this helped"
 
-- **Google Alerts** for "ultra running Instagram reel" + "viral"
-- **Mention.com** for brand/keyword monitoring on Instagram
-- **Later or Metricool** — set up competitor tracking dashboards
+### Type 6 — Direct Offer CTAs
+- "Spots open in my October cohort — apply at the link in bio"
+- "I'm taking 3 new coaching clients this month — DM me 'COACH'"
 
 ---
 
-## Ethical & Legal Considerations
+## Step 5: Script Structure Analysis
 
-When researching Instagram Reels:
+For every high-performing coaching Reel, document the full script structure:
 
-- **Do not scrape private accounts** — Only analyze publicly visible content
-- **Respect content ownership** — When reposting/referencing, always credit the original creator
-- **Instagram ToS** — Automated mass scraping violates Instagram's Terms of Service; use manual methods or official APIs
-- **Data storage** — Only store metadata (view counts, captions), not downloaded video files without permission
-- **Influencer outreach** — If the goal is partnerships, approach creators professionally via DM or email
+### The Standard High-Converting Coaching Script
+
+```
+[HOOK — 0–3 sec]
+Bold claim, counterintuitive statement, or specific result
+"Most ultra runners get this completely wrong."
+"I helped a 52-year-old finish their first 100-miler with this plan."
+"You don't need more miles. You need this."
+
+[PROBLEM — 3–15 sec]
+Name the pain point the audience is feeling right now.
+Speak it exactly as they would say it to themselves.
+
+[CREDIBILITY — 15–25 sec] (optional but powerful)
+One sentence. Race result, client result, or years of experience.
+Do not over-explain.
+
+[SOLUTION — 25–50 sec]
+The actual value. 3 tips, a framework, a before/after.
+Be specific. Vague coaching content gets skipped.
+
+[CTA — final 5–10 sec]
+One action only. Make it frictionless.
+```
+
+### Script Variations to Identify
+- **Listicle:** "3 things I do differently than most ultra coaches"
+- **Mistake:** "The #1 mistake I see in first-time 100-mile runners"
+- **Transformation:** "My client ran her first 50k at 58. Here's what we did."
+- **Controversial:** "Why your weekly mileage doesn't matter as much as you think"
+- **Day-in-the-life:** "What a week of ultra coaching actually looks like"
 
 ---
 
-## Related Skills
+## Step 6: Lead-Gen Content Patterns
 
-- **social-content** — For creating Reels based on the viral patterns found
-- **content-strategy** — For building an ongoing Instagram content calendar
-- **marketing-psychology** — For understanding why certain ultra running content resonates emotionally
-- **competitor-alternatives** — For broader competitive landscape analysis
+Identify which content types are most likely to generate leads (not just views).
+
+### High Lead-Gen Signals
+- Comments asking "how do I work with you?"
+- Comments saying "I just DMed you"
+- Comments asking follow-up questions about a specific problem
+- High save rate relative to views
+- Accounts with a clear bio offer (coaching application, free guide, waitlist)
+
+### Content Types That Convert to Leads
+
+| Content Type | Why It Converts |
+|-------------|-----------------|
+| Client transformation story | Social proof — viewers self-identify as the client |
+| "Mistakes" content | Creates urgency — "I'm making this mistake right now" |
+| Race-specific breakdowns | High intent — people searching for their specific race |
+| Training plan sneak peeks | Teases the offer without giving it away |
+| Q&A / "questions I get asked" | Positions coach as authority, generates DMs |
+| Before/after training data | Tangible proof — splits, elevation, time improvements |
+
+### Red Flags (Content That Gets Views But Not Leads)
+- Generic motivation without a coaching angle
+- Content that solves the whole problem (no reason to DM)
+- No CTA at all
+- CTA buried mid-Reel instead of at the end
+
+---
+
+## Step 7: Output Report
+
+### Section 1: Top Coaching Accounts (ranked by engagement + lead-gen signal)
+
+| Account | Followers | Engagement Rate | Best Reel Views | Primary CTA Type | Offer |
+|---------|-----------|----------------|----------------|-----------------|-------|
+
+### Section 2: Top 10 Performing Reels (coaching specific)
+
+For each:
+- Link
+- Hook (exact words)
+- Script summary
+- CTA (exact words)
+- Why it worked
+
+### Section 3: CTA Bank
+
+A ready-to-use collection of the best CTAs found, organized by type.
+
+### Section 4: Script Templates
+
+3–5 fill-in-the-blank scripts based on the highest-converting patterns found.
+
+### Section 5: Content Gaps
+
+What topics are coaches NOT covering that their audience clearly wants? (look at unanswered questions in comments)
+
+### Section 6: Content Ideas
+
+3–5 specific Reel concepts with full hook + script outline + CTA recommendation.
+
+---
+
+## Step 8: Ongoing Monitoring
+
+### Weekly Routine (20 min)
+1. Check top 5 coach accounts for new Reels (10 min)
+2. Note any new CTAs or script formats spotted (5 min)
+3. Screenshot comments that signal lead intent (5 min)
+
+### What to Log
+- New CTA formats that appear more than twice
+- Any script hook that stops your scroll
+- Client transformation stories (note the story structure, not just the result)
+
+---
+
+## Ethical Notes
+- Only analyze public accounts
+- Do not reproduce full scripts verbatim — use as structural inspiration
+- Credit coaches publicly if sharing their format with your own audience
