@@ -12,7 +12,7 @@
   "plugins": [
     {
       "name": "marketing-skills",
-      "description": "26 marketing skills for technical marketers and founders: CRO, copywriting, SEO, paid ads, pricing strategy, referral programs, Instagram Reels research, and more",
+      "description": "27 marketing skills for technical marketers and founders: CRO, copywriting, SEO, paid ads, pricing strategy, referral programs, Instagram Reels research, weekly content research agent, and more",
       "source": "./",
       "strict": false,
       "skills": [
@@ -40,6 +40,7 @@
         "./skills/schema-markup",
         "./skills/seo-audit",
         "./skills/instagram-reels-scraper",
+        "./skills/content-research-agent",
         "./skills/signup-flow-cro",
         "./skills/social-content"
       ]
