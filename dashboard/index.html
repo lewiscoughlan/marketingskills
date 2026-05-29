@@ -5,191 +5,126 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Instagram Research Dashboard</title>
 <style>
-:root {
-  --bg: #0f172a;
-  --surface: #1e293b;
-  --surface-2: #273548;
-  --surface-3: #2f3f55;
-  --border: #334155;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
-  --blue: #3b82f6;
-  --blue-h: #2563eb;
-  --blue-d: rgba(59,130,246,0.12);
-  --green: #22c55e;
-  --green-d: rgba(34,197,94,0.1);
-  --red: #f87171;
-  --red-d: rgba(248,113,113,0.1);
-  --yellow: #fbbf24;
-  --yellow-d: rgba(251,191,36,0.1);
-  --purple: #a78bfa;
-  --r: 8px; --rl: 12px;
-}
+:root{--bg:#0f172a;--sur:#1e293b;--sur2:#273548;--sur3:#2f3f55;--bdr:#334155;--tx:#e2e8f0;--mu:#94a3b8;--bl:#3b82f6;--blh:#2563eb;--bld:rgba(59,130,246,.12);--gn:#22c55e;--gnd:rgba(34,197,94,.1);--rd:#f87171;--rdd:rgba(248,113,113,.1);--yw:#fbbf24;--ywd:rgba(251,191,36,.1);--pu:#a78bfa;--r:8px;--rl:12px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;line-height:1.6}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;line-height:1.6}
 button{cursor:pointer;border:none;background:none;font-family:inherit;font-size:inherit;color:inherit}
-input,textarea,select{font-family:inherit;font-size:inherit;color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:9px 12px;width:100%;outline:none;transition:border-color .15s}
-input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-d)}
+input,textarea,select{font-family:inherit;font-size:inherit;color:var(--tx);background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--r);padding:9px 12px;width:100%;outline:none;transition:border-color .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--bl);box-shadow:0 0 0 3px var(--bld)}
 textarea{resize:vertical;min-height:80px}
-select option{background:var(--surface-2)}
-label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
-a{color:var(--blue);text-decoration:none}
+select option{background:var(--sur2)}
+label{display:block;font-size:11px;color:var(--mu);margin-bottom:5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+a{color:var(--bl);text-decoration:none}
 a:hover{text-decoration:underline}
-
 #app{display:flex;flex-direction:column;height:100vh}
-
-/* Header */
-.hdr{padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap}
-.hdr-title{font-size:15px;font-weight:800;letter-spacing:-.3px}
-.hdr-title .bl{color:var(--blue)}
-.hdr-right{display:flex;align-items:center;gap:10px}
-.hdr-saved{font-size:12px;color:var(--muted)}
-
-/* Client bar */
-.cbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 24px;flex-shrink:0}
-.cbar-label{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.cbar-btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.cpill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:30px;border:2px solid var(--border);color:var(--muted);font-size:13px;font-weight:600;transition:all .18s;background:none;white-space:nowrap}
-.cpill:hover{border-color:var(--muted);color:var(--text)}
+.hdr{padding:12px 24px;background:var(--sur);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap}
+.hdr-t{font-size:15px;font-weight:800;letter-spacing:-.3px}.hdr-t .bl{color:var(--bl)}
+.hdr-r{display:flex;align-items:center;gap:10px}
+.hdr-s{font-size:12px;color:var(--mu)}
+.cbar{background:var(--sur);border-bottom:1px solid var(--bdr);padding:12px 24px;flex-shrink:0}
+.cbar-l{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--mu);margin-bottom:10px}
+.cbar-b{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.cpill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:30px;border:2px solid var(--bdr);color:var(--mu);font-size:13px;font-weight:600;transition:all .18s;background:none;white-space:nowrap}
+.cpill:hover{border-color:var(--mu);color:var(--tx)}
 .cpill.on{color:#fff;border-color:transparent}
 .cdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 .ccnt{font-size:11px;opacity:.7;background:rgba(0,0,0,.25);padding:1px 7px;border-radius:20px}
 .cpill .cx{opacity:0;font-size:11px;line-height:1;transition:opacity .15s}
-.cpill:hover .cx{opacity:.6}
-.cpill .cx:hover{opacity:1!important}
-.cadd{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:30px;border:2px dashed var(--border);color:var(--muted);font-size:13px;font-weight:600;transition:all .18s}
-.cadd:hover{border-color:var(--blue);color:var(--blue)}
-
-/* Tabs */
-.tabs{display:flex;gap:2px;padding:12px 24px 0;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto}
+.cpill:hover .cx{opacity:.6}.cpill .cx:hover{opacity:1!important}
+.cadd{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:30px;border:2px dashed var(--bdr);color:var(--mu);font-size:13px;font-weight:600;transition:all .18s}
+.cadd:hover{border-color:var(--bl);color:var(--bl)}
+.tabs{display:flex;gap:2px;padding:12px 24px 0;background:var(--sur);border-bottom:1px solid var(--bdr);flex-shrink:0;overflow-x:auto}
 .tabs::-webkit-scrollbar{height:0}
-.tbtn{padding:8px 16px;border-radius:var(--r) var(--r) 0 0;font-size:13px;font-weight:600;color:var(--muted);transition:all .15s;white-space:nowrap;border:1px solid transparent;border-bottom:none;margin-bottom:-1px}
-.tbtn:hover{color:var(--text);background:var(--surface-2)}
-.tbtn.on{color:var(--blue);background:var(--bg);border-color:var(--border)}
-
-.tc{flex:1;overflow-y:auto;padding:24px}
-.tp{display:none}
-.tp.on{display:block}
-
-/* Page header */
-.ph{margin-bottom:20px}
-.ph-title{font-size:18px;font-weight:700;margin-bottom:4px}
-.ph-desc{font-size:13px;color:var(--muted);max-width:640px}
+.tbtn{padding:8px 16px;border-radius:var(--r) var(--r) 0 0;font-size:13px;font-weight:600;color:var(--mu);transition:all .15s;white-space:nowrap;border:1px solid transparent;border-bottom:none;margin-bottom:-1px}
+.tbtn:hover{color:var(--tx);background:var(--sur2)}.tbtn.on{color:var(--bl);background:var(--bg);border-color:var(--bdr)}
+.tc{flex:1;overflow-y:auto;padding:24px}.tp{display:none}.tp.on{display:block}
+.ph{margin-bottom:20px}.ph-title{font-size:18px;font-weight:700;margin-bottom:4px}
+.ph-desc{font-size:13px;color:var(--mu);max-width:640px}
 .ph-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
-
-/* Buttons */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r);font-size:13px;font-weight:600;transition:all .15s;border:none;cursor:pointer}
-.btn-p{background:var(--blue);color:#fff}
-.btn-p:hover{background:var(--blue-h)}
-.btn-g{background:var(--surface-2);color:var(--muted);border:1px solid var(--border)}
-.btn-g:hover{color:var(--text);border-color:var(--muted)}
-.btn-d{background:var(--red-d);color:var(--red);border:1px solid transparent}
-.btn-d:hover{border-color:var(--red)}
+.btn-p{background:var(--bl);color:#fff}.btn-p:hover{background:var(--blh)}
+.btn-g{background:var(--sur2);color:var(--mu);border:1px solid var(--bdr)}.btn-g:hover{color:var(--tx);border-color:var(--mu)}
+.btn-d{background:var(--rdd);color:var(--rd);border:1px solid transparent}.btn-d:hover{border-color:var(--rd)}
+.btn-gen{background:linear-gradient(135deg,#6366f1,#3b82f6);color:#fff}.btn-gen:hover{opacity:.9}
 .btn-s{padding:5px 11px;font-size:12px}
-
-/* Table */
-.tw{overflow-x:auto;border-radius:var(--rl);border:1px solid var(--border)}
+.tw{overflow-x:auto;border-radius:var(--rl);border:1px solid var(--bdr)}
 table{width:100%;border-collapse:collapse}
-th{background:var(--surface);padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
-td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:rgba(59,130,246,.03)}
+th{background:var(--sur);padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--mu);border-bottom:1px solid var(--bdr);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--bdr);vertical-align:middle}
+tr:last-child td{border-bottom:none}tr:hover td{background:rgba(59,130,246,.03)}
 .tda{display:flex;gap:6px}
-
-/* Cards */
 .cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:18px;display:flex;flex-direction:column;gap:12px}
-.card:hover{border-color:var(--surface-3)}
+.card{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--rl);padding:18px;display:flex;flex-direction:column;gap:12px}
+.card:hover{border-color:var(--sur3)}
 .ct{font-size:14px;font-weight:700}
-.chook{font-size:13px;color:var(--blue);font-style:italic;line-height:1.5;border-left:2px solid var(--blue);padding-left:10px}
-.cbody{font-size:13px;color:var(--muted);line-height:1.6}
+.chook{font-size:13px;color:var(--bl);font-style:italic;line-height:1.5;border-left:2px solid var(--bl);padding-left:10px}
+.cbody{font-size:13px;color:var(--mu);line-height:1.6}
 .ctags{display:flex;gap:6px;flex-wrap:wrap}
-.cft{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding-top:10px;border-top:1px solid var(--border)}
-.cac{display:flex;gap:6px}
-
-/* Badges */
+.cft{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding-top:10px;border-top:1px solid var(--bdr)}
+.cac{display:flex;gap:6px;flex-wrap:wrap}
 .b{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
-.bb{background:var(--blue-d);color:var(--blue)}
-.bg{background:var(--green-d);color:var(--green)}
-.br{background:var(--red-d);color:var(--red)}
-.by{background:var(--yellow-d);color:var(--yellow)}
-.bp{background:rgba(167,139,250,.1);color:var(--purple)}
-.bm{background:var(--surface-2);color:var(--muted)}
-
+.bb{background:var(--bld);color:var(--bl)}.bg{background:var(--gnd);color:var(--gn)}
+.br{background:var(--rdd);color:var(--rd)}.by{background:var(--ywd);color:var(--yw)}
+.bp{background:rgba(167,139,250,.1);color:var(--pu)}.bm{background:var(--sur2);color:var(--mu)}
 /* CTA Bank */
 .cta-grp{margin-bottom:26px}
-.cta-grp-hdr{font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.cta-grp-hdr{font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--mu);padding-bottom:10px;border-bottom:1px solid var(--bdr);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
 .cta-list{display:flex;flex-direction:column;gap:8px}
-.cta-it{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;transition:border-color .15s}
-.cta-it.used{border-color:var(--blue);background:var(--blue-d)}
+.cta-it{display:flex;align-items:center;gap:12px;background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:12px 14px;transition:border-color .15s}
+.cta-it.used{border-color:var(--bl);background:var(--bld)}
 .cta-tx{flex:1;font-size:13px;line-height:1.5}
 .cta-ac{display:flex;gap:6px;flex-shrink:0}
-.cta-add-row{display:flex;gap:8px;margin-top:10px}
-.cta-add-row input{flex:1}
-
-/* Scripts */
-.sbody{font-size:13px;line-height:1.7;color:var(--muted);white-space:pre-wrap;background:var(--surface-2);border-radius:var(--r);padding:14px}
-.sbody .ph{color:var(--blue);background:var(--blue-d);padding:0 4px;border-radius:3px}
-
-/* Kanban */
-.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.kcol{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:14px;min-height:160px}
+.cta-add-row{display:flex;gap:8px;margin-top:10px}.cta-add-row input{flex:1}
+/* Content Pipeline kanban */
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
+.kcol{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--rl);padding:14px;min-height:160px}
 .kch{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
-.kcnt{background:var(--surface-2);padding:1px 8px;border-radius:20px;font-size:11px}
-.kcol[data-s=Idea] .kch{color:var(--blue)}
-.kcol[data-s=Scripted] .kch{color:var(--yellow)}
-.kcol[data-s=Filmed] .kch{color:var(--purple)}
-.kcol[data-s=Posted] .kch{color:var(--green)}
-.kcard{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
-.kcard:hover{border-color:var(--blue)}
+.kcnt{background:var(--sur2);padding:1px 8px;border-radius:20px;font-size:11px}
+.kcol[data-s=Idea] .kch{color:var(--bl)}.kcol[data-s=Scripted] .kch{color:var(--yw)}
+.kcol[data-s=Filmed] .kch{color:var(--pu)}.kcol[data-s=Posted] .kch{color:var(--gn)}
+.kcard{background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.kcard:hover{border-color:var(--bl)}
 .kct{font-size:13px;font-weight:600;margin-bottom:5px}
-.kch2{font-size:12px;color:var(--blue);font-style:italic;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.kchook{font-size:12px;color:var(--bl);font-style:italic;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:6px}
+.kcta{font-size:11px;color:var(--gn);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .kcft{margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
-
+/* Idea detail */
+.idea-detail{background:var(--sur);border:1px solid var(--bl);border-radius:var(--rl);padding:20px;margin-top:16px;display:flex;flex-direction:column;gap:16px}
+.idea-detail-hdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.dlbl{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--mu);margin-bottom:6px}
+.script-box{font-size:13px;line-height:1.7;color:var(--mu);white-space:pre-wrap;background:var(--sur2);border-radius:var(--r);padding:14px}
+.script-box .ph{color:var(--bl);background:var(--bld);padding:0 4px;border-radius:3px}
+.cta-highlight{background:var(--gnd);border:1px solid var(--gn);border-radius:var(--r);padding:12px 14px;font-size:13px;color:var(--gn);line-height:1.5}
+/* Script templates section */
+.section-divider{display:flex;align-items:center;gap:12px;margin:28px 0 20px}
+.section-divider span{font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--mu);white-space:nowrap}
+.section-divider::before,.section-divider::after{content:'';flex:1;border-top:1px solid var(--bdr)}
+/* Generate prompt modal */
+.prompt-box{font-family:monospace;font-size:12px;background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;line-height:1.6;color:var(--tx);white-space:pre-wrap;max-height:300px;overflow-y:auto}
 /* Gaps */
-.git{display:flex;align-items:flex-start;gap:12px;padding:13px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px;max-width:720px}
-.git.done{opacity:.4}
-.git.done .gtx{text-decoration:line-through}
-.gck{width:18px;height:18px;accent-color:var(--blue);cursor:pointer;flex-shrink:0;margin-top:2px}
+.git{display:flex;align-items:flex-start;gap:12px;padding:13px;background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:8px;max-width:720px}
+.git.done{opacity:.4}.git.done .gtx{text-decoration:line-through}
+.gck{width:18px;height:18px;accent-color:var(--bl);cursor:pointer;flex-shrink:0;margin-top:2px}
 .gtx{flex:1;font-size:13px;line-height:1.5}
-.gadd{display:flex;gap:8px;margin-top:12px;max-width:720px}
-.gadd input{flex:1}
-
-/* Detail panel */
-.dpanel{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:20px;margin-top:16px;max-width:700px;display:flex;flex-direction:column;gap:14px}
-.dlbl{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
-
-/* Tip */
-.tip{background:var(--blue-d);border:1px solid rgba(59,130,246,.2);border-radius:var(--r);padding:12px 14px;font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6}
-.tip strong{color:var(--blue)}
-
-/* Modal */
+.gadd{display:flex;gap:8px;margin-top:12px;max-width:720px}.gadd input{flex:1}
+.tip{background:var(--bld);border:1px solid rgba(59,130,246,.2);border-radius:var(--r);padding:12px 14px;font-size:13px;color:var(--mu);margin-bottom:20px;line-height:1.6}
+.tip strong{color:var(--bl)}
 .bdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:100;align-items:center;justify-content:center;padding:20px}
 .bdrop.on{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto}
-.mhd{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--border)}
+.modal{background:var(--sur);border:1px solid var(--bdr);border-radius:16px;width:100%;max-width:580px;max-height:90vh;overflow-y:auto}
+.mhd{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--bdr)}
 .mttl{font-size:15px;font-weight:700}
 .mbdy{padding:20px;display:flex;flex-direction:column;gap:14px}
-.mft{padding:16px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.ff{display:flex;flex-direction:column}
-
-/* Swatches */
+.mft{padding:16px 20px;border-top:1px solid var(--bdr);display:flex;justify-content:flex-end;gap:10px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ff{display:flex;flex-direction:column}
 .swatches{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 .sw{width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s}
 .sw.on{border-color:#fff;transform:scale(1.15)}
-
-/* Empty */
-.empty{text-align:center;padding:48px 20px;color:var(--muted);font-size:13px}
-
-/* Toast */
-.toast{position:fixed;bottom:24px;right:24px;background:var(--surface);border:1px solid var(--blue);color:var(--text);padding:10px 18px;border-radius:var(--r);font-size:13px;z-index:200;opacity:0;transition:opacity .2s;pointer-events:none}
+.empty{text-align:center;padding:48px 20px;color:var(--mu);font-size:13px}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--sur);border:1px solid var(--bl);color:var(--tx);padding:10px 18px;border-radius:var(--r);font-size:13px;z-index:200;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
-
-/* Import textarea */
-.imp-ta{font-family:monospace;font-size:12px;min-height:140px}
-
+.imp-ta{font-family:monospace;font-size:12px;min-height:120px}
 @media(max-width:900px){.kanban{grid-template-columns:1fr 1fr}.frow{grid-template-columns:1fr}}
 @media(max-width:640px){.kanban{grid-template-columns:1fr}.cg{grid-template-columns:1fr}.tc{padding:14px}table th:nth-child(n+5),table td:nth-child(n+5){display:none}}
 </style>
@@ -197,20 +132,19 @@ tr:hover td{background:rgba(59,130,246,.03)}
 <body>
 <div id="app">
   <div class="hdr">
-    <div class="hdr-title">📊 Instagram <span class="bl">Research Dashboard</span></div>
-    <div class="hdr-right">
+    <div class="hdr-t">📊 Instagram <span class="bl">Research Dashboard</span></div>
+    <div class="hdr-r">
       <button class="btn btn-g btn-s" onclick="openImport()">⬇ Import Research</button>
-      <span class="hdr-saved" id="last-saved">Not yet saved</span>
+      <span class="hdr-s" id="last-saved">Not yet saved</span>
     </div>
   </div>
   <div class="cbar">
-    <div class="cbar-label">Client</div>
-    <div class="cbar-btns" id="cbar"></div>
+    <div class="cbar-l">Client</div>
+    <div class="cbar-b" id="cbar"></div>
   </div>
   <div class="tabs" id="tabs"></div>
   <div class="tc" id="tc"></div>
 </div>
-
 <div class="bdrop" id="bdrop">
   <div class="modal">
     <div class="mhd"><div class="mttl" id="mttl"></div><button class="btn btn-g btn-s" onclick="closeModal()">✕</button></div>
@@ -219,65 +153,52 @@ tr:hover td{background:rgba(59,130,246,.03)}
   </div>
 </div>
 <div class="toast" id="toast"></div>
-
 <script>
-// ── CONSTANTS ─────────────────────────────────
 const PALETTE=['#3b82f6','#f97316','#22c55e','#a78bfa','#f472b6','#fbbf24','#34d399','#f87171','#38bdf8'];
-const TABS=['Coaches','Reels','CTA Bank','Scripts','Content Ideas','Gaps'];
-const TID={'Coaches':'coaches','Reels':'reels','CTA Bank':'cta-bank','Scripts':'scripts','Content Ideas':'content-ideas','Gaps':'gaps'};
+const TABS=['Coaches','Reels','CTA Bank','Content Pipeline','Gaps'];
+const TID={'Coaches':'coaches','Reels':'reels','CTA Bank':'cta-bank','Content Pipeline':'content','Gaps':'gaps'};
 const KCOLS=['Idea','Scripted','Filmed','Posted'];
 const CTA_TYPES=['DM','Comment','Save','Link in Bio','Follow','Direct Offer'];
-const CTA_C={DM:'var(--green)',Comment:'var(--yellow)',Save:'var(--blue)','Link in Bio':'var(--purple)',Follow:'var(--muted)','Direct Offer':'var(--red)'};
+const CTA_C={DM:'var(--gn)',Comment:'var(--yw)',Save:'var(--bl)','Link in Bio':'var(--pu)',Follow:'var(--mu)','Direct Offer':'var(--rd)'};
 
-// ── DEFAULT DATA ──────────────────────────────
 const DEFAULTS={
   clients:[
     {id:'cl1',name:'Running Coach — All Levels',color:'#3b82f6'},
     {id:'cl2',name:'Ultra Running Coach',color:'#f97316'},
   ],
   coaches:[
-    // ── CL1: ALL LEVELS RUNNING COACH (runwithnick) ──
-    {id:'cn1',clientId:'cl1',handle:'@runwithnick',followers:30000,avgViews:0,viralityScore:0,offerType:'1:1 Coaching',ctaType:'Link in Bio',notes:'YOUR CLIENT — Nick Hancock. Helps adults 40+ run faster without feeling wrecked. "Train like an Elite." Live + online coaching + running trips. Primary offer: 1:1 + group programs.',createdAt:'2026-05-03'},
-    {id:'cn2',clientId:'cl1',handle:'@runningexplained',followers:199000,avgViews:0,viralityScore:0,offerType:'1:1 Coaching + Course',ctaType:'Link in Bio',notes:'199K followers. Science-based running education. Popular podcast. Strong educational Reels = high trust authority. Study their explainer format — breaks down training science into short digestible clips.',createdAt:'2026-05-03'},
-    {id:'cn3',clientId:'cl1',handle:'@percelldugger',followers:114000,avgViews:0,viralityScore:0,offerType:'1:1 Coaching',ctaType:'Link in Bio',notes:'114K. Former Nike Run Club coach. Editor at Andscape + HuffPost. Strong personal brand + authority. Beginner-friendly content. Study how he makes elite coaching feel accessible.',createdAt:'2026-05-03'},
-    {id:'cn4',clientId:'cl1',handle:'@trackclubbabe',followers:362000,avgViews:0,viralityScore:0,offerType:'Training Plans',ctaType:'Link in Bio',notes:'362K. Kim. 6:08 → 3:11 marathon story. Training plans as entry-point offer. All-levels content. Very relatable personal hooks = massive share rate. Study her transformation narrative.',createdAt:'2026-05-03'},
-    {id:'cn5',clientId:'cl1',handle:'@stephpiruns',followers:111000,avgViews:31300,viralityScore:28.2,offerType:'1:1 Coaching + Plans',ctaType:'Link in Bio',notes:'111K. Doctor of Physical Therapy. Injury prevention = huge niche for 40+ runners. Avg 31.3K views. Uses instant-download plans as low-friction lead magnet.',createdAt:'2026-05-03'},
-    {id:'cn6',clientId:'cl1',handle:'@benparkerfitness',followers:37000,avgViews:0,viralityScore:0,offerType:'Coaching App (Runna)',ctaType:'Link in Bio',notes:'37K. Co-founder of Runna app. 43 marathons, 9 ironmans. Study how he drives app downloads via Reels — strong social proof through personal achievement.',createdAt:'2026-05-03'},
-    {id:'cn7',clientId:'cl1',handle:'@adamsmythcoaching',followers:6162,avgViews:0,viralityScore:0,offerType:'1:1 Coaching',ctaType:'DM',notes:'6K. Non-runner to 2:30 marathoner story. Co-hosts Flowstate podcast. Great example of leveraging personal transformation as the hook. Check high-engagement posts.',createdAt:'2026-05-03'},
-    {id:'cn8',clientId:'cl1',handle:'@coachbennett',followers:0,avgViews:0,viralityScore:0,offerType:'Nike Run Club',ctaType:'Content Only',notes:'Nike Running Global Head Coach. Content goes beyond running into life/mindset. No direct CTA but huge brand authority. Study storytelling style — emotional hooks + life lessons.',createdAt:'2026-05-03'},
-    // ── CL2: ULTRA RUNNING COACH (joshc.laker) ──
-    {id:'cu1',clientId:'cl2',handle:'@joshc.laker',followers:0,avgViews:0,viralityScore:0,offerType:'1:1 Coaching',ctaType:'Link in Bio',notes:'YOUR CLIENT — Josh Laker. Ultra running coach. 4CycleRunner / Ultra Success Formula. USATF Level II + UESCA certified. Won 2 backyard ultras incl. Ohio Backyard Ultra. Coaches runners to their first 50k/50M/100M.',createdAt:'2026-05-03'},
-    {id:'cu2',clientId:'cl2',handle:'@mr.ultrarunner',followers:180000,avgViews:0,viralityScore:0,offerType:'1:1 Coaching',ctaType:'Link in Bio',notes:'Evgenii Makarov. 10yr coaching, 159 marathons + 88 ultras. Very large audience. Study his Reels structure for authority-first content style.',createdAt:'2026-05-03'},
-    {id:'cu3',clientId:'cl2',handle:'@stephpiruns',followers:111000,avgViews:31300,viralityScore:28.2,offerType:'1:1 Coaching + Plans',ctaType:'Link in Bio',notes:'Crossover: DPT + running coach. 111K followers, avg 31.3K views. Strong lead-gen via instant-download plans as entry point.',createdAt:'2026-05-03'},
-    {id:'cu4',clientId:'cl2',handle:'@mountainroche',followers:102000,avgViews:0,viralityScore:0,offerType:'1:1 Coaching (Elite)',ctaType:'Content → Podcast',notes:'David Roche. Coaches Tara Dower, Damian Hall. SWAP Running. Leadville 100 CR. Authority/media play rather than direct CTA.',createdAt:'2026-05-03'},
-    {id:'cu5',clientId:'cl2',handle:'@joecorcione',followers:13000,avgViews:0,viralityScore:0,offerType:'Group Coaching',ctaType:'DM',notes:'25+ ultra finishes. Everyday Ultra podcast. UESCA certified. Group coaching cohorts. Strong community angle.',createdAt:'2026-05-03'},
-    {id:'cu6',clientId:'cl2',handle:'@4cyclerunner',followers:0,avgViews:0,viralityScore:0,offerType:'1:1 Coaching + Course',ctaType:'Link in Bio',notes:'Ultra Success Formula. USATF + UESCA certified. Backyard ultra specialist. Check Reels tab for content frequency and lead-gen format.',createdAt:'2026-05-03'},
-    {id:'cu7',clientId:'cl2',handle:'@hannahwalshcoaching',followers:4570,avgViews:0,viralityScore:0,offerType:'1:1 Coaching (Women)',ctaType:'DM',notes:'Ultra coach for women. Small but highly targeted. Underserved niche — female-specific ultra training.',createdAt:'2026-05-03'},
+    {id:'cn1',clientId:'cl1',handle:'@runwithnick',followers:30000,avgViews:0,viralityScore:0,offerType:'1:1 Coaching',ctaType:'Link in Bio',notes:'YOUR CLIENT — Nick Hancock. Adults 40+ run faster without feeling wrecked. Live + online coaching + running trips.',createdAt:'2026-05-03'},
+    {id:'cn2',clientId:'cl1',handle:'@runningexplained',followers:199000,avgViews:0,viralityScore:0,offerType:'1:1 Coaching + Course',ctaType:'Link in Bio',notes:'199K. Science-based running education. Podcast. Strong educational Reels = high trust. Study their explainer format.',createdAt:'2026-05-03'},
+    {id:'cn3',clientId:'cl1',handle:'@percelldugger',followers:114000,avgViews:0,viralityScore:0,offerType:'1:1 Coaching',ctaType:'Link in Bio',notes:'114K. Former Nike Run Club coach. Beginner-friendly. Study how he makes elite coaching feel accessible.',createdAt:'2026-05-03'},
+    {id:'cn4',clientId:'cl1',handle:'@trackclubbabe',followers:362000,avgViews:0,viralityScore:0,offerType:'Training Plans',ctaType:'Link in Bio',notes:'362K. Kim. 6:08 → 3:11 marathon. Very relatable hooks = massive share rate. Study her transformation narrative.',createdAt:'2026-05-03'},
+    {id:'cn5',clientId:'cl1',handle:'@stephpiruns',followers:111000,avgViews:31300,viralityScore:28.2,offerType:'1:1 Coaching + Plans',ctaType:'Link in Bio',notes:'111K. DPT. Injury prevention angle huge for 40+ runners. Avg 31.3K views. Instant-download plans as lead magnet.',createdAt:'2026-05-03'},
+    {id:'cn6',clientId:'cl1',handle:'@benparkerfitness',followers:37000,avgViews:0,viralityScore:0,offerType:'Coaching App (Runna)',ctaType:'Link in Bio',notes:'37K. Co-founder of Runna. 43 marathons, 9 ironmans. Study how he drives app downloads from Reels.',createdAt:'2026-05-03'},
+    {id:'cn7',clientId:'cl1',handle:'@adamsmythcoaching',followers:6162,avgViews:0,viralityScore:0,offerType:'1:1 Coaching',ctaType:'DM',notes:'6K. Non-runner to 2:30 marathoner. Personal transformation story as ongoing hook.',createdAt:'2026-05-03'},
+    {id:'cu1',clientId:'cl2',handle:'@joshc.laker',followers:0,avgViews:0,viralityScore:0,offerType:'1:1 Coaching',ctaType:'Link in Bio',notes:'YOUR CLIENT — Josh Laker. 4CycleRunner / Ultra Success Formula. USATF Level II + UESCA certified. Won 2 backyard ultras.',createdAt:'2026-05-03'},
+    {id:'cu2',clientId:'cl2',handle:'@mr.ultrarunner',followers:180000,avgViews:0,viralityScore:0,offerType:'1:1 Coaching',ctaType:'Link in Bio',notes:'Evgenii Makarov. 180K. 159 marathons + 88 ultras. Study his Reels structure for authority-first content.',createdAt:'2026-05-03'},
+    {id:'cu3',clientId:'cl2',handle:'@joecorcione',followers:13000,avgViews:0,viralityScore:0,offerType:'Group Coaching',ctaType:'DM',notes:'13K. 25+ ultra finishes. Everyday Ultra podcast. Strong community angle. Good DM CTA examples.',createdAt:'2026-05-03'},
+    {id:'cu4',clientId:'cl2',handle:'@mountainroche',followers:102000,avgViews:0,viralityScore:0,offerType:'1:1 Coaching (Elite)',ctaType:'Content → Podcast',notes:'David Roche. 102K. Coaches Tara Dower, Damian Hall. SWAP Running. Authority play over direct CTA.',createdAt:'2026-05-03'},
+    {id:'cu5',clientId:'cl2',handle:'@4cyclerunner',followers:0,avgViews:0,viralityScore:0,offerType:'1:1 Coaching + Course',ctaType:'Link in Bio',notes:'Ultra Success Formula. USATF + UESCA. Backyard ultra specialist.',createdAt:'2026-05-03'},
+    {id:'cu6',clientId:'cl2',handle:'@hannahwalshcoaching',followers:4570,avgViews:0,viralityScore:0,offerType:'1:1 Coaching (Women)',ctaType:'DM',notes:'4.5K. Ultra coach for women. Underserved niche — female-specific ultra training.',createdAt:'2026-05-03'},
   ],
   reels:[
-    // ── CL1 REELS ──
-    {id:'rl1',clientId:'cl1',coachHandle:'@trackclubbabe',followers:362000,views:0,viralityScore:0,format:'Talking Head',topic:'Transformation',hookText:'"I ran a 6:08 marathon. Then I changed one thing. Three years later: 3:11."',scriptSummary:'Personal transformation hook → the one change (not more miles, smarter miles) → 3 specific shifts she made → mirror the viewer: "if you feel stuck, this is why" → CTA for training plan.',ctaWording:'Grab my free training plan at the link in my bio',link:'',dateAdded:'2026-05-03'},
-    {id:'rl2',clientId:'cl1',coachHandle:'@runningexplained',followers:199000,views:0,viralityScore:0,format:'Text on Screen',topic:'Training Tips',hookText:'"Your easy runs are probably too fast. Here is exactly how to fix it."',scriptSummary:'Opens with the #1 mistake recreational runners make → explains Zone 2 in plain English (not heart rate jargon) → simple talk test method → why fixing this adds years of injury-free running → follow CTA.',ctaWording:'Follow for science-backed running tips every week',link:'',dateAdded:'2026-05-03'},
-    {id:'rl3',clientId:'cl1',coachHandle:'@stephpiruns',followers:111000,views:0,viralityScore:0,format:'Talking Head',topic:'Training Tips',hookText:'"3 signs your body is about to get injured — and how to stop it before it happens."',scriptSummary:'DPT authority open → 3 warning signs most runners ignore (sharp vs dull pain, compensating stride, sleep quality drop) → each with a 10-second fix → save CTA.',ctaWording:'Save this — check back before your next long run.',link:'',dateAdded:'2026-05-03'},
-    {id:'rl4',clientId:'cl1',coachHandle:'@percelldugger',followers:114000,views:0,viralityScore:0,format:'Talking Head',topic:'Mindset',hookText:'"Nobody tells beginner runners this. But it is the most important thing I know."',scriptSummary:'Emotional hook → the insight: consistency > intensity for the first year → what that actually looks like in a week → the long game framing → follow CTA.',ctaWording:'Follow — I post one free running tip every day.',link:'',dateAdded:'2026-05-03'},
-    // ── CL2 REELS ──
-    {id:'rl5',clientId:'cl2',coachHandle:'@joecorcione',followers:13000,views:0,viralityScore:0,format:'Talking Head',topic:'Race Strategy',hookText:'"Want to feel more confident on race day? Here\'s what I do with my athletes."',scriptSummary:'Confidence pain point → 3-step race prep protocol → authority line → coaching offer.',ctaWording:'DM me "RACE" and I\'ll send you my full race week checklist',link:'https://www.instagram.com/joecorcione/reel/C7hrd-ZyFiF/',dateAdded:'2026-05-03'},
-    {id:'rl6',clientId:'cl2',coachHandle:'@joecorcione',followers:13000,views:0,viralityScore:0,format:'Talking Head',topic:'Transformation',hookText:'"She came to me with zero running background at 51. 8 months later she crossed the finish line of a 50-miler."',scriptSummary:'Client transformation story. Before: never run more than 5k. Journey: 3 runs/week, built to back-to-backs. Result: 50-mile finish.',ctaWording:'DM me FIRST and I\'ll send you the exact 6-month progression we used',link:'',dateAdded:'2026-05-03'},
-    {id:'rl7',clientId:'cl2',coachHandle:'@mr.ultrarunner',followers:180000,views:0,viralityScore:0,format:'Talking Head',topic:'Training Tips',hookText:'"The #1 mistake I see in first-time 100-mile runners — and it\'s not what you think."',scriptSummary:'Counterintuitive claim. Problem: most think DNFs are fitness failures. Truth: pacing in miles 1–30. Solution: run first quarter embarrassingly easy.',ctaWording:'Comment your race distance and I\'ll DM you the exact pace formula I use',link:'',dateAdded:'2026-05-03'},
+    {id:'rl1',clientId:'cl1',coachHandle:'@trackclubbabe',followers:362000,views:0,viralityScore:0,format:'Talking Head',topic:'Transformation',hookText:'"I ran a 6:08 marathon. Then I changed one thing. Three years later: 3:11."',scriptSummary:'Transformation hook → the one change (smarter not more miles) → 3 specific shifts → mirror viewer → CTA.',ctaWording:'Grab my free training plan at the link in my bio',link:'',dateAdded:'2026-05-03'},
+    {id:'rl2',clientId:'cl1',coachHandle:'@runningexplained',followers:199000,views:0,viralityScore:0,format:'Text on Screen',topic:'Training Tips',hookText:'"Your easy runs are probably too fast. Here is exactly how to fix it."',scriptSummary:'#1 mistake recreational runners make → Zone 2 in plain English → talk test method → why slowing down makes you faster.',ctaWording:'Follow for science-backed running tips every week',link:'',dateAdded:'2026-05-03'},
+    {id:'rl3',clientId:'cl1',coachHandle:'@stephpiruns',followers:111000,views:0,viralityScore:0,format:'Talking Head',topic:'Training Tips',hookText:'"3 signs your body is about to get injured — and how to stop it before it happens."',scriptSummary:'DPT authority open → 3 warning signs most runners ignore → each with a 10-second fix → save CTA.',ctaWording:'Save this — check back before your next long run.',link:'',dateAdded:'2026-05-03'},
+    {id:'rl4',clientId:'cl2',coachHandle:'@joecorcione',followers:13000,views:0,viralityScore:0,format:'Talking Head',topic:'Transformation',hookText:'"She came to me with zero running background at 51. 8 months later she crossed the finish line of a 50-miler."',scriptSummary:'Client transformation story. Never run 5k → 3 runs/week → back-to-backs → 50-mile finish. Mirror close.',ctaWording:'DM me FIRST and I\'ll send you the exact 6-month progression we used',link:'',dateAdded:'2026-05-03'},
+    {id:'rl5',clientId:'cl2',coachHandle:'@mr.ultrarunner',followers:180000,views:0,viralityScore:0,format:'Talking Head',topic:'Training Tips',hookText:'"The #1 mistake I see in first-time 100-mile runners — and it\'s not what you think."',scriptSummary:'Counterintuitive claim. DNFs are pacing failures not fitness failures. Run first quarter embarrassingly easy.',ctaWording:'Comment your race distance and I\'ll DM you the exact pace formula I use',link:'',dateAdded:'2026-05-03'},
   ],
   ctaBank:[
-    // ── CL1 CTAs ──
     {id:'ct1',clientId:'cl1',type:'DM',text:'DM me "PLAN" and I\'ll send you my free beginner running schedule',usedIt:false},
     {id:'ct2',clientId:'cl1',type:'DM',text:'DM me "FASTER" and I\'ll send you the 3 sessions I use with every athlete I coach',usedIt:false},
     {id:'ct3',clientId:'cl1',type:'DM',text:'DM me your current weekly mileage and I\'ll tell you exactly what to change',usedIt:false},
     {id:'ct4',clientId:'cl1',type:'DM',text:'DM me "INJURY" and I\'ll send you my 5-step return-to-run protocol',usedIt:false},
     {id:'ct5',clientId:'cl1',type:'Comment',text:'Comment your current PB below 👇 — I\'ll tell you what\'s holding you back',usedIt:false},
     {id:'ct6',clientId:'cl1',type:'Comment',text:'Comment "YES" if you\'ve been running slow and not seeing results',usedIt:false},
-    {id:'ct7',clientId:'cl1',type:'Comment',text:'Tell me in the comments — how many days a week are you currently running?',usedIt:false},
-    {id:'ct8',clientId:'cl1',type:'Save',text:'Save this for your next training block',usedIt:false},
-    {id:'ct9',clientId:'cl1',type:'Link in Bio',text:'Free 8-week beginner plan at the link in my bio',usedIt:false},
-    {id:'ct10',clientId:'cl1',type:'Direct Offer',text:'I have 3 coaching spots open this month — DM me "COACH" if you\'re ready to stop guessing',usedIt:false},
-    // ── CL2 CTAs ──
+    {id:'ct7',clientId:'cl1',type:'Save',text:'Save this for your next training block',usedIt:false},
+    {id:'ct8',clientId:'cl1',type:'Link in Bio',text:'Free 8-week beginner plan at the link in my bio',usedIt:false},
+    {id:'ct9',clientId:'cl1',type:'Direct Offer',text:'I have 3 coaching spots open this month — DM me "COACH" if you\'re ready to stop guessing',usedIt:false},
+    {id:'ct10',clientId:'cl1',type:'Follow',text:'Follow — I post one free running tip every day',usedIt:false},
     {id:'ct11',clientId:'cl2',type:'DM',text:'DM me ULTRA and I\'ll send you my free 12-week base building guide',usedIt:false},
     {id:'ct12',clientId:'cl2',type:'DM',text:'Comment your race distance 👇 and I\'ll DM you one tip specific to that distance',usedIt:false},
     {id:'ct13',clientId:'cl2',type:'DM',text:'DM me "PLAN" and I\'ll send you the exact 8-week block I use with all my clients',usedIt:false},
@@ -287,78 +208,299 @@ const DEFAULTS={
     {id:'ct17',clientId:'cl2',type:'Link in Bio',text:'My 16-week ultra program is open — link in bio',usedIt:false},
     {id:'ct18',clientId:'cl2',type:'Direct Offer',text:'I\'m opening 5 new coaching spots this month — DM me "APPLY" to chat',usedIt:false},
   ],
-  scripts:[
-    // ── CL1 SCRIPTS ──
-    {id:'sc1',clientId:'cl1',title:'The Age Reframe',type:'Contrarian',templateText:`[HOOK]\n"Most people think running gets harder as you get older.\nThey're right. But not for the reason you think."\n\n[TENSION]\n"Every generic plan is built for 25-year-olds.\nIf you're training the same way at [AGE], that's why you're stuck."\n\n[THE REFRAME]\n"What actually works for 40+ runners:\n— [RECOVERY INSIGHT]\n— [INTENSITY INSIGHT]\n— [CONSISTENCY INSIGHT]"\n\n[AUTHORITY]\n"I've coached [X] runners over 40 to PBs they thought were behind them."\n\n[CTA]\n"DM me '[KEYWORD]' and I'll send you the exact shift that changes everything."`,notes:'Best for 40+ running audience. This is Nick\'s positioning — lean into age as an advantage with the right approach.'},
-    {id:'sc2',clientId:'cl1',title:'The Beginner Mistake',type:'Mistake',templateText:`[HOOK]\n"The #1 reason beginner runners quit within 6 months.\nAnd it has nothing to do with fitness."\n\n[PROBLEM]\n"They go too hard, too soon.\nEvery run feels awful. So they stop.\nThis isn't weakness — it's bad information."\n\n[PROOF]\n"I've coached [X] complete beginners to their first [RACE].\nEvery single one made this same mistake at the start."\n\n[SOLUTION]\n"The fix:\n[STEP 1 — embarrassingly easy pace]\n[STEP 2 — frequency over distance]\n[STEP 3 — the one metric to track]"\n\n[CTA]\n"DM me '[KEYWORD]' and I'll send you my beginner schedule — exactly what I'd give a first-time client."`,notes:'Works for beginners + 40+ audience. High share rate — people tag friends who "keep quitting."'},
-    {id:'sc3',clientId:'cl1',title:'The Client Win',type:'Transformation',templateText:`[HOOK — lead with the result]\n"[CLIENT AGE/DESCRIPTION] came to me [STARTING POINT].\n[TIME] later: [SPECIFIC RESULT]."\n\n[THE BEFORE]\n"They were [PROBLEM they had].\nThey thought [LIMITING BELIEF]."\n\n[WHAT WE DID]\n"We [SIMPLE CHANGE 1].\nThen [CHANGE 2].\n[TURNING POINT]."\n\n[THE RESULT]\n"[Race time / milestone]. [Their reaction / emotional beat]."\n\n[MIRROR CLOSE]\n"If you've been thinking '[DOUBT YOUR VIEWER HAS]' —\nthat's exactly what [CLIENT] said on week one."\n\n[CTA]\n"DM me '[KEYWORD]' and I'll send you the exact plan we used."`,notes:'Highest lead-gen for 1:1 coaching. Use real client stories — pick the one your ideal new client will identify with most.'},
-    // ── CL2 SCRIPTS ──
-    {id:'sc4',clientId:'cl2',title:'The Mistake Hook',type:'Mistake',templateText:`[HOOK]\n"The #1 mistake I see in first-time [RACE TYPE] runners.\nAnd it's not what you think."\n\n[PROBLEM]\n"Most people think [COMMON WRONG BELIEF].\nIt's actually [REAL CAUSE]."\n\n[PROOF]\n"I've coached [X] runners to their first [DISTANCE].\nEvery DNF I've seen came from [ROOT CAUSE]."\n\n[SOLUTION]\n"Here's the rule I give every client:\n[RULE 1].\n[RULE 2].\n[RULE 3 — the surprising one]."\n\n[CTA]\n"Comment your race distance and I'll DM you the exact [RESOURCE] I use."`,notes:'Best for training errors, race-day mistakes, nutrition. High share rate.'},
-    {id:'sc5',clientId:'cl2',title:'The Client Story',type:'Transformation',templateText:`[HOOK — lead with the result]\n"[CLIENT] came to me with [STARTING POINT].\n[TIME] later: [RESULT]."\n\n[THE BEFORE]\n"[LIMITATION]. [BELIEF that held them back]."\n\n[WHAT WE DID]\n"[SIMPLE FIRST STEP]. Built to [MILESTONE] over [TIME]."\n\n[THE RESULT]\n"[Finish / outcome]. [Emotional moment]."\n\n[MIRROR CLOSE]\n"If you've been thinking '[VIEWER'S DOUBT]' —\nthat's exactly what [CLIENT] said on day one."\n\n[CTA]\n"DM me '[KEYWORD]' and I'll send you the exact [RESOURCE] we used."`,notes:'Highest lead-gen conversion. Pick the most relatable story, not the most impressive.'},
-    {id:'sc6',clientId:'cl2',title:'The Q&A Authority',type:'Q&A',templateText:`[HOOK]\n"The question I get asked more than anything as an ultra coach:"\n\n[QUESTION — show on screen]\n"[EXACT QUESTION FROM YOUR DMs]"\n\n[ANSWER]\n"Honest answer: [Subverts expectations].\n\nHere's what most people miss:\n1. [OVERLOOKED THING 1]\n2. [OVERLOOKED THING 2]\n3. [OVERLOOKED THING 3]"\n\n[CTA]\n"DM me [THEIR SITUATION] and I'll tell you exactly [PERSONALISED RESPONSE]."`,notes:'Best for authority positioning. Recurring weekly series — "questions I get asked."'},
-  ],
+  // contentIdeas now includes script + best CTA all in one place
   contentIdeas:[
-    // ── CL1 IDEAS ──
-    {id:'ii1',clientId:'cl1',title:'You\'re Running Too Fast (And It\'s Ruining Your Progress)',hook:'"The reason most recreational runners plateau — they\'ve never actually run easy."',scriptOutline:'Hook → explain Zone 2 in plain English → talk test method → why slowing down makes you faster → before/after framing',ctaRecommendation:'Comment "EASY" and I\'ll DM you my Zone 2 guide',status:'Idea'},
-    {id:'ii2',clientId:'cl1',title:'Running at 40 vs 25: What Nobody Tells You',hook:'"I coach runners in their 40s and 50s to PBs they thought were behind them. Here\'s the difference."',scriptOutline:'Reframe: age is a variable not a ceiling → recovery is the key difference → 3 training adjustments for 40+ → authority line → DM CTA',ctaRecommendation:'DM me "40PLUS" and I\'ll send you my 40+ training framework',status:'Idea'},
-    {id:'ii3',clientId:'cl1',title:'Why Beginner Runners Quit (It\'s Not Willpower)',hook:'"Most beginner runners quit in month 2. It\'s not because they\'re weak. It\'s because of this."',scriptOutline:'Pattern interrupt → the real reason (programme is wrong, not person) → what a proper beginner plan looks like → the 3-run week framework → save CTA',ctaRecommendation:'Save this and share it with someone who keeps "starting running"',status:'Idea'},
-    {id:'ii4',clientId:'cl1',title:'The Injury That Ended My PB Streak (And What I Learned)',hook:'"I got injured chasing a PB. It was the best thing that ever happened to my coaching."',scriptOutline:'Personal story → the mistake → what I learned → 3 things I now do differently with every athlete → DM CTA',ctaRecommendation:'DM me "INJURY" and I\'ll send you my 5-step injury prevention checklist',status:'Scripted'},
-    // ── CL2 IDEAS ──
-    {id:'ii5',clientId:'cl2',title:'The DNF Reframe',hook:'"Most runners think a DNF is failure. My best clients say it\'s the moment their ultra career started."',scriptOutline:'Emotional open → reframe DNF as data → 3 things a DNF tells you → mirror viewer → CTA',ctaRecommendation:'Comment "DNF" — I\'ll DM you the protocol I use with clients after they don\'t finish.',status:'Idea'},
-    {id:'ii6',clientId:'cl2',title:'Training on No Time',hook:'"I coached a dad of 3 with a full-time job to a 100-mile finish on 8 hours of training per week."',scriptOutline:'Client story → weekly structure → why quality > quantity → two sessions you can\'t skip → DM CTA',ctaRecommendation:'Comment "BUSY" and I\'ll DM you the exact weekly structure we used.',status:'Idea'},
-    {id:'ii7',clientId:'cl2',title:'What I Actually Eat in a 100',hook:'"Most runners severely underfuel in a 100-miler. Here\'s exactly what I tell my clients to eat."',scriptOutline:'Problem: 100 cal/hr vs 250–350 needed → hour-by-hour breakdown → gut training protocol',ctaRecommendation:'Save this. DM me "FUEL" for the full race day nutrition template.',status:'Idea'},
-    {id:'ii8',clientId:'cl2',title:'Return After DNF',hook:'"She DNF\'d at mile 67. Six months later she lined up again. Here\'s what changed."',scriptOutline:'DNF story → mental shift → training adjustments → second attempt → result → mirror viewer',ctaRecommendation:'DM me "RETURN" if you\'ve had a DNF and you\'re figuring out what\'s next.',status:'Scripted'},
+    // ── CL1: RUNWITHNICK ──
+    {id:'i1',clientId:'cl1',title:'You\'re Running Too Fast (And It\'s Ruining Your Progress)',hook:'"The reason most recreational runners plateau — they\'ve never actually run easy."',scriptOutline:'Hook → Zone 2 in plain English → talk test method → why slowing down makes you faster → before/after framing',scriptTemplate:`[HOOK]
+"The reason most recreational runners plateau?
+They've never actually run easy."
+
+[PROBLEM]
+"Every run feels like a workout.
+That's the problem — not the solution.
+Your easy runs should feel embarrassingly slow."
+
+[THE FIX]
+"Zone 2 training. Here's the simple version:
+— You should be able to hold a full conversation
+— Breathing is easy, not laboured
+— It feels almost too slow"
+
+[WHY IT WORKS]
+"Running slower builds the aerobic base
+that lets you run faster.
+[X] of my athletes saw PBs within [TIME]
+just from slowing down their easy days."
+
+[CTA]
+"Comment 'EASY' and I'll DM you my Zone 2 guide."`,ctaRecommendation:'Comment "EASY" and I\'ll DM you my Zone 2 guide',ctaType:'Comment',status:'Idea'},
+    {id:'i2',clientId:'cl1',title:'Running at 40 Is Different. Here\'s What Nobody Tells You.',hook:'"I coach runners in their 40s and 50s to PBs they thought were behind them. Here\'s the difference."',scriptOutline:'Reframe: age is a variable not a ceiling → recovery is the real difference → 3 training adjustments for 40+ → authority line → DM CTA',scriptTemplate:`[HOOK]
+"I coach runners in their 40s and 50s
+to PBs they thought were behind them.
+Here's what nobody tells you about running after 40."
+
+[THE TRUTH]
+"Your fitness potential hasn't dropped.
+Your recovery window has.
+That's a completely different problem
+— and it has a completely different fix."
+
+[3 ADJUSTMENTS]
+"What I change with every 40+ athlete:
+1. [RECOVERY BETWEEN SESSIONS]
+2. [INTENSITY DISTRIBUTION]
+3. [SLEEP + NUTRITION PRIORITY]"
+
+[AUTHORITY]
+"I've coached [X] runners over 40 to PBs
+they thought were behind them.
+Age isn't the ceiling. The programme is."
+
+[CTA]
+"DM me '40PLUS' and I'll send you my 40+ training framework."`,ctaRecommendation:'DM me "40PLUS" and I\'ll send you my 40+ training framework',ctaType:'DM',status:'Idea'},
+    {id:'i3',clientId:'cl1',title:'Why Beginner Runners Quit (It\'s Not Willpower)',hook:'"Most beginner runners quit in month 2. It\'s not because they\'re weak. It\'s because of this."',scriptOutline:'Pattern interrupt → real reason is wrong programme not wrong person → what a proper beginner plan looks like → the 3-run week framework → save CTA',scriptTemplate:`[HOOK]
+"Most beginner runners quit in month 2.
+It's not because they're weak.
+It's because their plan is wrong."
+
+[THE PROBLEM]
+"Generic plans make every run feel awful.
+So they think they're not a runner.
+They are. The plan just isn't built for them."
+
+[THE FIX]
+"A proper beginner programme:
+— 3 runs a week max
+— Run/walk intervals, not pure running
+— Every run should feel manageable"
+
+[CLOSE]
+"The runners who stick are the ones
+who never feel destroyed after a session.
+Build the habit before you build the miles."
+
+[CTA]
+"Save this and send it to someone who keeps 'starting running.'"`,ctaRecommendation:'Save this and send it to someone who keeps starting running',ctaType:'Save',status:'Idea'},
+    {id:'i4',clientId:'cl1',title:'The Injury That Ended My PB Streak',hook:'"I got injured chasing a PB. It was the best thing that ever happened to my coaching."',scriptOutline:'Personal story → the mistake → what I learned → 3 things I now do differently with every athlete → DM CTA',scriptTemplate:`[HOOK]
+"I got injured chasing a PB.
+It was the best thing that ever happened
+to my coaching."
+
+[THE STORY]
+"[WHAT I WAS DOING].
+[THE INJURY — specific].
+[HOW LONG IT TOOK TO RECOVER]."
+
+[WHAT I LEARNED]
+"The injury taught me [INSIGHT 1].
+And [INSIGHT 2] I now use with every athlete."
+
+[WHAT I DO NOW]
+"3 things I changed for every runner I coach:
+— [CHANGE 1]
+— [CHANGE 2]
+— [CHANGE 3]"
+
+[CTA]
+"DM me 'INJURY' and I'll send you my prevention checklist."`,ctaRecommendation:'DM me "INJURY" and I\'ll send you my 5-step injury prevention checklist',ctaType:'DM',status:'Scripted'},
+    {id:'i5',clientId:'cl1',title:'One Session That Changes Everything for Slow Runners',hook:'"If you\'ve been running for months and not getting faster — you\'re probably missing this one session."',scriptOutline:'Hook → the missing piece (strides or threshold work) → why most beginner plans skip it → how to add it → result → CTA',scriptTemplate:`[HOOK]
+"If you've been running for months
+and not getting faster —
+you're probably missing this one session."
+
+[THE GAP]
+"Most beginner plans are 80% easy running.
+That's correct. But the other 20% matters.
+And most people skip it entirely."
+
+[THE SESSION]
+"[SESSION TYPE — e.g. strides / tempo].
+Here's exactly what it looks like:
+— [DETAIL 1]
+— [DETAIL 2]
+— [HOW LONG / HOW OFTEN]"
+
+[THE RESULT]
+"Add this once a week for [TIME PERIOD].
+[CLIENT EXAMPLE — what changed]."
+
+[CTA]
+"DM me 'FASTER' and I'll send you the full session breakdown."`,ctaRecommendation:'DM me "FASTER" and I\'ll send you the full session breakdown',ctaType:'DM',status:'Idea'},
+    {id:'i6',clientId:'cl1',title:'What a Week of Running Coaching Actually Looks Like',hook:'"People always ask what I actually do as a running coach. Here\'s a real week."',scriptOutline:'Behind the scenes → show the work (plan writing, athlete check-ins, data review) → 3 things that surprise people → who coaching is for → application CTA',scriptTemplate:`[HOOK]
+"People always ask what I actually do as a running coach.
+Here's a real week."
+
+[THE WEEK]
+"Monday: [WHAT YOU DO]
+Wednesday: [WHAT YOU DO]
+Friday: [WHAT YOU DO]"
+
+[3 THINGS THAT SURPRISE PEOPLE]
+"1. [SURPRISE 1]
+2. [SURPRISE 2]
+3. [SURPRISE 3]"
+
+[WHO IT'S FOR]
+"Coaching works best for runners who [DESCRIPTION].
+It's not for [WHO IT'S NOT FOR]."
+
+[CTA]
+"DM me 'COACH' if you want to talk about your running — I reply to everyone."`,ctaRecommendation:'DM me "COACH" if you want to talk about your running — I reply to everyone',ctaType:'DM',status:'Idea'},
+    // ── CL2: JOSHC.LAKER ──
+    {id:'i7',clientId:'cl2',title:'The DNF Reframe',hook:'"Most runners think a DNF is failure. My best clients say it\'s the moment their ultra career started."',scriptOutline:'Emotional open → reframe DNF as data not failure → 3 things a DNF tells you → mirror viewer → CTA',scriptTemplate:`[HOOK]
+"Most runners think a DNF is failure.
+My best clients say it's the moment
+their ultra career actually started."
+
+[REFRAME]
+"A DNF isn't a fitness failure.
+It's information.
+Here's what it's actually telling you:"
+
+[THE 3 THINGS]
+"1. [WHAT A DNF REVEALS ABOUT PACING]
+2. [WHAT IT REVEALS ABOUT NUTRITION]
+3. [WHAT IT REVEALS ABOUT MINDSET]"
+
+[MIRROR CLOSE]
+"If you've had a DNF and you're not sure what to do next —
+that's exactly where [CLIENT NAME] was
+before we worked together."
+
+[CTA]
+"Comment 'DNF' — I'll DM you the protocol I use with athletes after they don't finish."`,ctaRecommendation:'Comment "DNF" — I\'ll DM you the protocol I use after athletes don\'t finish',ctaType:'Comment',status:'Idea'},
+    {id:'i8',clientId:'cl2',title:'Training on No Time',hook:'"I coached a dad of 3 with a full-time job to a 100-mile finish on 8 hours of training per week."',scriptOutline:'Client story → the actual weekly structure → why quality beats quantity → the two sessions you cannot skip → DM CTA',scriptTemplate:`[HOOK]
+"I coached a dad of 3 with a full-time job
+to a 100-mile finish
+on 8 hours of training per week."
+
+[THE STRUCTURE]
+"Here's exactly what his week looked like:
+— [SESSION 1 — long run detail]
+— [SESSION 2 — back-to-back or key workout]
+— [SESSION 3 — easy / recovery]"
+
+[THE INSIGHT]
+"Most people think ultra training requires
+huge mileage weeks.
+It doesn't. It requires the right sessions."
+
+[THE 2 NON-NEGOTIABLES]
+"1. [SESSION TYPE 1 + why]
+2. [SESSION TYPE 2 + why]
+Everything else is optional."
+
+[CTA]
+"Comment 'BUSY' and I'll DM you the exact weekly structure we used."`,ctaRecommendation:'Comment "BUSY" and I\'ll DM you the exact weekly structure we used',ctaType:'Comment',status:'Idea'},
+    {id:'i9',clientId:'cl2',title:'What I Actually Eat in a 100',hook:'"Most runners severely underfuel in a 100-miler. Here\'s exactly what I tell my clients to eat, hour by hour."',scriptOutline:'Problem: 100 cal/hr vs 250–350 needed → hour-by-hour breakdown → gut training protocol → practice in long runs or pay at mile 60',scriptTemplate:`[HOOK]
+"Most runners severely underfuel in a 100-miler.
+Here's exactly what I tell my clients to eat,
+hour by hour."
+
+[THE PROBLEM]
+"Average runner takes in ~100 calories/hour.
+Your body needs 250–350.
+The deficit doesn't hit you until mile 60.
+By then it's too late."
+
+[THE BREAKDOWN]
+"Hours 1–4: [FOOD + AMOUNT + TIMING]
+Hours 5–10: [FOOD + AMOUNT + TIMING]
+Hours 10+: [FOOD + AMOUNT + REAL FOOD STRATEGY]"
+
+[GUT TRAINING]
+"Your gut is trainable.
+Start practising this in your long runs now.
+Or you'll practice it at mile 60. Your choice."
+
+[CTA]
+"Save this. DM me 'FUEL' for the full race day nutrition template."`,ctaRecommendation:'Save this. DM me "FUEL" for the full race day nutrition template',ctaType:'Save',status:'Idea'},
+    {id:'i10',clientId:'cl2',title:'Return After DNF',hook:'"She DNF\'d at mile 67. Six months later she lined up again. Here\'s what changed."',scriptOutline:'DNF story (brief) → mental shift → training adjustments → second attempt → result → mirror viewer → DM CTA',scriptTemplate:`[HOOK]
+"She DNF'd at mile 67.
+Six months later she lined up again.
+Here's what changed."
+
+[THE DNF]
+"[CLIENT] came to me [TIME] after the race.
+She wasn't sure if she should try again.
+She said '[EXACT QUOTE OR FEELING]'."
+
+[THE SHIFT]
+"We changed [THING 1].
+And [THING 2].
+But the biggest change was [MENTAL/TACTICAL SHIFT]."
+
+[THE RESULT]
+"[RACE]. [FINISH TIME / RESULT]. [HER REACTION]."
+
+[MIRROR CLOSE]
+"If you've had a DNF and you're figuring out what's next —
+this is the conversation worth having."
+
+[CTA]
+"DM me 'RETURN' if you've had a DNF and you're ready to go again."`,ctaRecommendation:'DM me "RETURN" if you\'ve had a DNF and you\'re ready to go again',ctaType:'DM',status:'Scripted'},
+    {id:'i11',clientId:'cl2',title:'The Pacing Mistake That Ends 100-Mile Races',hook:'"I\'ve watched hundreds of runners DNF in the first 30 miles of a 100. Same mistake every time."',scriptOutline:'Contrarian open → the mistake (going out too hard when you feel good) → the rule → what it looks like in practice → proof → save CTA',scriptTemplate:`[HOOK]
+"I've watched hundreds of runners DNF
+in the first 30 miles of a 100.
+Same mistake every time."
+
+[THE MISTAKE]
+"Miles 1–30 feel great.
+The weather is cool, legs are fresh,
+adrenaline is high.
+So they run hard."
+
+[THE RULE]
+"The rule I give every athlete:
+Your first 30 miles should feel embarrassingly easy.
+If people are passing you — let them.
+You'll see most of them again at mile 60."
+
+[THE PROOF]
+"[FINISH RATE STAT or client example]."
+
+[CTA]
+"Save this for your pre-race brief."`,ctaRecommendation:'Save this for your pre-race brief',ctaType:'Save',status:'Idea'},
   ],
   contentGaps:[
-    // ── CL1 GAPS ──
-    {id:'gi1',clientId:'cl1',topic:'Running form for beginners — what actually matters vs what\'s overthought',covered:false},
-    {id:'gi2',clientId:'cl1',topic:'How to run when you have no time — 3-day training weeks that actually work',covered:false},
-    {id:'gi3',clientId:'cl1',topic:'Running for weight loss — why most people do it wrong',covered:false},
-    {id:'gi4',clientId:'cl1',topic:'What to do on rest days (most coaches don\'t address this)',covered:false},
-    {id:'gi5',clientId:'cl1',topic:'Running at 40, 50, 60 — specific adaptations and what to change',covered:false},
-    {id:'gi6',clientId:'cl1',topic:'How to pick your first race — 5K vs 10K vs half (decision framework)',covered:false},
-    // ── CL2 GAPS ──
-    {id:'gi7',clientId:'cl2',topic:'Race nutrition specifics mid-race (exact calories/hour by distance)',covered:false},
-    {id:'gi8',clientId:'cl2',topic:'Crew and pacer guides — what to tell your support team',covered:false},
-    {id:'gi9',clientId:'cl2',topic:'Return after DNF — emotional and tactical protocol',covered:false},
-    {id:'gi10',clientId:'cl2',topic:'Ultra training with a full-time job (8hrs/week structure)',covered:false},
-    {id:'gi11',clientId:'cl2',topic:'Female-specific ultra training (hormones, fueling, training load)',covered:false},
-    {id:'gi12',clientId:'cl2',topic:'Back-to-back long run specifics (exact structure, recovery between)',covered:false},
+    {id:'g1',clientId:'cl1',topic:'Running form for beginners — what actually matters vs what\'s overthought',covered:false},
+    {id:'g2',clientId:'cl1',topic:'How to run when you have no time — 3-day training weeks that actually work',covered:false},
+    {id:'g3',clientId:'cl1',topic:'Running for weight loss — why most people do it wrong',covered:false},
+    {id:'g4',clientId:'cl1',topic:'What to do on rest days (almost no coaches address this)',covered:false},
+    {id:'g5',clientId:'cl1',topic:'Running at 40, 50, 60 — specific adaptations and what to change',covered:false},
+    {id:'g6',clientId:'cl1',topic:'How to pick your first race — 5K vs 10K vs half (decision framework)',covered:false},
+    {id:'g7',clientId:'cl2',topic:'Race nutrition mid-race — exact calories/hour by distance',covered:false},
+    {id:'g8',clientId:'cl2',topic:'Crew and pacer guides — what to tell your support team',covered:false},
+    {id:'g9',clientId:'cl2',topic:'Ultra training with a full-time job — 8hrs/week structure',covered:false},
+    {id:'g10',clientId:'cl2',topic:'Female-specific ultra training — hormones, fueling, training load',covered:false},
+    {id:'g11',clientId:'cl2',topic:'Back-to-back long run specifics — exact structure and recovery',covered:false},
+    {id:'g12',clientId:'cl2',topic:'Training in the dark — almost no coaches cover pre-sunrise race prep',covered:false},
   ],
-  meta:{version:4,lastSaved:null}
+  meta:{version:5,lastSaved:null}
 };
 
 // ── STATE ─────────────────────────────────────
 const S=(()=>{
   let d=null;
   function load(){
-    const raw=localStorage.getItem('ird_v4');
-    if(raw){
-      d=JSON.parse(raw);
+    const raw=localStorage.getItem('ird_v5');
+    if(raw){d=JSON.parse(raw);}
+    else{
+      const old=localStorage.getItem('ird_v4')||localStorage.getItem('ur_dashboard_v3')||localStorage.getItem('ur_dashboard');
+      d=old?JSON.parse(old):JSON.parse(JSON.stringify(DEFAULTS));
       if(!d.clients)d.clients=JSON.parse(JSON.stringify(DEFAULTS.clients));
-      ['coaches','reels','ctaBank','scripts','contentIdeas','contentGaps'].forEach(s=>{
-        (d[s]||[]).forEach(x=>{if(!x.clientId)x.clientId='cl2'});
-      });
-    } else {
-      // migrate from old keys
-      const old=localStorage.getItem('ur_dashboard_v3')||localStorage.getItem('ur_dashboard');
-      if(old){
-        d=JSON.parse(old);
-        if(!d.clients)d.clients=JSON.parse(JSON.stringify(DEFAULTS.clients));
-        ['coaches','reels','ctaBank','scripts','contentIdeas','contentGaps'].forEach(s=>{
-          (d[s]||[]).forEach(x=>{if(!x.clientId)x.clientId='cl2'});
+      ['coaches','reels','ctaBank','contentIdeas','contentGaps'].forEach(s=>{(d[s]||[]).forEach(x=>{if(!x.clientId)x.clientId='cl2'})});
+      // ensure cl1 ideas exist
+      const hasCl1Ideas=d.contentIdeas&&d.contentIdeas.some(x=>x.clientId==='cl1');
+      if(!hasCl1Ideas){
+        DEFAULTS.contentIdeas.filter(x=>x.clientId==='cl1').forEach(item=>{
+          if(!d.contentIdeas)d.contentIdeas=[];
+          if(!d.contentIdeas.find(x=>x.id===item.id))d.contentIdeas.push(JSON.parse(JSON.stringify(item)));
         });
-      } else {
-        d=JSON.parse(JSON.stringify(DEFAULTS));
       }
     }
   }
-  function save(){
-    d.meta.lastSaved=new Date().toISOString();
-    localStorage.setItem('ird_v4',JSON.stringify(d));
-    const el=document.getElementById('last-saved');
-    if(el)el.textContent='Saved '+new Date().toLocaleTimeString();
-  }
+  function save(){d.meta.lastSaved=new Date().toISOString();localStorage.setItem('ird_v5',JSON.stringify(d));const el=document.getElementById('last-saved');if(el)el.textContent='Saved '+new Date().toLocaleTimeString()}
   function get(k){return d[k]}
   function upsert(sec,item){const i=d[sec].findIndex(x=>x.id===item.id);if(i>=0)d[sec][i]=item;else d[sec].unshift(item);save()}
   function del(sec,id){d[sec]=d[sec].filter(x=>x.id!==id);save()}
@@ -367,289 +509,226 @@ const S=(()=>{
   return{load,save,get,upsert,del,tog,setF};
 })();
 
-// ── IMPORT ────────────────────────────────────
-function openImport(){
-  openModal('Import Research Data',[],()=>{
-    const raw=document.getElementById('imp-json')?.value?.trim();
-    if(!raw)return toast('Paste JSON first');
-    let data;
-    try{data=JSON.parse(raw)}catch{return toast('Invalid JSON — check the format')}
-    let added=0;
-    ['coaches','reels','ctaBank','scripts','contentIdeas','contentGaps'].forEach(sec=>{
-      if(Array.isArray(data[sec])){
-        data[sec].forEach(item=>{
-          if(!item.id)item.id=uid();
-          if(!item.clientId)item.clientId=data.clientId||'cl2';
-          const exists=S.get(sec).some(x=>x.id===item.id||(x.handle&&x.handle===item.handle)||(x.text&&x.text===item.text)||(x.hookText&&x.hookText===item.hookText));
-          if(!exists){S.upsert(sec,item);added++}
-        });
-      }
-    });
-    toast(`Imported ${added} new items`);
-    renderTab(activeTab);
-  },null,`
-    <div class="tip"><strong>How to use:</strong> Run the weekly research agent skill in Claude, copy the JSON output, paste it below.</div>
-    <div class="ff"><label>Paste Research JSON</label><textarea id="imp-json" class="imp-ta" placeholder='{"clientId":"cl1","coaches":[...],"reels":[...],"ctaBank":[...],"contentIdeas":[...],"contentGaps":[]}'></textarea></div>
-  `);
-  document.getElementById('msave').textContent='Import';
-}
-
-// ── CLIENT BAR ────────────────────────────────
+// ── CLIENT ────────────────────────────────────
 let activeClient='all';
 function setClient(id){activeClient=id;renderCBar();renderTab(activeTab)}
 function forC(items){return activeClient==='all'?items:items.filter(x=>x.clientId===activeClient)}
 function cColor(id){const c=S.get('clients').find(x=>x.id===id);return c?c.color:'#94a3b8'}
 function cName(id){const c=S.get('clients').find(x=>x.id===id);return c?c.name:''}
-function cBadge(id){
-  if(activeClient!=='all')return'';
-  const col=cColor(id),name=cName(id);
-  if(!name)return'';
-  return`<span class="b" style="background:${col}22;color:${col}">● ${esc(name)}</span>`;
-}
+function cBadge(id){if(activeClient!=='all')return'';const col=cColor(id),name=cName(id);if(!name)return'';return`<span class="b" style="background:${col}22;color:${col}">● ${esc(name)}</span>`}
 
 function renderCBar(){
-  const clients=S.get('clients');
-  const bar=document.getElementById('cbar');
-  if(!bar)return;
+  const clients=S.get('clients'),bar=document.getElementById('cbar');if(!bar)return;
   const allOn=activeClient==='all';
-  let h=`<button class="cpill ${allOn?'on':''}" onclick="setClient('all')" style="${allOn?'background:var(--surface-3);border-color:var(--surface-3);color:var(--text)':''}">All Clients <span class="ccnt">${clients.length}</span></button>`;
+  let h=`<button class="cpill ${allOn?'on':''}" onclick="setClient('all')" style="${allOn?'background:var(--sur3);border-color:var(--sur3);color:var(--tx)':''}">All Clients<span class="ccnt">${clients.length}</span></button>`;
   clients.forEach(c=>{
     const on=activeClient===c.id;
-    const cnt=['coaches','reels','ctaBank','scripts','contentIdeas','contentGaps'].reduce((n,s)=>n+S.get(s).filter(x=>x.clientId===c.id).length,0);
+    const cnt=['coaches','reels','ctaBank','contentIdeas','contentGaps'].reduce((n,s)=>n+S.get(s).filter(x=>x.clientId===c.id).length,0);
     h+=`<button class="cpill ${on?'on':''}" onclick="setClient('${c.id}')" style="${on?`background:${c.color};border-color:${c.color}`:`border-color:${c.color}44;color:${c.color}`}"><span class="cdot" style="background:${c.color}"></span>${esc(c.name)}<span class="ccnt">${cnt}</span><span class="cx" onclick="event.stopPropagation();delClient('${c.id}')">✕</span></button>`;
   });
   h+=`<button class="cadd" onclick="addClientModal()">+ Add Client</button>`;
   bar.innerHTML=h;
 }
-
 let _pc=PALETTE[0];
-function addClientModal(){
-  _pc=PALETTE[S.get('clients').length%PALETTE.length];
-  openModal('Add New Client',[],()=>{
-    const name=document.getElementById('nc-name')?.value?.trim();
-    if(!name)return toast('Enter a name');
-    S.get('clients').push({id:uid(),name,color:_pc});S.save();renderCBar();toast('Client added');
-  },null,`
-    <div class="ff"><label>Client / Niche Name</label><input id="nc-name" type="text" placeholder="e.g. Strength Coach, Marathon Coach..." autofocus></div>
-    <div class="ff"><label>Colour</label><div class="swatches">${PALETTE.map(p=>`<div class="sw ${p===_pc?'on':''}" style="background:${p}" onclick="_pc='${p}';document.querySelectorAll('.sw').forEach(s=>s.classList.remove('on'));this.classList.add('on')"></div>`).join('')}</div></div>
-  `);
-}
-function delClient(id){
-  if(!confirm(`Remove "${cName(id)}"?`))return;
-  const arr=S.get('clients').filter(x=>x.id!==id);
-  S.get('clients').length=0;arr.forEach(x=>S.get('clients').push(x));S.save();
-  if(activeClient===id)activeClient='all';
-  renderCBar();renderTab(activeTab);
-}
+function addClientModal(){_pc=PALETTE[S.get('clients').length%PALETTE.length];openModal('Add New Client',[],()=>{const name=document.getElementById('nc-name')?.value?.trim();if(!name)return toast('Enter a name');S.get('clients').push({id:uid(),name,color:_pc});S.save();renderCBar();toast('Client added')},null,`<div class="ff"><label>Name</label><input id="nc-name" type="text" placeholder="e.g. Strength Coach..." autofocus></div><div class="ff"><label>Colour</label><div class="swatches">${PALETTE.map(p=>`<div class="sw ${p===_pc?'on':''}" style="background:${p}" onclick="_pc='${p}';document.querySelectorAll('.sw').forEach(s=>s.classList.remove('on'));this.classList.add('on')"></div>`).join('')}</div></div>`)}
+function delClient(id){if(!confirm(`Remove "${cName(id)}"?`))return;const arr=S.get('clients').filter(x=>x.id!==id);S.get('clients').length=0;arr.forEach(x=>S.get('clients').push(x));S.save();if(activeClient===id)activeClient='all';renderCBar();renderTab(activeTab)}
 
 // ── UTILS ─────────────────────────────────────
 function uid(){return crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2)}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function fmt(n){if(!n)return'—';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return String(n)}
-function vir(views,fol){if(!fol)return 0;return+((views/fol)*100).toFixed(1)}
-function vBadge(s){
-  if(!s)return'<span class="b bm">—</span>';
-  if(s>=200)return`<span class="b br">🔥 ${s}% MEGA</span>`;
-  if(s>=50)return`<span class="b bg">⚡ ${s}% Viral</span>`;
-  if(s>=10)return`<span class="b bb">${s}% Good</span>`;
-  return`<span class="b bm">${s}%</span>`;
-}
+function vir(v,f){if(!f)return 0;return+((v/f)*100).toFixed(1)}
+function vBadge(s){if(!s)return'<span class="b bm">—</span>';if(s>=200)return`<span class="b br">🔥 ${s}%</span>`;if(s>=50)return`<span class="b bg">⚡ ${s}%</span>`;if(s>=10)return`<span class="b bb">${s}%</span>`;return`<span class="b bm">${s}%</span>`}
 function sBadge(s){const m={Idea:'bb',Scripted:'by',Filmed:'bp',Posted:'bg'};return`<span class="b ${m[s]||'bm'}">${s}</span>`}
 function ctaBadge(t){const m={DM:'bg','Link in Bio':'bp',Comment:'by',Save:'bb',Follow:'bm','Direct Offer':'br'};return`<span class="b ${m[t]||'bm'}">${t}</span>`}
-async function cp(text,btn){
-  try{
-    if(navigator.clipboard)await navigator.clipboard.writeText(text);
-    else{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta)}
-    if(btn){const o=btn.textContent;btn.textContent='✓ Copied!';setTimeout(()=>btn.textContent=o,1500)}
-    toast('Copied!');
-  }catch{toast('Copy failed')}
-}
-function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('on');setTimeout(()=>el.classList.remove('on'),2200)}
 function hlPh(t){return esc(t).replace(/\[([^\]]+)\]/g,'<span class="ph">[$1]</span>')}
+async function cp(text,btn){try{if(navigator.clipboard)await navigator.clipboard.writeText(text);else{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta)}if(btn){const o=btn.textContent;btn.textContent='✓ Copied!';setTimeout(()=>btn.textContent=o,1500)}toast('Copied!')}catch{toast('Copy failed')}}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('on');setTimeout(()=>el.classList.remove('on'),2300)}
 
 // ── MODAL ─────────────────────────────────────
 let _onSave=null;
 function openModal(title,fields,onSave,initial,extra){
-  _onSave=onSave;
-  document.getElementById('mttl').textContent=title;
-  const b=document.getElementById('mbdy');
-  b.innerHTML=(extra||'')+buildFields(fields,initial||{});
-  attachCalc();
-  document.getElementById('msave').textContent='Save';
-  document.getElementById('bdrop').classList.add('on');
-  b.querySelector('input,textarea,select')?.focus();
+  _onSave=onSave;document.getElementById('mttl').textContent=title;
+  const b=document.getElementById('mbdy');b.innerHTML=(extra||'')+buildFields(fields,initial||{});
+  attachCalc();document.getElementById('msave').textContent='Save';
+  document.getElementById('bdrop').classList.add('on');b.querySelector('input,textarea,select')?.focus();
 }
 function closeModal(){document.getElementById('bdrop').classList.remove('on');_onSave=null}
-document.getElementById('msave').addEventListener('click',()=>{
-  if(!_onSave)return;
-  const data={};
-  document.querySelectorAll('#mbdy [data-f]').forEach(el=>{data[el.dataset.f]=el.type==='number'?(parseFloat(el.value)||0):el.value});
-  _onSave(data);closeModal();
-});
+document.getElementById('msave').addEventListener('click',()=>{if(!_onSave)return;const data={};document.querySelectorAll('#mbdy [data-f]').forEach(el=>{data[el.dataset.f]=el.type==='number'?(parseFloat(el.value)||0):el.value});_onSave(data);closeModal()});
 document.getElementById('bdrop').addEventListener('click',e=>{if(e.target.id==='bdrop')closeModal()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+function buildFields(fields,init){const rows=[];let buf=[];fields.forEach((f,i)=>{const el=buildF(f,init[f.k]);if(f.half){buf.push(el);if(buf.length===2||i===fields.length-1){rows.push(`<div class="frow">${buf.join('')}</div>`);buf=[]}}else{if(buf.length){rows.push(`<div class="frow">${buf.join('')}</div>`);buf=[]}rows.push(`<div class="ff">${el}</div>`)}});return rows.join('')}
+function buildF(f,val){const v=val!=null?val:(f.def||'');let inp='';if(f.type==='textarea')inp=`<textarea data-f="${f.k}" rows="3">${esc(v)}</textarea>`;else if(f.type==='select'){const opts=f.opts.map((o,i)=>`<option value="${esc(f.vals?f.vals[i]:o)}" ${(f.vals?f.vals[i]:o)===v?'selected':''}>${esc(o)}</option>`).join('');inp=`<select data-f="${f.k}">${opts}</select>`}else if(f.type==='number')inp=`<input type="number" data-f="${f.k}" value="${esc(String(v))}" min="0">`;else if(f.readonly)inp=`<input type="text" data-f="${f.k}" value="${esc(v)}" readonly style="opacity:.5;pointer-events:none">`;else inp=`<input type="text" data-f="${f.k}" value="${esc(v)}" placeholder="${esc(f.ph||'')}">`;return`<div class="ff"><label>${esc(f.label)}</label>${inp}</div>`}
+function attachCalc(){const b=document.getElementById('mbdy');const upd=()=>{const v=b.querySelector('[data-f="avgViews"],[data-f="views"]'),f=b.querySelector('[data-f="followers"]'),s=b.querySelector('[data-f="viralityScore"]');if(v&&f&&s)s.value=vir(parseFloat(v.value)||0,parseFloat(f.value)||0)};['avgViews','views','followers'].forEach(k=>b.querySelector(`[data-f="${k}"]`)?.addEventListener('input',upd))}
+function cf(){const cl=S.get('clients');return{k:'clientId',label:'Client',type:'select',opts:cl.map(c=>c.name),vals:cl.map(c=>c.id),def:activeClient!=='all'?activeClient:(cl[0]?.id||'')}}
 
-function buildFields(fields,init){
-  const rows=[];let buf=[];
-  fields.forEach((f,i)=>{
-    const el=buildF(f,init[f.k]);
-    if(f.half){buf.push(el);if(buf.length===2||i===fields.length-1){rows.push(`<div class="frow">${buf.join('')}</div>`);buf=[]}}
-    else{if(buf.length){rows.push(`<div class="frow">${buf.join('')}</div>`);buf=[]}rows.push(`<div class="ff">${el}</div>`)}
-  });
-  return rows.join('');
-}
-function buildF(f,val){
-  const v=val!=null?val:(f.def||'');
-  let inp='';
-  if(f.type==='textarea')inp=`<textarea data-f="${f.k}" rows="3">${esc(v)}</textarea>`;
-  else if(f.type==='select'){
-    const opts=f.opts.map((o,i)=>`<option value="${esc(f.vals?f.vals[i]:o)}" ${(f.vals?f.vals[i]:o)===v?'selected':''}>${esc(o)}</option>`).join('');
-    inp=`<select data-f="${f.k}">${opts}</select>`;
-  }
-  else if(f.type==='number')inp=`<input type="number" data-f="${f.k}" value="${esc(String(v))}" min="0">`;
-  else if(f.readonly)inp=`<input type="text" data-f="${f.k}" value="${esc(v)}" readonly style="opacity:.5;pointer-events:none">`;
-  else inp=`<input type="text" data-f="${f.k}" value="${esc(v)}" placeholder="${esc(f.ph||'')}">`;
-  return`<div class="ff"><label>${esc(f.label)}</label>${inp}</div>`;
-}
-function attachCalc(){
-  const b=document.getElementById('mbdy');
-  const upd=()=>{const v=b.querySelector('[data-f="avgViews"],[data-f="views"]'),f=b.querySelector('[data-f="followers"]'),s=b.querySelector('[data-f="viralityScore"]');if(v&&f&&s)s.value=vir(parseFloat(v.value)||0,parseFloat(f.value)||0)};
-  ['avgViews','views','followers'].forEach(k=>b.querySelector(`[data-f="${k}"]`)?.addEventListener('input',upd));
-}
-function cf(){
-  const clients=S.get('clients');
-  return{k:'clientId',label:'Client / Niche',type:'select',opts:clients.map(c=>c.name),vals:clients.map(c=>c.id),def:activeClient!=='all'?activeClient:(clients[0]?.id||'')};
+// ── IMPORT ────────────────────────────────────
+function openImport(){
+  openModal('Import Research',[],()=>{
+    const raw=document.getElementById('imp-json')?.value?.trim();
+    if(!raw)return toast('Paste JSON first');
+    let data;try{data=JSON.parse(raw)}catch{return toast('Invalid JSON')}
+    let added=0;
+    ['coaches','reels','ctaBank','contentIdeas','contentGaps'].forEach(sec=>{
+      if(Array.isArray(data[sec])){data[sec].forEach(item=>{if(!item.id)item.id=uid();if(!item.clientId)item.clientId=data.clientId||'cl2';const exists=S.get(sec).some(x=>x.id===item.id||(x.handle&&x.handle===item.handle)||(x.text&&x.text===item.text)||(x.hookText&&x.hookText===item.hookText)||(x.hook&&x.hook===item.hook));if(!exists){S.upsert(sec,item);added++}})}
+    });
+    toast(`Imported ${added} new items`);renderTab(activeTab);
+  },null,`
+    <div class="tip"><strong>How to use:</strong> Ask Claude to "run weekly content research for [client]", copy the JSON it outputs, paste below.</div>
+    <div class="ff"><label>Paste JSON here</label><textarea id="imp-json" class="imp-ta" placeholder='{"clientId":"cl1","contentIdeas":[...],"reels":[...],"ctaBank":[]}'></textarea></div>`);
+  document.getElementById('msave').textContent='Import';
 }
 
 // ── COACHES ───────────────────────────────────
-function coachF(){return[cf(),
-  {k:'handle',label:'Instagram Handle',ph:'@username'},
-  {k:'followers',label:'Followers',type:'number',half:true},
-  {k:'avgViews',label:'Avg Views/Reel',type:'number',half:true},
-  {k:'viralityScore',label:'Virality (auto)',readonly:true,half:true},
-  {k:'offerType',label:'What They Sell',type:'select',half:true,opts:['1:1 Coaching','Group Coaching','Training Plans','Course','App','Community','Hybrid','Other']},
-  {k:'ctaType',label:'How They Get Leads',type:'select',opts:['DM','Link in Bio','Comment','Save','Follow','Direct Offer','Content → Podcast','DM + Community','Content Only']},
-  {k:'notes',label:'Notes',type:'textarea'},
-]}
+function coachF(){return[cf(),{k:'handle',label:'Instagram Handle',ph:'@username'},{k:'followers',label:'Followers',type:'number',half:true},{k:'avgViews',label:'Avg Views/Reel',type:'number',half:true},{k:'viralityScore',label:'Virality (auto)',readonly:true,half:true},{k:'offerType',label:'What They Sell',type:'select',half:true,opts:['1:1 Coaching','Group Coaching','Training Plans','Course','App','Community','Hybrid','Other']},{k:'ctaType',label:'Lead Gen Method',type:'select',opts:['DM','Link in Bio','Comment','Save','Follow','Direct Offer','Content → Podcast','DM + Community','Content Only']},{k:'notes',label:'Notes',type:'textarea'}]}
 function renderCoaches(){
-  const coaches=forC(S.get('coaches'));
-  return`<div class="ph"><div class="ph-title">Competitor Coaches</div><div class="ph-desc">Track what other coaches are doing — audience size, what they offer, and how they get leads from Reels.</div><div class="ph-actions"><button class="btn btn-p" onclick="addCoach()">+ Add Coach</button><span style="font-size:12px;color:var(--muted)">${coaches.length} coaches tracked</span></div></div>
-  <div class="tw"><table><thead><tr><th>Handle</th><th>Followers</th><th>Avg Views</th><th>Virality</th><th>What They Sell</th><th>Lead Gen Method</th>${activeClient==='all'?'<th>Client</th>':''}<th>Notes</th><th></th></tr></thead><tbody>
-  ${coaches.length?coaches.map(c=>`<tr>
-    <td><a href="https://instagram.com/${c.handle.replace('@','')}" target="_blank" style="font-weight:600">${esc(c.handle)}</a></td>
-    <td>${fmt(c.followers)}</td><td>${fmt(c.avgViews)}</td><td>${vBadge(c.viralityScore)}</td>
-    <td><span class="b bm">${esc(c.offerType)}</span></td><td>${ctaBadge(c.ctaType)}</td>
-    ${activeClient==='all'?`<td>${cBadge(c.clientId)}</td>`:''}
-    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:12px">${esc(c.notes)}</td>
-    <td><div class="tda"><button class="btn btn-g btn-s" onclick="editCoach('${c.id}')">Edit</button><button class="btn btn-d btn-s" onclick="if(confirm('Delete?'))S.del('coaches','${c.id}'),renderTab('Coaches')">✕</button></div></td>
-  </tr>`).join(''):`<tr><td colspan="9"><div class="empty">No coaches yet. Click "+ Add Coach" to start.</div></td></tr>`}
-  </tbody></table></div>`;
+  const c=forC(S.get('coaches'));
+  return`<div class="ph"><div class="ph-title">Competitor Coaches</div><div class="ph-desc">Track what other coaches are doing — their audience, offer, and how they get leads from Reels.</div><div class="ph-actions"><button class="btn btn-p" onclick="addCoach()">+ Add Coach</button><span style="font-size:12px;color:var(--mu)">${c.length} tracked</span></div></div>
+  <div class="tw"><table><thead><tr><th>Handle</th><th>Followers</th><th>Avg Views</th><th>Virality</th><th>Offer</th><th>Lead Gen</th>${activeClient==='all'?'<th>Client</th>':''}<th>Notes</th><th></th></tr></thead><tbody>${c.length?c.map(x=>`<tr><td><a href="https://instagram.com/${x.handle.replace('@','')}" target="_blank" style="font-weight:600">${esc(x.handle)}</a></td><td>${fmt(x.followers)}</td><td>${fmt(x.avgViews)}</td><td>${vBadge(x.viralityScore)}</td><td><span class="b bm">${esc(x.offerType)}</span></td><td>${ctaBadge(x.ctaType)}</td>${activeClient==='all'?`<td>${cBadge(x.clientId)}</td>`:''}<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--mu);font-size:12px">${esc(x.notes)}</td><td><div class="tda"><button class="btn btn-g btn-s" onclick="editCoach('${x.id}')">Edit</button><button class="btn btn-d btn-s" onclick="if(confirm('Delete?'))S.del('coaches','${x.id}'),renderTab('Coaches')">✕</button></div></td></tr>`).join(''):`<tr><td colspan="9"><div class="empty">No coaches yet.</div></td></tr>`}</tbody></table></div>`;
 }
-function addCoach(){openModal('Add Coach',coachF(),data=>{data.id=uid();data.createdAt=new Date().toISOString().slice(0,10);data.viralityScore=vir(data.avgViews,data.followers);S.upsert('coaches',data);renderTab('Coaches')})}
-function editCoach(id){const c=S.get('coaches').find(x=>x.id===id);openModal('Edit Coach',coachF(),data=>{data.id=id;data.createdAt=c.createdAt;data.viralityScore=vir(data.avgViews,data.followers);S.upsert('coaches',data);renderTab('Coaches')},c)}
+function addCoach(){openModal('Add Coach',coachF(),d=>{d.id=uid();d.createdAt=new Date().toISOString().slice(0,10);d.viralityScore=vir(d.avgViews,d.followers);S.upsert('coaches',d);renderTab('Coaches')})}
+function editCoach(id){const c=S.get('coaches').find(x=>x.id===id);openModal('Edit Coach',coachF(),d=>{d.id=id;d.createdAt=c.createdAt;d.viralityScore=vir(d.avgViews,d.followers);S.upsert('coaches',d);renderTab('Coaches')},c)}
 
 // ── REELS ─────────────────────────────────────
-function reelF(){return[cf(),
-  {k:'coachHandle',label:'Coach Handle',ph:'@username',half:true},
-  {k:'followers',label:'Their Followers',type:'number',half:true},
-  {k:'views',label:'Views',type:'number',half:true},
-  {k:'viralityScore',label:'Virality (auto)',readonly:true,half:true},
-  {k:'format',label:'Video Format',type:'select',half:true,opts:['Talking Head','B-roll + Voiceover','Text on Screen','Tutorial / Demo','Transformation','Mixed']},
-  {k:'topic',label:'Topic',type:'select',half:true,opts:['Training Tips','Race Strategy','Transformation','Nutrition','Mindset','Gear','Q&A','Behind the Scenes','Controversial Take','Other']},
-  {k:'hookText',label:'Opening Hook — exact words',type:'textarea'},
-  {k:'scriptSummary',label:'Script Summary',type:'textarea'},
-  {k:'ctaWording',label:'Call to Action — exact words',type:'textarea'},
-  {k:'link',label:'Reel URL',ph:'https://instagram.com/reel/...'},
-]}
+function reelF(){return[cf(),{k:'coachHandle',label:'Coach Handle',ph:'@username',half:true},{k:'followers',label:'Their Followers',type:'number',half:true},{k:'views',label:'Views',type:'number',half:true},{k:'viralityScore',label:'Virality (auto)',readonly:true,half:true},{k:'format',label:'Format',type:'select',half:true,opts:['Talking Head','B-roll + Voiceover','Text on Screen','Tutorial / Demo','Transformation','Mixed']},{k:'topic',label:'Topic',type:'select',half:true,opts:['Training Tips','Race Strategy','Transformation','Nutrition','Mindset','Gear','Q&A','Behind the Scenes','Controversial Take','Other']},{k:'hookText',label:'Opening Hook — exact words',type:'textarea'},{k:'scriptSummary',label:'Script Summary',type:'textarea'},{k:'ctaWording',label:'Call to Action — exact words',type:'textarea'},{k:'link',label:'Reel URL',ph:'https://instagram.com/reel/...'}]}
 function renderReels(){
   const all=forC(S.get('reels'));
   const topics=[...new Set(all.map(r=>r.topic))].filter(Boolean);
   const tF=document.getElementById('rf-t')?.value||'';
   const reels=all.filter(r=>!tF||r.topic===tF);
-  return`<div class="ph"><div class="ph-title">Reels Research</div><div class="ph-desc">Top-performing Reels you've found — hooks, scripts, and CTAs worth learning from.</div><div class="ph-actions"><button class="btn btn-p" onclick="addReel()">+ Add Reel</button><select id="rf-t" onchange="renderTab('Reels')" style="max-width:170px"><option value="">All Topics</option>${topics.map(t=>`<option value="${esc(t)}" ${t===tF?'selected':''}>${esc(t)}</option>`).join('')}</select><span style="font-size:12px;color:var(--muted)">${reels.length} reels</span></div></div>
-  <div class="cg">${reels.length?reels.map(r=>`<div class="card"><div class="ctags">${vBadge(r.viralityScore)}<span class="b bm">${esc(r.format||'—')}</span><span class="b bb">${esc(r.topic||'—')}</span>${cBadge(r.clientId)}</div><div class="chook">"${esc(r.hookText)}"</div><div><div style="font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin-bottom:5px">Script</div><div class="cbody">${esc(r.scriptSummary)}</div></div><div><div style="font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin-bottom:5px">Call to Action</div><div style="font-size:13px;color:var(--blue);line-height:1.5">${esc(r.ctaWording)}</div></div><div class="cft"><div style="font-size:12px;color:var(--muted)">${esc(r.coachHandle||'Unknown coach')}</div><div class="cac">${r.link?`<a href="${esc(r.link)}" target="_blank" class="btn btn-g btn-s">View ↗</a>`:''}<button class="btn btn-g btn-s" onclick="editReel('${r.id}')">Edit</button><button class="btn btn-d btn-s" onclick="if(confirm('Delete?'))S.del('reels','${r.id}'),renderTab('Reels')">✕</button></div></div></div>`).join(''):'<div class="empty">No reels yet. Add one to start building your research.</div>'}</div>`;
+  return`<div class="ph"><div class="ph-title">Reels Research</div><div class="ph-desc">Top-performing Reels — hooks, scripts, and CTAs worth learning from.</div><div class="ph-actions"><button class="btn btn-p" onclick="addReel()">+ Add Reel</button><select id="rf-t" onchange="renderTab('Reels')" style="max-width:170px"><option value="">All Topics</option>${topics.map(t=>`<option value="${esc(t)}" ${t===tF?'selected':''}>${esc(t)}</option>`).join('')}</select><span style="font-size:12px;color:var(--mu)">${reels.length} reels</span></div></div>
+  <div class="cg">${reels.length?reels.map(r=>`<div class="card"><div class="ctags">${vBadge(r.viralityScore)}<span class="b bm">${esc(r.format||'—')}</span><span class="b bb">${esc(r.topic||'—')}</span>${cBadge(r.clientId)}</div><div class="chook">"${esc(r.hookText)}"</div><div><div style="font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--mu);margin-bottom:5px">Script</div><div class="cbody">${esc(r.scriptSummary)}</div></div><div><div style="font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--mu);margin-bottom:5px">Call to Action</div><div style="font-size:13px;color:var(--gn);line-height:1.5">${esc(r.ctaWording)}</div></div><div class="cft"><div style="font-size:12px;color:var(--mu)">${esc(r.coachHandle||'—')}</div><div class="cac">${r.link?`<a href="${esc(r.link)}" target="_blank" class="btn btn-g btn-s">View ↗</a>`:''}<button class="btn btn-g btn-s" onclick="editReel('${r.id}')">Edit</button><button class="btn btn-d btn-s" onclick="if(confirm('Delete?'))S.del('reels','${r.id}'),renderTab('Reels')">✕</button></div></div></div>`).join(''):'<div class="empty">No reels yet.</div>'}</div>`;
 }
-function addReel(){openModal('Add Reel',reelF(),data=>{data.id=uid();data.dateAdded=new Date().toISOString().slice(0,10);data.viralityScore=vir(data.views,data.followers);S.upsert('reels',data);renderTab('Reels')})}
-function editReel(id){const r=S.get('reels').find(x=>x.id===id);openModal('Edit Reel',reelF(),data=>{data.id=id;data.dateAdded=r.dateAdded;data.viralityScore=vir(data.views,data.followers);S.upsert('reels',data);renderTab('Reels')},r)}
+function addReel(){openModal('Add Reel',reelF(),d=>{d.id=uid();d.dateAdded=new Date().toISOString().slice(0,10);d.viralityScore=vir(d.views,d.followers);S.upsert('reels',d);renderTab('Reels')})}
+function editReel(id){const r=S.get('reels').find(x=>x.id===id);openModal('Edit Reel',reelF(),d=>{d.id=id;d.dateAdded=r.dateAdded;d.viralityScore=vir(d.views,d.followers);S.upsert('reels',d);renderTab('Reels')},r)}
 
 // ── CTA BANK ──────────────────────────────────
 function renderCTABank(){
-  const ctas=forC(S.get('ctaBank'));
-  const used=ctas.filter(c=>c.usedIt).length;
-  let h=`<div class="ph"><div class="ph-title">CTA Bank</div><div class="ph-desc">Ready-to-use calls to action. Copy one and use it in your next Reel.</div></div><div class="tip"><strong>Tip:</strong> DM CTAs convert at 12–25%. Link in Bio converts at 1.5–3%. Use DM CTAs whenever possible. &nbsp;·&nbsp; ${used}/${ctas.length} CTAs used so far.</div>`;
+  const ctas=forC(S.get('ctaBank'));const used=ctas.filter(c=>c.usedIt).length;
+  let h=`<div class="ph"><div class="ph-title">CTA Bank</div><div class="ph-desc">Ready-to-use calls to action. Copy and drop into your next Reel.</div></div><div class="tip"><strong>Tip:</strong> DM CTAs convert at 12–25%. Link in Bio converts at 1.5–3%. &nbsp;·&nbsp; ${used}/${ctas.length} used.</div>`;
   CTA_TYPES.forEach(type=>{
     const items=ctas.filter(c=>c.type===type);
     const safe=type.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'');
-    h+=`<div class="cta-grp"><div class="cta-grp-hdr"><span style="color:${CTA_C[type]||'var(--text)'}">▸ ${type}</span><span style="font-weight:400">${items.filter(c=>c.usedIt).length}/${items.length} used &nbsp;<button class="btn btn-g btn-s" onclick="showCtaForm('${safe}')">+ Add</button></span></div><div class="cta-list">${items.map(c=>`<div class="cta-it ${c.usedIt?'used':''}"><div class="cta-tx">${cBadge(c.clientId)} ${esc(c.text)}</div><div class="cta-ac"><button class="btn btn-g btn-s" onclick="cp('${esc(c.text.replace(/'/g,"\\'"))}',this)">Copy</button><button class="btn btn-g btn-s" onclick="S.tog('ctaBank','${c.id}','usedIt');renderTab('CTA Bank')">${c.usedIt?'✓ Used':'Used It'}</button><button class="btn btn-d btn-s" onclick="if(confirm('Delete?'))S.del('ctaBank','${c.id}'),renderTab('CTA Bank')">✕</button></div></div>`).join('')||`<div style="font-size:13px;color:var(--muted);padding:8px 0">None yet — click "+ Add".</div>`}</div><div class="cta-add-row" id="ca-${safe}" style="display:none"><input id="ci-${safe}" type="text" placeholder="Type your ${esc(type)} CTA..." onkeydown="if(event.key==='Enter')saveCTA('${safe}','${esc(type)}')"><button class="btn btn-p btn-s" onclick="saveCTA('${safe}','${esc(type)}')">Add</button><button class="btn btn-g btn-s" onclick="document.getElementById('ca-${safe}').style.display='none'">✕</button></div></div>`;
-  });
-  return h;
+    h+=`<div class="cta-grp"><div class="cta-grp-hdr"><span style="color:${CTA_C[type]||'var(--tx)'}">▸ ${type}</span><span style="font-weight:400">${items.filter(c=>c.usedIt).length}/${items.length} used &nbsp;<button class="btn btn-g btn-s" onclick="showCtaForm('${safe}')">+ Add</button></span></div><div class="cta-list">${items.map(c=>`<div class="cta-it ${c.usedIt?'used':''}"><div class="cta-tx">${cBadge(c.clientId)} ${esc(c.text)}</div><div class="cta-ac"><button class="btn btn-g btn-s" onclick="cp('${esc(c.text.replace(/'/g,"\\'"))}',this)">Copy</button><button class="btn btn-g btn-s" onclick="S.tog('ctaBank','${c.id}','usedIt');renderTab('CTA Bank')">${c.usedIt?'✓ Used':'Used It'}</button><button class="btn btn-d btn-s" onclick="if(confirm('Delete?'))S.del('ctaBank','${c.id}'),renderTab('CTA Bank')">✕</button></div></div>`).join('')||`<div style="font-size:13px;color:var(--mu);padding:8px 0">None yet.</div>`}</div><div class="cta-add-row" id="ca-${safe}" style="display:none"><input id="ci-${safe}" type="text" placeholder="New ${esc(type)} CTA..." onkeydown="if(event.key==='Enter')saveCTA('${safe}','${esc(type)}')"><button class="btn btn-p btn-s" onclick="saveCTA('${safe}','${esc(type)}')">Add</button><button class="btn btn-g btn-s" onclick="document.getElementById('ca-${safe}').style.display='none'">✕</button></div></div>`;
+  });return h;
 }
 function showCtaForm(safe){const el=document.getElementById(`ca-${safe}`);if(el){el.style.display='flex';el.querySelector('input')?.focus()}}
-function saveCTA(safe,type){
-  const inp=document.getElementById(`ci-${safe}`);
-  if(!inp||!inp.value.trim())return;
-  const cid=activeClient!=='all'?activeClient:(S.get('clients')[0]?.id||'');
-  S.upsert('ctaBank',{id:uid(),clientId:cid,type,text:inp.value.trim(),usedIt:false});
-  renderTab('CTA Bank');
-}
+function saveCTA(safe,type){const inp=document.getElementById(`ci-${safe}`);if(!inp||!inp.value.trim())return;const cid=activeClient!=='all'?activeClient:(S.get('clients')[0]?.id||'');S.upsert('ctaBank',{id:uid(),clientId:cid,type,text:inp.value.trim(),usedIt:false});renderTab('CTA Bank')}
 
-// ── SCRIPTS ───────────────────────────────────
-function scriptF(){return[cf(),
-  {k:'title',label:'Script Name',ph:'e.g. The Mistake Hook',half:true},
-  {k:'type',label:'Type',type:'select',half:true,opts:['Mistake','Transformation','Contrarian','Q&A','Stats / Data','Day in the Life','Tutorial','Other']},
-  {k:'templateText',label:'Script — use [BRACKETS] for parts to fill in',type:'textarea'},
-  {k:'notes',label:'When to use this script',type:'textarea'},
-]}
-function renderScripts(){
-  const scripts=forC(S.get('scripts'));
-  return`<div class="ph"><div class="ph-title">Script Templates</div><div class="ph-desc">Fill-in-the-blank scripts. Click "Copy with Blanks" to grab one — then fill in the brackets.</div><div class="ph-actions"><button class="btn btn-p" onclick="addScript()">+ Add Script</button></div></div>
-  <div class="cg">${scripts.map(s=>`<div class="card"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><div class="ct">${esc(s.title)}</div><span class="b bb">${esc(s.type)}</span>${cBadge(s.clientId)}</div><pre class="sbody">${hlPh(s.templateText)}</pre>${s.notes?`<div class="cbody" style="border-top:1px solid var(--border);padding-top:10px;font-size:12px"><strong style="color:var(--muted)">WHEN TO USE:</strong> ${esc(s.notes)}</div>`:''}<div class="cft"><div class="cac"><button class="btn btn-p btn-s" onclick="cp(S.get('scripts').find(x=>x.id==='${s.id}').templateText.replace(/\\[([^\\]]+)\\]/g,'______'),this)">Copy with Blanks</button><button class="btn btn-g btn-s" onclick="cp(S.get('scripts').find(x=>x.id==='${s.id}').templateText,this)">Copy Template</button><button class="btn btn-g btn-s" onclick="editScript('${s.id}')">Edit</button><button class="btn btn-d btn-s" onclick="if(confirm('Delete?'))S.del('scripts','${s.id}'),renderTab('Scripts')">✕</button></div></div></div>`).join('')||'<div class="empty">No scripts yet.</div>'}</div>`;
-}
-function addScript(){openModal('Add Script',scriptF(),data=>{data.id=uid();S.upsert('scripts',data);renderTab('Scripts')})}
-function editScript(id){const s=S.get('scripts').find(x=>x.id===id);openModal('Edit Script',scriptF(),data=>{data.id=id;S.upsert('scripts',data);renderTab('Scripts')},s)}
-
-// ── CONTENT IDEAS ─────────────────────────────
+// ── CONTENT PIPELINE ──────────────────────────
 function ideaF(){return[cf(),
-  {k:'title',label:'Idea Title',ph:'e.g. The DNF Reframe'},
+  {k:'title',label:'Idea Title',ph:'e.g. Why Beginners Quit'},
   {k:'hook',label:'Opening Hook — the first line that stops the scroll',type:'textarea'},
   {k:'scriptOutline',label:'Script Outline',type:'textarea'},
-  {k:'ctaRecommendation',label:'Call to Action',type:'textarea'},
-  {k:'status',label:'Stage',type:'select',opts:['Idea','Scripted','Filmed','Posted']},
+  {k:'scriptTemplate',label:'Full Script (use [BRACKETS] for fill-in parts)',type:'textarea'},
+  {k:'ctaRecommendation',label:'Best Call to Action',type:'textarea'},
+  {k:'ctaType',label:'CTA Type',type:'select',opts:['DM','Comment','Save','Link in Bio','Follow','Direct Offer'],half:true},
+  {k:'status',label:'Stage',type:'select',half:true,opts:['Idea','Scripted','Filmed','Posted']},
 ]}
-function renderContentIdeas(){
+
+function generatePrompt(){
+  const clients=S.get('clients');
+  const cl=activeClient!=='all'?clients.find(x=>x.id===activeClient):null;
+  const coaches=forC(S.get('coaches')).slice(0,6).map(c=>c.handle).join(', ');
+  const existing=forC(S.get('contentIdeas')).slice(0,5).map(i=>i.title).join('; ');
+  const clientDesc=cl?`Client: ${cl.name}`:'Clients: Running Coach (All Levels) @runwithnick AND Ultra Running Coach @joshc.laker';
+  const prompt=`You are a content research agent for Instagram running coaches.
+
+${clientDesc}
+
+Competitor accounts to study: ${coaches||'@trackclubbabe, @runningexplained, @stephpiruns, @percelldugger'}
+
+Existing ideas (don't duplicate): ${existing||'none yet'}
+
+Search Instagram and the web for viral running coach Reels from the last 30 days. Then generate 5 brand new content ideas based on what is performing well right now.
+
+Output ONLY valid JSON in this exact format — no explanation, just the JSON:
+
+{
+  "clientId": "${activeClient!=='all'?activeClient:'cl1'}",
+  "contentIdeas": [
+    {
+      "title": "Short punchy title",
+      "hook": "Exact opening line that stops the scroll",
+      "scriptOutline": "Brief outline: hook → problem → solution → CTA",
+      "scriptTemplate": "[HOOK]\\n\\"...opening line...\\"\\n\\n[PROBLEM]\\n\\"...pain point...\\"\\n\\n[SOLUTION]\\n\\"...value...\\"\\n\\n[CTA]\\n\\"...call to action...\\"",
+      "ctaRecommendation": "Exact CTA wording",
+      "ctaType": "DM",
+      "status": "Idea"
+    }
+  ],
+  "ctaBank": [
+    {"type": "DM", "text": "Any new CTA formats you spotted"}
+  ],
+  "contentGaps": [
+    {"topic": "Any gaps you noticed competitors missing"}
+  ]
+}`;
+  cp(prompt);
+  openModal('🤖 Generate New Ideas',[],()=>{},null,`
+    <div class="tip"><strong>How this works:</strong><br>1. Click "Copy Prompt" below<br>2. Paste it into a new Claude conversation<br>3. Claude will research and output JSON<br>4. Come back, click "⬇ Import Research" in the header, paste the JSON</div>
+    <div class="ff"><label>Your Research Prompt (copied to clipboard)</label><div class="prompt-box">${esc(prompt)}</div></div>
+    <div style="margin-top:8px"><button class="btn btn-p" onclick="cp(document.querySelector('.prompt-box').textContent,this)">Copy Prompt Again</button></div>`);
+  document.getElementById('msave').style.display='none';
+}
+
+function renderContentPipeline(){
   const ideas=forC(S.get('contentIdeas'));
   const cols=KCOLS.map(status=>{
     const items=ideas.filter(i=>i.status===status);
-    return`<div class="kcol" data-s="${status}"><div class="kch">${status}<span class="kcnt">${items.length}</span></div>${items.map(i=>`<div class="kcard" onclick="openIdea('${i.id}')"><div class="kct">${esc(i.title)}</div><div class="kch2">"${esc(i.hook)}"</div><div class="kcft">${cBadge(i.clientId)}<select class="btn btn-g btn-s" onclick="event.stopPropagation()" onchange="S.setF('contentIdeas','${i.id}','status',this.value);renderTab('Content Ideas')" style="width:auto;padding:3px 8px">${KCOLS.map(s=>`<option ${s===i.status?'selected':''}>${s}</option>`).join('')}</select><button class="btn btn-d btn-s" onclick="event.stopPropagation();if(confirm('Delete?'))S.del('contentIdeas','${i.id}'),renderTab('Content Ideas')">✕</button></div></div>`).join('')||`<div style="font-size:12px;color:var(--muted);padding:6px 0">Empty</div>`}</div>`;
+    return`<div class="kcol" data-s="${status}"><div class="kch">${status}<span class="kcnt">${items.length}</span></div>${items.map(i=>`<div class="kcard" onclick="openIdea('${i.id}')"><div class="kct">${esc(i.title)}</div><div class="kchook">"${esc(i.hook)}"</div><div class="kcta">▸ ${esc(i.ctaRecommendation||'No CTA set')}</div><div class="kcft">${cBadge(i.clientId)}<div style="display:flex;gap:6px"><select class="btn btn-g btn-s" onclick="event.stopPropagation()" onchange="S.setF('contentIdeas','${i.id}','status',this.value);renderTab('Content Pipeline')" style="width:auto;padding:3px 8px">${KCOLS.map(s=>`<option ${s===i.status?'selected':''}>${s}</option>`).join('')}</select><button class="btn btn-d btn-s" onclick="event.stopPropagation();if(confirm('Delete?'))S.del('contentIdeas','${i.id}'),renderTab('Content Pipeline')">✕</button></div></div></div>`).join('')||`<div style="font-size:12px;color:var(--mu);padding:6px 0">Empty</div>`}</div>`;
   }).join('');
-  return`<div class="ph"><div class="ph-title">Content Ideas</div><div class="ph-desc">Move ideas through the pipeline. Click any card to see the full hook, script outline, and CTA.</div><div class="ph-actions"><button class="btn btn-p" onclick="addIdea()">+ Add Idea</button><span style="font-size:12px;color:var(--muted)">${ideas.filter(i=>i.status==='Posted').length} posted · ${ideas.length} total</span></div></div><div class="kanban">${cols}</div><div id="idea-detail"></div>`;
+
+  return`<div class="ph">
+    <div class="ph-title">Content Pipeline</div>
+    <div class="ph-desc">Every idea has its hook, full script, and best CTA in one place. Click any card to see the complete brief ready to record.</div>
+    <div class="ph-actions">
+      <button class="btn btn-gen" onclick="generatePrompt()">🤖 Generate Ideas with AI</button>
+      <button class="btn btn-p" onclick="addIdea()">+ Add Manually</button>
+      <span style="font-size:12px;color:var(--mu)">${ideas.filter(i=>i.status==='Posted').length} posted · ${ideas.length} total</span>
+    </div>
+  </div>
+  <div class="kanban">${cols}</div>
+  <div id="idea-detail"></div>`;
 }
+
 function openIdea(id){
   const i=S.get('contentIdeas').find(x=>x.id===id);if(!i)return;
   const el=document.getElementById('idea-detail');if(!el)return;
-  el.innerHTML=`<div class="dpanel"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><div style="font-size:16px;font-weight:700">${esc(i.title)}</div>${sBadge(i.status)} ${cBadge(i.clientId)}</div><div><div class="dlbl">Opening Hook</div><div class="chook">"${esc(i.hook)}"</div></div><div><div class="dlbl">Script Outline</div><div class="cbody" style="white-space:pre-wrap">${esc(i.scriptOutline)}</div></div><div><div class="dlbl">Call to Action</div><div style="font-size:13px;color:var(--blue);line-height:1.5">${esc(i.ctaRecommendation)}</div></div><div class="cft"><button class="btn btn-p btn-s" onclick="cp(${JSON.stringify(i.hook+'\n\n'+i.scriptOutline+'\n\nCTA: '+i.ctaRecommendation)},this)">Copy Full Brief</button><button class="btn btn-g btn-s" onclick="editIdea('${i.id}')">Edit</button><button class="btn btn-g btn-s" onclick="document.getElementById('idea-detail').innerHTML=''">Close</button></div></div>`;
+  el.innerHTML=`<div class="idea-detail">
+    <div class="idea-detail-hdr">
+      <div style="font-size:17px;font-weight:700">${esc(i.title)}</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">${sBadge(i.status)} ${ctaBadge(i.ctaType||'DM')} ${cBadge(i.clientId)}</div>
+    </div>
+    <div><div class="dlbl">Opening Hook — use this as your first line</div><div class="chook" style="font-size:14px">"${esc(i.hook)}"</div></div>
+    ${i.scriptTemplate?`<div><div class="dlbl">Full Script — fill in the [BRACKETS]</div><pre class="script-box">${hlPh(i.scriptTemplate)}</pre></div>`:''}
+    ${i.scriptOutline&&!i.scriptTemplate?`<div><div class="dlbl">Script Outline</div><div class="cbody" style="white-space:pre-wrap">${esc(i.scriptOutline)}</div></div>`:''}
+    <div><div class="dlbl">Best Call to Action for this post</div><div class="cta-highlight">${esc(i.ctaRecommendation||'No CTA set')}</div></div>
+    <div class="cft">
+      <button class="btn btn-p btn-s" onclick="cp(${JSON.stringify((i.hook||'')+'\n\n'+(i.scriptTemplate||i.scriptOutline||'')+'\n\nCTA: '+(i.ctaRecommendation||''))},this)">Copy Full Brief</button>
+      <button class="btn btn-g btn-s" onclick="editIdea('${i.id}')">Edit</button>
+      <button class="btn btn-g btn-s" onclick="document.getElementById('idea-detail').innerHTML=''">Close</button>
+    </div>
+  </div>`;
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-function addIdea(){openModal('Add Content Idea',ideaF(),data=>{data.id=uid();data.createdAt=new Date().toISOString().slice(0,10);S.upsert('contentIdeas',data);renderTab('Content Ideas')})}
-function editIdea(id){const i=S.get('contentIdeas').find(x=>x.id===id);openModal('Edit Idea',ideaF(),data=>{data.id=id;data.createdAt=i.createdAt;S.upsert('contentIdeas',data);renderTab('Content Ideas')},i)}
+
+function addIdea(){openModal('Add Content Idea',ideaF(),d=>{d.id=uid();d.createdAt=new Date().toISOString().slice(0,10);S.upsert('contentIdeas',d);renderTab('Content Pipeline')})}
+function editIdea(id){const i=S.get('contentIdeas').find(x=>x.id===id);openModal('Edit Idea',ideaF(),d=>{d.id=id;d.createdAt=i.createdAt;S.upsert('contentIdeas',d);renderTab('Content Pipeline')},i)}
 
 // ── GAPS ──────────────────────────────────────
 function renderGaps(){
-  const gaps=forC(S.get('contentGaps'));
-  const open=gaps.filter(g=>!g.covered).length,done=gaps.filter(g=>g.covered).length;
-  return`<div class="ph"><div class="ph-title">Content Gaps</div><div class="ph-desc">Topics your audience wants that competitors aren't covering. Tick them off as you make content for each.</div><div class="ph-actions">${done?`<button class="btn btn-g" onclick="clearGaps()">Clear Completed (${done})</button>`:''}<span style="font-size:12px;color:var(--muted)">${open} open · ${done} covered</span></div></div><div class="tip"><strong>Opportunity:</strong> Each unchecked gap is a Reel idea your competitors aren't making. Start with whichever your audience mentions most.</div>${gaps.map(g=>`<div class="git ${g.covered?'done':''}"><input type="checkbox" class="gck" ${g.covered?'checked':''} onchange="S.tog('contentGaps','${g.id}','covered');renderTab('Gaps')"><div class="gtx">${cBadge(g.clientId)} ${esc(g.topic)}</div><button class="btn btn-d btn-s" onclick="if(confirm('Delete?'))S.del('contentGaps','${g.id}'),renderTab('Gaps')">✕</button></div>`).join('')||'<div class="empty">No gaps yet — add one below.</div>'}<div class="gadd"><input id="gap-inp" type="text" placeholder="Describe a topic your audience wants that nobody's covering..." onkeydown="if(event.key==='Enter')saveGap()"><button class="btn btn-p" onclick="saveGap()">Add Gap</button></div>`;
+  const gaps=forC(S.get('contentGaps'));const open=gaps.filter(g=>!g.covered).length,done=gaps.filter(g=>g.covered).length;
+  return`<div class="ph"><div class="ph-title">Content Gaps</div><div class="ph-desc">Topics your audience wants that competitors aren't covering. Tick them off as you make content.</div><div class="ph-actions">${done?`<button class="btn btn-g" onclick="clearGaps()">Clear Completed (${done})</button>`:''}<span style="font-size:12px;color:var(--mu)">${open} open · ${done} covered</span></div></div>
+  <div class="tip"><strong>Each unchecked gap is a Reel your competitors aren't making.</strong> Start with the one your audience mentions most.</div>
+  ${gaps.map(g=>`<div class="git ${g.covered?'done':''}"><input type="checkbox" class="gck" ${g.covered?'checked':''} onchange="S.tog('contentGaps','${g.id}','covered');renderTab('Gaps')"><div class="gtx">${cBadge(g.clientId)} ${esc(g.topic)}</div><button class="btn btn-d btn-s" onclick="if(confirm('Delete?'))S.del('contentGaps','${g.id}'),renderTab('Gaps')">✕</button></div>`).join('')||'<div class="empty">No gaps yet.</div>'}
+  <div class="gadd"><input id="gap-inp" type="text" placeholder="Describe a topic your audience wants that nobody is covering..." onkeydown="if(event.key==='Enter')saveGap()"><button class="btn btn-p" onclick="saveGap()">Add Gap</button></div>`;
 }
-function saveGap(){
-  const inp=document.getElementById('gap-inp');if(!inp||!inp.value.trim())return;
-  const cid=activeClient!=='all'?activeClient:(S.get('clients')[0]?.id||'');
-  S.upsert('contentGaps',{id:uid(),clientId:cid,topic:inp.value.trim(),covered:false});renderTab('Gaps');
-}
-function clearGaps(){
-  const all=S.get('contentGaps'),keep=all.filter(g=>!g.covered||(activeClient!=='all'&&g.clientId!==activeClient));
-  all.length=0;keep.forEach(x=>all.push(x));S.save();renderTab('Gaps');
-}
+function saveGap(){const inp=document.getElementById('gap-inp');if(!inp||!inp.value.trim())return;const cid=activeClient!=='all'?activeClient:(S.get('clients')[0]?.id||'');S.upsert('contentGaps',{id:uid(),clientId:cid,topic:inp.value.trim(),covered:false});renderTab('Gaps')}
+function clearGaps(){const all=S.get('contentGaps'),keep=all.filter(g=>!g.covered||(activeClient!=='all'&&g.clientId!==activeClient));all.length=0;keep.forEach(x=>all.push(x));S.save();renderTab('Gaps')}
 
 // ── ROUTER ────────────────────────────────────
-const RENDERERS={'Coaches':renderCoaches,'Reels':renderReels,'CTA Bank':renderCTABank,'Scripts':renderScripts,'Content Ideas':renderContentIdeas,'Gaps':renderGaps};
+const RENDERERS={'Coaches':renderCoaches,'Reels':renderReels,'CTA Bank':renderCTABank,'Content Pipeline':renderContentPipeline,'Gaps':renderGaps};
 let activeTab=TABS[0];
 function renderTab(name){
   activeTab=name;
@@ -661,8 +740,7 @@ function renderTab(name){
 
 // ── INIT ──────────────────────────────────────
 function init(){
-  S.load();
-  renderCBar();
+  S.load();renderCBar();
   document.getElementById('tabs').innerHTML=TABS.map(t=>`<button class="tbtn ${t===activeTab?'on':''}" data-tab="${t}" onclick="renderTab('${t}')">${t}</button>`).join('');
   document.getElementById('tc').innerHTML=TABS.map(t=>`<div class="tp ${t===activeTab?'on':''}" id="tp-${TID[t]}"></div>`).join('');
   renderTab(activeTab);
