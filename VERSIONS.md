@@ -30,8 +30,14 @@ Current versions of all skills. Agents can compare against local versions to che
 | seo-audit | 1.0.0 | 2026-01-27 |
 | signup-flow-cro | 1.0.0 | 2026-01-27 |
 | social-content | 1.0.0 | 2026-01-27 |
+| josh-laker-short-form-writer | 1.0.0 | 2026-05-30 |
+| nick-hancock-short-form-writer | 1.0.0 | 2026-05-30 |
 
 ## Recent Changes
+
+### 2026-05-30
+- Added josh-laker-short-form-writer skill (Reels/TikTok scripts for @joshc.laker)
+- Added nick-hancock-short-form-writer skill (Reels/TikTok scripts for @runwithnick / MaxMile)
 
 ### 2026-01-27
 - Initial version tracking added

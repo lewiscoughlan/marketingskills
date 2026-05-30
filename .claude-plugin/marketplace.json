@@ -12,7 +12,7 @@
   "plugins": [
     {
       "name": "marketing-skills",
-      "description": "27 marketing skills for technical marketers and founders: CRO, copywriting, SEO, paid ads, pricing strategy, referral programs, Instagram Reels research, weekly content research agent, and more",
+      "description": "29 marketing skills for technical marketers and founders: CRO, copywriting, SEO, paid ads, pricing strategy, referral programs, Instagram Reels research, weekly content research agent, short-form script writers for Josh Laker and Nick Hancock, and more",
       "source": "./",
       "strict": false,
       "skills": [
@@ -42,7 +42,9 @@
         "./skills/instagram-reels-scraper",
         "./skills/content-research-agent",
         "./skills/signup-flow-cro",
-        "./skills/social-content"
+        "./skills/social-content",
+        "./skills/josh-laker-short-form-writer",
+        "./skills/nick-hancock-short-form-writer"
       ]
     }
   ]
