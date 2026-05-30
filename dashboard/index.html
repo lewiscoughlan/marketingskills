@@ -181,6 +181,10 @@ tr:hover td{background:#fafafa}
 .vir-hot{background:#fee2e2;color:#b91c1c}
 .vir-good{background:#dcfce7;color:#15803d}
 .vir-ok{background:#dbeafe;color:#1d4ed8}
+.srv{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
+.srv.on{background:#dcfce7;color:#15803d}.srv.off{background:#f3f4f6;color:#9ca3af}
+.srv-dot{width:7px;height:7px;border-radius:50%}
+.srv.on .srv-dot{background:#22c55e}.srv.off .srv-dot{background:#d1d5db}
 
 @media(max-width:900px){.kanban{grid-template-columns:1fr 1fr}.frow{grid-template-columns:1fr}.sidebar{width:180px}}
 @media(max-width:640px){.sidebar{display:none}.kanban{grid-template-columns:1fr}.tc{padding:14px}table th:nth-child(n+5),table td:nth-child(n+5){display:none}}
@@ -209,6 +213,7 @@ tr:hover td{background:#fafafa}
         <span id="topbar-tag"></span>
       </div>
       <div class="topbar-r">
+        <span class="srv off" id="srv-badge"><span class="srv-dot"></span>Local file</span>
         <span style="font-size:12px;color:#9ca3af" id="last-saved">Not yet saved</span>
         <button class="btn btn-g btn-s" onclick="openImport()">⬇ Import</button>
       </div>
@@ -499,24 +504,73 @@ You'll see most of them again at mile 60."
 // ── STATE ────────────────────────────────────────
 const S=(()=>{
   let d=null;
-  function load(){
+  const SERVER='http://localhost:8765';
+  let serverUp=false;
+
+  function setSrvBadge(up){
+    serverUp=up;
+    const el=document.getElementById('srv-badge');
+    if(!el)return;
+    el.className='srv '+(up?'on':'off');
+    el.innerHTML=`<span class="srv-dot"></span>${up?'Saved to file':'Browser only'}`;
+  }
+
+  async function pingServer(){
+    try{
+      const r=await fetch(SERVER+'/data',{signal:AbortSignal.timeout(600)});
+      return r.ok;
+    }catch{return false;}
+  }
+
+  async function load(){
+    const up=await pingServer();
+    setSrvBadge(up);
+    if(up){
+      try{
+        const r=await fetch(SERVER+'/data');
+        const remote=await r.json();
+        if(remote&&remote.meta){
+          d=remote;
+          localStorage.setItem('ird_v6',JSON.stringify(d));
+          _updateSavedLabel();
+          return;
+        }
+      }catch{}
+    }
+    // fall back to localStorage / migration
     const raw=localStorage.getItem('ird_v6');
     if(raw){d=JSON.parse(raw);}
     else{
       const old=localStorage.getItem('ird_v5')||localStorage.getItem('ird_v4')||localStorage.getItem('ur_dashboard_v3')||localStorage.getItem('ur_dashboard');
       d=old?JSON.parse(old):JSON.parse(JSON.stringify(DEFAULTS));
       if(!d.clients)d.clients=JSON.parse(JSON.stringify(DEFAULTS.clients));
-      // ensure handles on clients
       d.clients.forEach(c=>{if(!c.handle)c.handle=c.id==='cl1'?'@runwithnick':c.id==='cl2'?'@joshc.laker':''});
       ['coaches','reels','ctaBank','contentIdeas','contentGaps'].forEach(s=>{(d[s]||[]).forEach(x=>{if(!x.clientId)x.clientId='cl2'})});
-      // inject missing cl1 ideas
       const hasCl1=d.contentIdeas&&d.contentIdeas.some(x=>x.clientId==='cl1');
       if(!hasCl1){DEFAULTS.contentIdeas.filter(x=>x.clientId==='cl1').forEach(item=>{if(!d.contentIdeas)d.contentIdeas=[];if(!d.contentIdeas.find(x=>x.id===item.id))d.contentIdeas.push(JSON.parse(JSON.stringify(item)))})}
       d.meta={version:6,lastSaved:null};
-      save();
     }
+    // if server is up but had no data yet, push current data to it
+    if(up)_pushToServer();
   }
-  function save(){d.meta.lastSaved=new Date().toISOString();localStorage.setItem('ird_v6',JSON.stringify(d));const el=document.getElementById('last-saved');if(el)el.textContent='Saved '+new Date().toLocaleTimeString()}
+
+  function _pushToServer(){
+    if(!serverUp)return;
+    fetch(SERVER+'/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(()=>{});
+  }
+
+  function _updateSavedLabel(){
+    const el=document.getElementById('last-saved');
+    if(el&&d.meta.lastSaved)el.textContent='Saved '+new Date(d.meta.lastSaved).toLocaleTimeString();
+  }
+
+  function save(){
+    d.meta.lastSaved=new Date().toISOString();
+    localStorage.setItem('ird_v6',JSON.stringify(d));
+    _pushToServer();
+    const el=document.getElementById('last-saved');
+    if(el)el.textContent='Saved '+new Date().toLocaleTimeString();
+  }
   function get(k){return d[k]}
   function upsert(sec,item){const i=d[sec].findIndex(x=>x.id===item.id);if(i>=0)d[sec][i]=item;else d[sec].unshift(item);save()}
   function del(sec,id){d[sec]=d[sec].filter(x=>x.id!==id);save()}
@@ -819,8 +873,8 @@ function renderTab(name){
 }
 
 // ── INIT ─────────────────────────────────────────
-function init(){
-  S.load();renderSidebar();renderTopbar();
+async function init(){
+  await S.load();renderSidebar();renderTopbar();
   document.getElementById('tabs').innerHTML=TABS.map(t=>`<button class="tbtn ${t===activeTab?'on':''}" data-tab="${t}" onclick="renderTab('${t}')">${t}</button>`).join('');
   document.getElementById('tc').innerHTML=TABS.map(t=>`<div class="tp ${t===activeTab?'on':''}" id="tp-${TID[t]}"></div>`).join('');
   renderTab(activeTab);
