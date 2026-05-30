@@ -32,6 +32,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | social-content | 1.0.0 | 2026-01-27 |
 | josh-laker-short-form-writer | 1.0.0 | 2026-05-30 |
 | nick-hancock-short-form-writer | 1.0.0 | 2026-05-30 |
+| reel-replication-agent | 1.0.0 | 2026-05-30 |
 
 ## Recent Changes
 
